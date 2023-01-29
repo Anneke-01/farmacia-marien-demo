@@ -60,14 +60,14 @@ section{
     margin-bottom: 24px;
 }
 
-input,button{
+.inp,button{
     border: none;
     outline: none;
     border-radius: 30px;
     font-size: 1.3em;
 }
 
-input{
+.inp{
     width: 100%;
     background-color: #e6e6e6;
     color: #333;
@@ -75,13 +75,19 @@ input{
     padding: 14px 64px;
 }
 
-input ~i{
+.inp ~i{
     position: absolute;
     left: 32px;
     top: 50%;
     transform: translateY(-50%);
     color: #888;
     transition: color 0.4s;
+}
+
+
+
+a{
+    text-align: left;
 }
 
 input:focus ~i{
