@@ -60,11 +60,18 @@ section{
     margin-bottom: 24px;
 }
 
+.form-control2{
+    width: 100%;
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+}
+
 .inp,button{
     border: none;
     outline: none;
     border-radius: 30px;
-    font-size: 1.3em;
+    font-size: 1em;
 }
 
 .inp{
@@ -73,6 +80,7 @@ section{
     color: #333;
     letter-spacing: 0.5px;
     padding: 14px 64px;
+    text-align: center;
 }
 
 .inp ~i{
