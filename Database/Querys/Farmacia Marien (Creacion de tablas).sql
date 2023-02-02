@@ -13,8 +13,14 @@ idTipoDePago int identity(1,1) primary key not null,
 tipoPago nvarchar(50)
 )
 
+create table Ciudades(
+idCiudad int identity(1,1) primary key not null,
+ciudad nvarchar(50)
+)
+
 create table Municipios(
 idMunicipio int identity(1,1) primary key not null,
+idCiudad int foreign key references Ciudades(idCiudad) not null,
 municipio nvarchar(50)
 )
 
