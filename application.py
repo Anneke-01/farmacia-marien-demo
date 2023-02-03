@@ -11,6 +11,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 
 Session(app)
 
+if conn:  # probando la nueva conexión
+    print("si se pudo")
 
 if __name__ == "__main__":
     conn
