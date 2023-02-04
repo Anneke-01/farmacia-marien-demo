@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIN</title>
-    <link rel="stylesheet" href="loginstyle.css">
+    <title>Register</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="\static\styles\registerstyle.css">
 </head>
 <body>
     <section class="main">
@@ -16,10 +15,23 @@
         <div class="container">
             <p class="tittle">Farmacia Marien</p>
             <div class="separator"></div>
-            <p class="message">Su salud en nuestras manos</p>
+            <p class="message">¡¡Nueva cuenta!!</p>
             
             
             <form class="login-form">
+                <div class="form-control2">
+                    <input type="text" class="inp" placeholder="Nombre">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" class="inp" placeholder="Apellido">
+                </div>
+                <div class="form-control">
+                    <input type="text" class="inp" placeholder="Cédula">
+                    <i class="fa-solid fa-address-card"></i>
+                </div>
+                <div class="form-control">
+                    <input type="text" class="inp" placeholder="Télefono">
+                    <i class="fa fa-phone"></i>
+                </div>
                 <div class="form-control">
                     <input type="text" class="inp" placeholder="Ingresar correo">
                     <i class="fas fa-envelope"></i>
@@ -28,14 +40,16 @@
                     <input type="password" class="inp" placeholder="contraseña">
                     <i class="fas fa-lock"></i>
                 </div>
-
+                <div class="form-control">
+                    <input type="password" class="inp" placeholder="confirmar contraseña">
+                    <i class="fa-solid fa-check"></i>
+                </div>
                 <div class="form-control">
                     <input type="checkbox" id="check">
-                    <label for="check">Recordarme</label>
+                    <label for="check"> acepto las <a href="#">Politicas y condiciones</a></label>
                 </div>
-                <a href="#">Olvide mi contraseña</a>
-                <a href="register.html">No tengo una cuenta</a>
-                <button class="submit">Ingresar</button>
+            
+                <button class="submit">Registrarse</button>
             </form>
         </div>
     </section>

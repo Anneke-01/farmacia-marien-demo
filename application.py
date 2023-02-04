@@ -14,6 +14,17 @@ Session(app)
 if conn:  # probando la nueva conexión
     print("si se pudo")
 
+
+@app.route("/")
+def index():
+    return render_template("login.html")
+
+
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
+
 if __name__ == "__main__":
     conn
     app.run(debug=True)
