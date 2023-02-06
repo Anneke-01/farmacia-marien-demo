@@ -1,7 +1,8 @@
 from bdconnection import conn
 import pyodbc
-from flask import Flask, session, render_template, request, redirect
+from flask import Flask, session, render_template, request, redirect, flash
 from flask_session import Session
+from decorator import login_required
 
 
 app = Flask(__name__)
@@ -17,17 +18,19 @@ if conn:  # probando la nueva conexión
 
 @app.route("/")
 def index():
-    return "Aquí irá el index, pero por el momento no tenemos"
+    return render_template("index.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        nombre = request.form.get("nombre")
-        apellido = request.form.get("apellido")
-        cedula = request.form.get("cedula")
+        pnombre = request.form.get("snombre")
+        snombre = request.form.get("snombre")
+        papellido = request.form.get("papellido")
+        sapellido = request.form.get("sapellido")
         telefono = request.form.get("telefono")
         correo = request.form.get("correo")
+        username = request.form.get("username")
         contrasena = request.form.get("contrasena")
         confirmarcontra = request.form.get("confirmarcontra")
 
@@ -37,8 +40,8 @@ def register():
         try:
             cursor = conn.cursor()
             storeProc = "execute [dbo].[Insertar_Cliente] @valor1 = ?, @valor2 = ?"
-            params = (nombre, apellido, cedula, telefono,
-                      correo, contrasena, confirmarcontra)
+            params = (pnombre, snombre, papellido, sapellido, telefono,
+                      correo, username, contrasena)
             cursor.execute(storeProc, params)
             cursor.commit()
             cursor.close()
@@ -57,6 +60,13 @@ def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
+        # Validaciones
+        if not username:
+            flash("Debes ingresar tu nombre de usuario", category="warning")
+            return render_template("login.html")
+        if not password:
+            flash("Debes ingresar tu contraseña", category="warning")
+            return render_template("login.html")
         try:
             cursor = conn.cursor()
             storeProc = "execute [dbo].[Validar_acceso] @nombreUsuario = ?, @contraseña = ?"
@@ -70,20 +80,29 @@ def login():
                     resultado = str(row[0])
                     if resultado == "Acceso exitoso":
                         print("es un cliente")
+                        session["username"] = username
                         return redirect("/")
+                    else:
+                        flash("Usuario o contraseña incorrectos",
+                              category="error")
+                        return render_template("login.html")
             elif (len(row)) == 2:
                 while row:
                     resultado = str(row[0])
                     rol = str(row[1])
                     if resultado == "Acceso exitoso" and rol == "employee":
                         print("Es un empleado")
+                        session["username"] = username
+                        session["rol"] = rol
                         return redirect("/")
                     if resultado == "Acceso exitoso" and rol == "admin":
                         print("es un admin")
+                        session["username"] = username
+                        session["rol"] = rol
                         return redirect("/")
             else:
-                print("Usuario o contraseña incorrectos")
-                return redirect("/")
+                flash("Usuario o contraseña incorrectos", category="error")
+                return render_template("login.html")
 
             cursor.close()
             del cursor

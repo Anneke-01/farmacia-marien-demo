@@ -45,6 +45,7 @@
                     </div>
                 </form>
             </div>
+            {% if session["username"] %}
             <div class="col-lg-4  col-11 text-right">
                 <a href="" class=" heart btn border">
                     <i class="fas fa-heart"></i>
@@ -54,9 +55,18 @@
                     <i class="fas fa-shopping-cart "></i>
                     <span class="badge">0</span>
                 </a>
-                <a href="" class="log btn border ">Login</a>
-                <a href="" class="reg btn border">Register</a>
-            </div>      
+                <a href="/logout" class="">
+                    <i class="fas fa-logout ">Salir</i>
+                    
+                </a>
+            </div>
+            {%else%}
+            <div class="col-lg-4  col-11 text-right">
+                <a href="/login" class="log btn border ">Login</a>
+                <a href="/register" class="reg btn border">Register</a>
+            </div>
+            {% endif%}
+                  
         </div>
     </div>
     <!-- Topbar End -->
