@@ -10,6 +10,7 @@ DATABASE = "farmaciamariendb"
 ENCRYPT = "yes"
 UID = "Iamtheadmin"
 PWD = "this.proof.haha"
+TSC = "yes"
 
 
 def conectar_a_la_base_de_datos():
@@ -27,15 +28,16 @@ def conectar_a_la_base_de_datos():
             f"Database={DATABASE};"
             f"Encrypt={ENCRYPT};"
             f"UID={UID};"
-            f"PWD={PWD}"
+            f"PWD={PWD};"
+            f"TrustServerCertificate={TSC}"
         )
 
         # Conectarse a la base de datos utilizando la libreria pyodbc
         conn = pyodbc.connect(conn_string)
 
         # Mostrar un mensaje de éxito en una ventana emergente
-        messagebox.showinfo("Conexión a la base de datos",
-                            "Conexión exitosa a la base de datos.")
+        # messagebox.showinfo("Conexión a la base de datos",
+        #                    "Conexión exitosa a la base de datos.")
 
         # Regresar el objeto de conexión
         return conn

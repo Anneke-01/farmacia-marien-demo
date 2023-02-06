@@ -18,30 +18,30 @@
             <p class="message">¡¡Nueva cuenta!!</p>
             
             
-            <form class="login-form">
+            <form class="login-form" action="/register" method="POST">
                 <div class="form-control2">
-                    <input type="text" class="inp" placeholder="Nombre">
+                    <input type="text" class="inp" placeholder="Nombre" name="nombre">
                     <i class="fa-solid fa-user"></i>
-                    <input type="text" class="inp" placeholder="Apellido">
+                    <input type="text" class="inp" placeholder="Apellido" name="apellido">
                 </div>
                 <div class="form-control">
-                    <input type="text" class="inp" placeholder="Cédula">
+                    <input type="text" class="inp" placeholder="Cédula" name="cedula">
                     <i class="fa-solid fa-address-card"></i>
                 </div>
                 <div class="form-control">
-                    <input type="text" class="inp" placeholder="Télefono">
+                    <input type="text" class="inp" placeholder="Télefono" name="telefono">
                     <i class="fa fa-phone"></i>
                 </div>
                 <div class="form-control">
-                    <input type="text" class="inp" placeholder="Ingresar correo">
+                    <input type="text" class="inp" placeholder="Ingresar correo" name="correo">
                     <i class="fas fa-envelope"></i>
                 </div>
                 <div class="form-control">
-                    <input type="password" class="inp" placeholder="contraseña">
+                    <input type="password" class="inp" placeholder="contraseña" name="contrasena">
                     <i class="fas fa-lock"></i>
                 </div>
                 <div class="form-control">
-                    <input type="password" class="inp" placeholder="confirmar contraseña">
+                    <input type="password" class="inp" placeholder="confirmar contraseña" name="confirmarcontra">
                     <i class="fa-solid fa-check"></i>
                 </div>
                 <div class="form-control">
@@ -49,7 +49,7 @@
                     <label for="check"> acepto las <a href="#">Politicas y condiciones</a></label>
                 </div>
             
-                <button class="submit">Registrarse</button>
+                <button class="submit" type="submit">Registrarse</button>
             </form>
         </div>
     </section>
