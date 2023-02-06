@@ -74,6 +74,28 @@
 
     <!-- Navbar Start -->
     <div class="container-fluid mb-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'error' %}
+                    <div class="error">
+                        {{message}}
+                    </div>   
+                {% endif %}
+
+                {% if category == 'success' %}
+                    <div class="success" >
+                        {{message}}
+                    </div>   
+                {% endif %}
+                {% if category == 'warning' %}
+                    <div class="warning" >
+                        {{message}}
+                    </div>   
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">

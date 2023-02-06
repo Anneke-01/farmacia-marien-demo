@@ -24,7 +24,7 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        pnombre = request.form.get("snombre")
+        pnombre = request.form.get("pnombre")
         snombre = request.form.get("snombre")
         papellido = request.form.get("papellido")
         sapellido = request.form.get("sapellido")
@@ -35,20 +35,49 @@ def register():
         confirmarcontra = request.form.get("confirmarcontra")
 
         # Aquí irán las validaciones del HTML
-
+        if not pnombre:
+            flash("Debes llenar todos los campos ", category="warning")
+            return render_template("register.html")
+        elif not snombre:
+            flash("Debes llenar todos los campos ", category="warning")
+            return render_template("register.html")
+        elif not papellido:
+            flash("Debes llenar todos los campos ", category="warning")
+            return render_template("register.html")
+        elif not sapellido:
+            flash("Debes llenar todos los campos ", category="warning")
+            return render_template("register.html")
+        elif not telefono:
+            flash("Debes llenar todos los campos ", category="warning")
+            return render_template("register.html")
+        elif not correo:
+            flash("Debes llenar todos los campos ", category="warning")
+            return render_template("register.html")
+        elif not username:
+            flash("Debes llenar todos los campos ", category="warning")
+            return render_template("register.html")
+        elif not contrasena:
+            flash("Debes llenar todos los campos ", category="warning")
+            return render_template("register.html")
+        elif not contrasena == confirmarcontra:
+            flash("Las contraseñas no coinciden ", category="error")
+            return render_template("register.html")
         # Llamando al SP
         try:
             cursor = conn.cursor()
-            storeProc = "execute [dbo].[Insertar_Cliente] @valor1 = ?, @valor2 = ?"
+            storeProc = "execute [dbo].[Insertar_clientes] @primerNombre = ?, @segundoNombre = ?, @primerApellido = ?, @segundoApellido  = ?, @telefono = ?, @correoElectronico = ?, nombreUsuario = ?, contraseña = ?"
             params = (pnombre, snombre, papellido, sapellido, telefono,
                       correo, username, contrasena)
             cursor.execute(storeProc, params)
             cursor.commit()
+            print("Se insetó correctament")
+            session["username"] = username
             cursor.close()
             del cursor
             conn.close()
         except pyodbc.DatabaseError as e:
             print("Error: %s", e)
+        flash("Registro exitoso!", category="success")
         return redirect("/")
     else:
 
