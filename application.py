@@ -20,6 +20,15 @@ if conn:  # probando la nueva conexión
 def index():
     return render_template("index.html")
 
+# Para propósitos de Presentación | Borrar cuando sea necesario
+@app.route("/shop")
+def shop():
+    return render_template("shop.html")
+
+@app.route("/detail")
+def details():
+    return render_template("detail.html")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

@@ -9173,6 +9173,11 @@ h3 {
   color: skyblue;
 }
 
+.sal {
+  background-color: #ea6563;
+  color: white;
+}
+
 @-webkit-keyframes action {
   0% {
     transform: translateY(0);
