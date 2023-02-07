@@ -14,7 +14,28 @@
     <section class="main">
         
         <div class="container">
- 
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="error">
+                            {{message}}
+                        </div>   
+                    {% endif %}
+
+                    {% if category == 'success' %}
+                        <div class="success" >
+                            {{message}}
+                        </div>   
+                    {% endif %}
+                    {% if category == 'warning' %}
+                        <div class="warning" >
+                            {{message}}
+                        </div>   
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
             <p class="tittle">Farmacia Marien</p>
             <div class="separator"></div>
             <p class="message">¡¡Nueva cuenta!!</p>

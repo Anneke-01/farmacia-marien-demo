@@ -1,5 +1,5 @@
 from bdconnection import conn
-import pyodbc
+import pyodbc as db
 from flask import Flask, session, render_template, request, redirect, flash
 from flask_session import Session
 from decorator import login_required
@@ -12,18 +12,18 @@ app.config["SESSION_TYPE"] = "filesystem"
 
 Session(app)
 
-if conn:  # probando la nueva conexión
-    print("si se pudo")
-
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
 # Para propósitos de Presentación | Borrar cuando sea necesario
+
+
 @app.route("/shop")
 def shop():
     return render_template("shop.html")
+
 
 @app.route("/detail")
 def details():
@@ -43,7 +43,7 @@ def register():
         contrasena = request.form.get("contrasena")
         confirmarcontra = request.form.get("confirmarcontra")
 
-        # Aquí irán las validaciones del HTML
+        # Validaciones
         if not pnombre:
             flash("Debes llenar todos los campos ", category="warning")
             return render_template("register.html")
@@ -71,25 +71,29 @@ def register():
         elif not contrasena == confirmarcontra:
             flash("Las contraseñas no coinciden ", category="error")
             return render_template("register.html")
+
         # Llamando al SP
         try:
             cursor = conn.cursor()
-            storeProc = "execute [dbo].[Insertar_clientes] @primerNombre = ?, @segundoNombre = ?, @primerApellido = ?, @segundoApellido  = ?, @telefono = ?, @correoElectronico = ?, nombreUsuario = ?, contraseña = ?"
-            params = (pnombre, snombre, papellido, sapellido, telefono,
-                      correo, username, contrasena)
-            cursor.execute(storeProc, params)
+            storeProc = "execute [dbo].[Insertar_clientes] ?,?,?,?,?,?,?,?"
+            params = (pnombre, snombre, papellido, sapellido,
+                      telefono, correo, username, contrasena)
+            rows = cursor.execute(storeProc, params)
             cursor.commit()
-            print("Se insetó correctament")
+            rcount = rows.rowcount
+            if rcount == -1:  # Lógica: https://stackoverflow.com/a/47540675
+                flash("Nombre de usuario existente, por favor escoge otro.",
+                      category="error")
+                return render_template("register.html")
             session["username"] = username
             cursor.close()
             del cursor
             conn.close()
-        except pyodbc.DatabaseError as e:
+        except db.DatabaseError as e:
             print("Error: %s", e)
         flash("Registro exitoso!", category="success")
         return redirect("/")
     else:
-
         return render_template("register.html")
 
 
@@ -145,7 +149,7 @@ def login():
             cursor.close()
             del cursor
             conn.close()
-        except pyodbc.DatabaseError as e:
+        except db.DatabaseError as e:
             print("Error: %s", e)
         return redirect("/")
     else:
