@@ -2,22 +2,3 @@ Flask
 Flask-Session
 Jinja2
 pyodbc
-
-
- rol = str(row[1])
-                if resultado == "Acceso exitoso" and rol == None:
-                    session["username"] = username
-                    print("es un cliente")
-                    return redirect("/")
-                elif resultado == "Acceso exitoso" and rol == "employee":
-                    session["username"] = username
-                    session["rol"] = rol
-                    print("es un empleado")
-                    return redirect("/")
-                elif resultado == "Acceso exitoso" and rol == "admin":
-                    session["username"] = username
-                    session["rol"] = rol
-                    print("es un admin")
-                    return redirect("/")
-                else:
-                    print("Nombre de usuario o contraseña incorrectos")
