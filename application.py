@@ -29,6 +29,22 @@ def shop():
 def details():
     return render_template("detail.html")
 
+@app.route("/admin")
+def admin():
+    return render_template("Admin.html")
+
+@app.route("/empleados")
+def empleados():
+    return render_template("empleado.html")
+
+@app.route("/productos")
+def productos():
+    return render_template("productos.html")
+
+@app.route("/proveedores")
+def proveedores():
+    return render_template("proveedores.html")
+
 
 # Definiendo la ruta para presentar el formulario de registro con los métodos GET y POST
 # El método HTTP POST envía datos al servidor.
