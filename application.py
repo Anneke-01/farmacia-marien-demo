@@ -29,6 +29,12 @@ def shop():
 def details():
     return render_template("detail.html")
 
+@app.route("/Historial")
+def HistorialC():
+    return render_template("HistorialC.html")
+
+
+
 
 # Definiendo la ruta para presentar el formulario de registro con los métodos GET y POST
 # El método HTTP POST envía datos al servidor.
