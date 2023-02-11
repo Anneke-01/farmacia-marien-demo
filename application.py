@@ -36,6 +36,21 @@ def details():
 def HistorialC():
     return render_template("HistorialC.html")
 
+@app.route("/Admin")
+def Admin():
+    return render_template("Admin.html")
+
+@app.route("/empleados")
+def empleados():
+    return render_template("empleado.html")
+
+@app.route("/productos")
+def productos():
+    return render_template("productos.html")
+
+@app.route("/proveedores")
+def proveedores():
+    return render_template("proveedores.html")
 
 
 
