@@ -1,0 +1,364 @@
+{% extends "AdminLayout.html" %}
+
+{% block body %}
+
+    <!-- Modal Agregar -->
+    <div class="modal fade  " id="AddProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="col-12 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Ingresar Datos del producto</h4>
+                            <form class="form-sample">
+                                <p class="card-description">
+                                    Información del producto
+                                </p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Marca</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Tipo</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Nombre</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Expedición</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Vencimiento</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Prescripción</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Descripción</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Precio</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Cantidad</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Imagen URL</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary">Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Editar -->
+    <div class="modal fade  " id="EditProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="col-12 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Actualizar Datos del producto</h4>
+                            <form class="form-sample">
+                                <p class="card-description">
+                                    Información del producto
+                                </p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Marca</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Tipo</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Nombre</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Expedición</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Vencimiento</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Prescripción</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Descripción</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Precio</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Cantidad</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Imagen URL</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Panel -->
+    <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="home-tab">
+                        <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="#overview"
+                                        role="tab" aria-controls="overview" aria-selected="true">Lista de productos</a>
+                                </li>
+                            </ul>
+                            <div>
+                                <div class="btn-wrapper">
+                                    <a href="#" class="btn btn-otline-dark align-items-center"><i
+                                            class="icon-share"></i> Compartir</a>
+                                    <a href="#" class="btn btn-otline-dark"><i class="icon-printer"></i>
+                                        Imprimir</a>
+                                    <a href="#" class="btn btn-primary text-white me-0" data-bs-toggle="modal"
+                                        data-bs-target="#AddProduct"><i class="mdi mdi-account-plus"></i>
+                                        Agregar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="col-lg-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Lista de productos de Farmacia Marien</h4>
+                                    <form class="search-form" action="#">
+                                        <input type="search" class="form-control" placeholder="Buscar" title="Buscar">
+                                    </form>
+                                    <div class="table-responsive pt-3">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        #
+                                                    </th>
+                                                    <th>
+                                                        Marca
+                                                    </th>
+                                                    <th>
+                                                        Tipo
+                                                    </th>
+                                                    <th>
+                                                        Nombre
+                                                    </th>
+                                                    <th>
+                                                        Expedición
+                                                    </th>
+                                                    <th>
+                                                        Vencimiento
+                                                    </th>
+                                                    <th>
+                                                        Prescripción
+                                                    </th>
+                                                    <th>
+                                                        Descripción
+                                                    </th>
+                                                    <th>
+                                                        Precio
+                                                    </th>
+                                                    <th>
+                                                        Stock
+                                                    </th>
+                                                    <th>
+                                                        Imagen
+                                                    </th>
+                                                    <th>
+                                                        Acciones
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                    <td>
+                                                        Respibien Nebulizador 15ml
+                                                    </td>
+                                                    <td>
+                                                        <!-- Dejo esto acá por si ocupamos alguna barra de progreso
+                                                                         <div class="progress">
+                                                                        <div class="progress-bar bg-success"
+                                                                            role="progressbar" style="width: 25%"
+                                                                            aria-valuenow="25" aria-valuemin="0"
+                                                                            aria-valuemax="100"></div>
+                                                                    </div> -->
+                                                        2020-12-04
+
+                                                    </td>
+                                                    <td>
+                                                        2025-12-04
+                                                    </td>
+                                                    <td>
+                                                        Indicado para la congestion Nasal.
+                                                    </td>
+                                                    <td>
+                                                        Respibien 0,5 mg/ml Nebulizador Nasal es un medicamento que alivia la congestión nasal temporal y local. Está indicado especialmente para adultos, adolescentes y niños a partir de 6 años.
+                                                    </td>
+                                                    <td>
+                                                        216
+                                                    </td>
+                                                    <td>
+                                                        25
+                                                    </td>
+                                                    <td>
+                                                        https://res.cloudinary.com/dvpkpbpap/image/upload/v1675391162/Screenshot_2023-02-02_202532_ctq0br.png
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-wrapper">
+                                                            <a href="#" class="btn btn-warning text-white me-0"
+                                                                data-bs-toggle="modal" data-bs-target="#EditProduct"><i
+                                                                    class="EditE "></i>Editar</a>
+                                                            <a href="#" class="btn btn-danger text-white me-0"
+                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                                                    class="DelE "></i>Eliminar</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+  
+
+{% endblock %}
