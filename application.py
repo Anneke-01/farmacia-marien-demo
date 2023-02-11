@@ -19,6 +19,9 @@ def index():
 
 # Para propósitos de Presentación | Borrar cuando sea necesario
 
+@app.route("/profiledite")
+def profiledite():
+    return render_template("profiledite.html")
 
 @app.route("/shop")
 def shop():
