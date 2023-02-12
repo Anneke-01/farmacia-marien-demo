@@ -13,8 +13,11 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
+
+
 @app.route("/")
 def index():
+
     return render_template("index.html")
 
 # Para propósitos de Presentación | Borrar cuando sea necesario
@@ -175,7 +178,7 @@ def register():
             # Creamos la conexión y hacemos uso de la función cursor() para ejecutar código SQL
             cursor = conn.cursor()
             # Almacenamos en una variable el formato que debe seguir el código SQL. los signos de interrogación corresponden a cada parámetro del SP.
-            storeProc = "execute [dbo].[Insertar_clientes] ?,?,?,?,?,?,?,?"
+            storeProc = "execute [dbo].[insertar_cliente] ?,?,?,?,?,?,?,?"
             params = (pnombre, snombre, papellido, sapellido,
                       telefono, correo, username, contrasena)  # En otra variable se almacenan los parámetros que se le pasarán al SP.
             # En una variable almacenamos el resultado de ejecutar el SP.
