@@ -13,8 +13,6 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-
-
 @app.route("/")
 def index():
 
@@ -48,9 +46,13 @@ def Admin():
     return render_template("Admin.html")
 
 
+@app.route("/clientes", methods=["GET", "POST"])
+def clientes():
+    return render_template("clientes.html")
+
+
 @app.route("/perfilCliente", methods=["GET", "POST"])
 def perfilCliente():
-    desactivar = 1
     if "IDCliente" in session:
         IDCliente = session["IDCliente"]
         print(f"El ID del cliente es: ", {IDCliente})
@@ -62,13 +64,12 @@ def perfilCliente():
             DatosCliente = cursor.fetchall()
         except Exception as e:
             print("Error: %s", e)
-    return render_template("PerfilCliente.html", desactivar=desactivar, cliente=DatosCliente)
+    return render_template("PerfilCliente.html", cliente=DatosCliente)
 
 
 @app.route("/editarPerfilCliente/<idCliente>", methods=["GET", "POST"])
 def editarPerfilCliente(idCliente):
-    desactivar = 1
-    return render_template("profiledite.html", desactivar=desactivar)
+    return render_template("profiledite.html")
 
 
 @app.route("/empleados", methods=["GET", "POST"])
@@ -120,9 +121,54 @@ def productos():
     return render_template("productos.html")
 
 
-@app.route("/proveedores")
+@app.route("/proveedores", methods=["GET", "POST"])
 def proveedores():
-    return render_template("proveedores.html")
+    if request.method == "POST":
+        return redirect(request.url)
+    else:
+        try:
+            cursor = conn.cursor()
+            storeProc = "execute [dbo].[MostrarTodosProveedores]"
+            cursor.execute(storeProc)
+            DatosProveedores = cursor.fetchall()
+            storeProcMunicipios = "execute [dbo].[MostrarMunicipios]"
+            cursor.execute(storeProcMunicipios)
+            municipios = cursor.fetchall()
+            storeProcCiudades = "execute [dbo].[MostrarCiudades]"
+            cursor.execute(storeProcCiudades)
+            ciudades = cursor.fetchall()
+        except Exception as e:
+            print("Error: %s", e)
+        return render_template("proveedores.html", DatosProveedores=DatosProveedores, municipios=municipios, ciudades=ciudades)
+
+
+@app.route("/editarProveedor/<idProveedor>", methods=["GET", "POST"])
+def editarProveedor(idProveedor):
+    if request.method == "POST":
+        pnombre = request.form.get("pnombre")
+        pcontacto = request.form.get("pcontacto")
+        pruc = request.form.get("pruc")
+        ptelefono = request.form.get("ptelefono")
+        pciudad = request.form.get("pciudad")
+        pmunicipio = request.form.get("pmunicipio")
+        pdireccion = request.form.get("pdireccion")
+        pcorreo = request.form.get("pcorreo")
+
+        try:
+            cursor = conn.cursor()
+            storeProcEditar = "execute [dbo].[modificar_proveedor] ?, ?,?,?,?,?,?,?,?"
+            params = (idProveedor, pnombre, pcontacto, pruc, ptelefono,
+                      pciudad, pmunicipio, pdireccion, pcorreo)
+            print(params)
+            cursor.execute(storeProcEditar, params)
+            cursor.commit()
+            flash("Se editó con éxito", category="success")
+        except Exception as e:
+            print("Error: %s", e)
+        return redirect("/proveedores")
+    else:
+
+        return render_template("proveedores.html")
 
 
 # Definiendo la ruta para presentar el formulario de registro con los métodos GET y POST

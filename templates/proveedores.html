@@ -91,229 +91,242 @@
             </div>
         </div>
     </div>
-    <!-- Modal Editar -->
-    <div class="modal fade  " id="EditSupplier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="col-12 ">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Actualizar Datos del proveedor</h4>
-                            <form class="form-sample">
-                                <p class="card-description">
-                                    Información
-                                </p>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Nombre</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Contacto</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">RUC</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Teléfono</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Ciudad</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Municipio</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Dirección</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Correo</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary">Actualizar</button>
+
+    
+    
+    <!-- Main Panel -->
+    <div class="content-wrapper">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="error">
+                            {{message}}
+                        </div>   
+                    {% endif %}
+
+                    {% if category == 'success' %}
+                        <div class="success" >
+                            {{message}}
+                        </div>   
+                    {% endif %}
+                    {% if category == 'warning' %}
+                        <div class="warning" >
+                            {{message}}
+                        </div>   
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="home-tab">
+                    <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="#overview"
+                                    role="tab" aria-controls="overview" aria-selected="true">Lista de proveedores</a>
+                            </li>
+                        </ul>
+                        <div>
+                            <div class="btn-wrapper">
+                                <a href="#" class="btn btn-otline-dark align-items-center"><i
+                                        class="icon-share"></i> Compartir</a>
+                                <a href="#" class="btn btn-otline-dark"><i class="icon-printer"></i>
+                                    Imprimir</a>
+                                <a href="#" class="btn btn-primary text-white me-0" data-bs-toggle="modal"
+                                    data-bs-target="#AddSupplier"><i class="mdi mdi-account-plus"></i>
+                                    Agregar</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Main Panel -->
-    <div class="content-wrapper">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="home-tab">
-                        <div class="d-sm-flex align-items-center justify-content-between border-bottom">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="#overview"
-                                        role="tab" aria-controls="overview" aria-selected="true">Lista de proveedores</a>
-                                </li>
-                            </ul>
-                            <div>
-                                <div class="btn-wrapper">
-                                    <a href="#" class="btn btn-otline-dark align-items-center"><i
-                                            class="icon-share"></i> Compartir</a>
-                                    <a href="#" class="btn btn-otline-dark"><i class="icon-printer"></i>
-                                        Imprimir</a>
-                                    <a href="#" class="btn btn-primary text-white me-0" data-bs-toggle="modal"
-                                        data-bs-target="#AddSupplier"><i class="mdi mdi-account-plus"></i>
-                                        Agregar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <br>
+        <div class="col-lg-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
 
-            <br>
-
-            <div class="col-lg-12 grid-margin">
-                <div class="card">
-                    <div class="card-body">
-
-                        <div class="col-lg-12 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Lista de proveedores de Farmacia Marien</h4>
-                                    <form class="search-form" action="#">
-                                        <input type="search" class="form-control" placeholder="Buscar" title="Buscar">
-                                    </form>
-                                    <div class="table-responsive pt-3">
-                                        <table class="table table-bordered">
-                                            <thead>
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Lista de proveedores de Farmacia Marien</h4>
+                                <form class="search-form" action="#">
+                                    <input type="search" class="form-control" placeholder="Buscar" title="Buscar">
+                                </form>
+                                <div class="table-responsive pt-3">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    #
+                                                </th>
+                                                <th>
+                                                    Nombre
+                                                </th>
+                                                <th>
+                                                    Contacto
+                                                </th>
+                                                <th>
+                                                    RUC
+                                                </th>
+                                                <th>
+                                                    Teléfono
+                                                </th>
+                                                <th>
+                                                    Ciudad
+                                                </th>
+                                                <th>
+                                                    Municipio
+                                                </th>
+                                                <th>
+                                                    Dirección
+                                                </th>
+                                                <th>
+                                                    Correo
+                                                </th>
+                                                <th>
+                                                    Acciones
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for proveedor in DatosProveedores %}
                                                 <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    <th>
-                                                        Nombre
-                                                    </th>
-                                                    <th>
-                                                        Contacto
-                                                    </th>
-                                                    <th>
-                                                        RUC
-                                                    </th>
-                                                    <th>
-                                                        Teléfono
-                                                    </th>
-                                                    <th>
-                                                        Ciudad
-                                                    </th>
-                                                    <th>
-                                                        Municipio
-                                                    </th>
-                                                    <th>
-                                                        Dirección
-                                                    </th>
-                                                    <th>
-                                                        Correo
-                                                    </th>
-                                                    <th>
-                                                        Acciones
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        Ferson S.A
-                                                    </td>
-                                                    <td>
-                                                        Luis Perez Hernandez
-                                                    </td>
-                                                    <td>
-                                                        00-0002535                    
-                                                    </td>
-                                                    <td>
-                                                        22359864
-                                                    </td>
-                                                    <td>
-                                                        <!-- Dejo esto acá por si ocupamos alguna barra de progreso
-                                                                         <div class="progress">
-                                                                        <div class="progress-bar bg-success"
-                                                                            role="progressbar" style="width: 25%"
-                                                                            aria-valuenow="25" aria-valuemin="0"
-                                                                            aria-valuemax="100"></div>
-                                                                    </div> -->
-                                                        Managua
-
-                                                    </td>
-                                                    <td>
-                                                        Managua
-                                                    </td>
-                                                    <td>
-                                                        De la parroquia, 3 1/2 cuadras al sur
-                                                    </td>
-                                                    <td>
-                                                        FersonNicaragua@Gmail.com
-                                                    </td>
+                                                    <td>{{ proveedor.idProveedor }}</td>  
+                                                    <td>{{ proveedor.nombre }}</td>
+                                                    <td>{{ proveedor.nombreContacto }}</td>
+                                                    <td>{{ proveedor.ruc }}</td>
+                                                    <td>{{ proveedor.telefono }}</td>
+                                                    <td>{{ proveedor.ciudad }}</td>
+                                                    <td>{{ proveedor.municipio }}</td>
+                                                    <td>{{ proveedor.direccion }}</td>
+                                                    <td>{{ proveedor.correoElectronico }}</td>                                                 
                                                     <td>
                                                         <div class="btn-wrapper">
-                                                            <a href="#" class="btn btn-warning text-white me-0"
-                                                                data-bs-toggle="modal" data-bs-target="#EditSupplier"><i
+                                                            <a href="" class="btn btn-warning text-white me-0"
+                                                                data-bs-toggle="modal" data-bs-target="#EditSupplier{{proveedor.idProveedor}}"><i
                                                                     class="EditE "></i>Editar</a>
-                                                            <a href="#" class="btn btn-danger text-white me-0"
+                                                            <!-- Modal Editar -->
+                                                            <div class="modal fade  " id="EditSupplier{{proveedor.idProveedor}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="col-12 ">
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <h4 class="card-title">Actualizar Datos del proveedor</h4>
+                                                                                    <form action="/editarProveedor/{{proveedor.idProveedor}}" method="POST" class="form-sample">
+                                                                                       
+                                                                                        <p class="card-description">
+                                                                                            Información
+                                                                                        </p>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">Nombre</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text" class="form-control" value="{{proveedor.nombre}}" name="pnombre"/>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">Contacto</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text" class="form-control" value="{{proveedor.nombreContacto}}" name="pcontacto"/>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">RUC</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text" class="form-control" value="{{proveedor.ruc}}" name="pruc"/>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">Teléfono</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text" class="form-control" value="{{proveedor.telefono}}" name="ptelefono"/>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group row">
+                                                                                                    
+                                                                                                    <label class="col-sm-3 col-form-label">Ciudad</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <select name="pciudad" class="form-control">
+                                                                                                            <option selected value="{{proveedor.ciudad}}">{{proveedor.ciudad}}</option>
+                                                                                                            {% for c in ciudades %}
+                                                                                                                <option  value="{{c.ciudad}}">{{c.ciudad}}</option>
+                                                                                                            {% endfor %}
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group row">
+                                                                                                    
+                                                                                                    <label class="col-sm-3 col-form-label">Municipio</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <select name="pmunicipio" class="form-control">
+                                                                                                            <option selected>{{proveedor.municipio}}</option>
+                                                                                                            {% for m in municipios %}
+                                                                                                                <option  value="{{m.municipio}}">{{m.municipio}}</option>
+                                                                                                            {% endfor %}
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">Dirección</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text" class="form-control" value="{{proveedor.direccion}}" name="pdireccion"/>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">Correo</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text" class="form-control" value="{{proveedor.correoElectronico}}" name="pcorreo"/>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                                                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <a href="/eliminarProveedor/{{proveedor.idProveedor}}" class="btn btn-danger text-white me-0"
                                                                 data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                                                     class="DelE "></i>Eliminar</a>
                                                         </div>
-                                                    </td>
+                                                    </td>                                                    
                                                 </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
   
 
