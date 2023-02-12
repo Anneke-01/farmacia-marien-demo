@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container text-center">
+    {% for c in cliente %}
+        <div class="row">
+            <div class="col-6">
+                <br>
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="width: 50%; height: 100%;">
+            </div>
+            <div class="col-6">
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Primer nombre</label>
+                    <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{c.primerNombre}}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Segundo nombre</label>
+                    <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{c.segundoNombre}}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Primer apellido</label>
+                    <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{c.primerApellido}}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Segundo apellido</label>
+                    <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{c.segundoApellido}}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Teléfono</label>
+                    <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{c.telefono}}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Correo</label>
+                    <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{c.correoElectronico}}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Nombre de usuario</label>
+                    <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{c.nombreUsuario}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <a href="/editarPerfilCliente/{{c.idCliente}}"><button type="button" class="btn btn-secondary">Editar perfil</button> </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

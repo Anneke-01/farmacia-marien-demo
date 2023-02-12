@@ -19,9 +19,11 @@ def index():
 
 # Para propósitos de Presentación | Borrar cuando sea necesario
 
+
 @app.route("/profiledite")
 def profiledite():
     return render_template("profiledite.html")
+
 
 @app.route("/shop")
 def shop():
@@ -32,26 +34,92 @@ def shop():
 def details():
     return render_template("detail.html")
 
+
 @app.route("/Historial")
 def HistorialC():
     return render_template("HistorialC.html")
 
-@app.route("/Admin")
+
+@app.route("/admin")
 def Admin():
     return render_template("Admin.html")
 
-@app.route("/empleados")
+
+@app.route("/perfilCliente", methods=["GET", "POST"])
+def perfilCliente():
+    desactivar = 1
+    if "IDCliente" in session:
+        IDCliente = session["IDCliente"]
+        print(f"El ID del cliente es: ", {IDCliente})
+        try:
+            cursor = conn.cursor()
+            storeProce = "execute [dbo].[mostrar_cliente] @id = ?"
+            param = (IDCliente)
+            cursor.execute(storeProce, param)
+            DatosCliente = cursor.fetchall()
+        except Exception as e:
+            print("Error: %s", e)
+    return render_template("PerfilCliente.html", desactivar=desactivar, cliente=DatosCliente)
+
+
+@app.route("/editarPerfilCliente/<idCliente>", methods=["GET", "POST"])
+def editarPerfilCliente(idCliente):
+    desactivar = 1
+    return render_template("profiledite.html", desactivar=desactivar)
+
+
+@app.route("/empleados", methods=["GET", "POST"])
 def empleados():
-    return render_template("empleado.html")
+    if request.method == "POST":
+        pnombre = request.form.get("pnombre")
+        snombre = request.form.get("snombre")
+        papellido = request.form.get("papellido")
+        sapellido = request.form.get("sapellido")
+        telefono = request.form.get("telefono")
+        dni = request.form.get("dni")
+        correo = request.form.get("correo")
+        username = request.form.get("username")
+        contrasena = request.form.get("password")
+        rol = request.form.get("idrol")
+
+        if not pnombre:
+            flash("Debes llenar todos los campos ", category="warning")
+        try:
+            cursor1 = conn.cursor()
+            sp = " execute [dbo].[insertar_empleado] ?,?,?,?,?,?,?,?,?,?"
+            params = (pnombre, snombre, papellido, sapellido,
+                      telefono, dni, correo, username, contrasena, rol)
+            cursor1.execute(sp, params)
+            cursor1.commit()
+            flash("Se agregó correctamente", category="success")
+        except Exception as e:
+            print("Error: %s", e)
+        return redirect(request.url)  # Redirige a la misma ruta
+    else:
+
+        try:
+            cursor = conn.cursor()
+            storeProc = "execute [dbo].[Read_roles]"
+            cursor.execute(storeProc)
+            roles = cursor.fetchall()
+            spEmpleados = "execute [dbo].[MostrarTodosEmpleados]"
+            cursor.execute(spEmpleados)
+            DatosEmpleados = cursor.fetchall()
+            for i in DatosEmpleados:
+                print(i)
+        except Exception as e:
+            print("Error: %s", e)
+        return render_template("empleado.html", roles=roles, DatosEmpleados=DatosEmpleados)
+
 
 @app.route("/productos")
 def productos():
     return render_template("productos.html")
 
+
 @app.route("/proveedores")
 def proveedores():
     return render_template("proveedores.html")
-
 
 
 # Definiendo la ruta para presentar el formulario de registro con los métodos GET y POST
@@ -168,33 +236,39 @@ def login():
             print(len(row))  # Esto es a modo de prueba
             # EL SP devuelve "acceso exitoso" si es un cliente, pero si es un empleado retorna el mismo mensaje con otra columna diciendo su rol.
             # Por esa razón, validamos dependiendo de la longitud qué tipo de usuario sería.
-            if (len(row)) == 1:  # Si la longitud de lo que me devuelve el SP es 1
+            if (len(row)) == 2:  # Si la longitud de lo que me devuelve el SP es 1
                 while row:  # Mientras se cumpla lo que hay en la variable "row"
                     # Se almacena en la variable resultado lo que está en "row", en la columna 0 y se castea a un string.
                     resultado = str(row[0])
+                    IDCliente = str(row[1])
+                    print(IDCliente)
                     if resultado == "Acceso exitoso":  # Validamos el resultado que nos devolvió el SP
                         print("es un cliente")
                         # Si se cumple, entonces guardamos la sesión del usuario que se registró
                         session["username"] = username
+                        session["IDCliente"] = IDCliente
                         return redirect("/")  # Se manda a la página de inicio
                     else:
                         flash("Usuario o contraseña incorrectos",  # Si los datos son incorrectos, entonces mandamos un mensaje de error
                               category="error")
                         # Se vuelve a mostrar el formulario de inicio de sesión
                         return render_template("login.html")
-            elif (len(row)) == 2:  # Si la longitud de lo que nos devuelve el SP es 2, es decir que también nos indicará el rol
+            elif (len(row)) == 3:  # Si la longitud de lo que nos devuelve el SP es 2, es decir que también nos indicará el rol
                 while row:  # Se sigue la misma lógica que arriba
                     resultado = str(row[0])
-                    rol = str(row[1])  # Además, almacenamos el rol
+                    IDEmpleado = str(row[1])
+                    rol = str(row[2])  # Además, almacenamos el rol
                     # Se sigue la misma lógica que arriba, solo que se deben de cumplir las dos condiciones.
                     if resultado == "Acceso exitoso" and rol == "employee":
                         print("Es un empleado")
                         session["username"] = username
+                        session["IDEmpleado"] = IDEmpleado
                         session["rol"] = rol
                         return redirect("/")
                     if resultado == "Acceso exitoso" and rol == "admin":
                         print("es un admin")
                         session["username"] = username
+                        session["IDEmpleado"] = IDEmpleado
                         session["rol"] = rol
                         return redirect("/")
             else:

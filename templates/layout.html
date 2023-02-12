@@ -51,13 +51,18 @@
             </div>
             {% if session["username"] %}
             <div class="col-lg-4  col-11 text-right">
+                <!-- 
                 <a href="" class=" heart btn border">
                     <i class="fas fa-heart"></i>
                     <span class="badge">0</span>
                 </a>
+                -->
                 <a href="cart.html" class="carr btn border">
                     <i class="fas fa-shopping-cart "></i>
                     <span class="badge">0</span>
+                </a>
+                <a href="/perfilCliente" class="carr btn border">
+                    <i class="fas fa-user "> Perfil</i>
                 </a>
                 <a href="/logout" class="">
                     <i class="sal btn border">Cerrar sesión</i>
@@ -72,8 +77,9 @@
         </div>
     </div>
     <!-- Topbar End -->
-
-
+{% if desactivar == 1 %}
+    {% block body %}{% endblock %}
+{% else %}
     <!-- Navbar Start -->
     <div class="container-fluid ">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -157,8 +163,11 @@
         </div>
     </div>
     <!-- Navbar End -->
+{% endif %}
 
-    {% block body %}{% endblock %}
+
+
+    
 
 
     <!-- Footer Start -->

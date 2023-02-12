@@ -1,16 +1,38 @@
 {% extends "AdminLayout.html" %}
 
 {% block body %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <div class="error">
+                    {{message}}
+                </div>   
+            {% endif %}
 
+            {% if category == 'success' %}
+                <div class="success" >
+                    {{message}}
+                </div>   
+            {% endif %}
+            {% if category == 'warning' %}
+                <div class="warning" >
+                    {{message}}
+                </div>   
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
     <!-- Modal Agregar -->
     <div class="modal fade  " id="AddEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+                
                 <div class="col-12 ">
                     <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Ingresar Datos del empleado</h4>
-                            <form class="form-sample">
+                        <form action="/empleados" method="POST" class="form-sample">
+                            <div class="card-body">
+                                <h4 class="card-title">Ingresar Datos del empleado</h4>                             
                                 <p class="card-description">
                                     Información Personal
                                 </p>
@@ -19,7 +41,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Primer Nombre</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="pnombre"/>
                                             </div>
                                         </div>
                                     </div>
@@ -27,7 +49,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Segundo Nombre</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="snombre"/>
                                             </div>
                                         </div>
                                     </div>
@@ -35,7 +57,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Primer Apellido</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="papellido"/>
                                             </div>
                                         </div>
                                     </div>
@@ -43,7 +65,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Segundo Apellido</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="sapellido" />
                                             </div>
                                         </div>
                                     </div>
@@ -51,7 +73,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Teléfono</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="telefono"/>
                                             </div>
                                         </div>
                                     </div>
@@ -59,7 +81,15 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">DNI</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="dni"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Correo</label>
+                                            <div class="col-sm-9">
+                                                <input type="email" class="form-control" name="correo"/>
                                             </div>
                                         </div>
                                     </div>
@@ -67,7 +97,15 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Nombre de Usuario</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="username"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Contraseña</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" name="password"/>
                                             </div>
                                         </div>
                                     </div>
@@ -77,20 +115,23 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Rol</label>
                                             <div class="col-sm-9">
-                                                <select class="form-control">
-                                                    <option>Administrador</option>
-                                                    <option>Empleado</option>
+                                                <select name="idrol" class="form-control">
+                                                    {% for r in roles %}
+                                                        <option  value="{{r.idRol}}">{{r.rol}}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary">Aceptar</button>
-                        </div>
+                                
+                            </div>
+                        
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Aceptar</button>
+                            </div>
+                        </form>    
                     </div>
                 </div>
             </div>
@@ -113,7 +154,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Primer Nombre</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control"/>
                                             </div>
                                         </div>
                                     </div>
@@ -271,56 +312,39 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        Axel
-                                                    </td>
-                                                    <td>
-                                                        Eden
-                                                    </td>
-                                                    <td>
-                                                        Moreno
-                                                    </td>
-                                                    <td>
-                                                        Cabrera
-                                                    </td>
-                                                    <td>
+                                                {% for empleado in DatosEmpleados %}
+                                                    <tr>
                                                         <!-- Dejo esto acá por si ocupamos alguna barra de progreso
-                                                                         <div class="progress">
+                                                                            <div class="progress">
                                                                         <div class="progress-bar bg-success"
                                                                             role="progressbar" style="width: 25%"
                                                                             aria-valuenow="25" aria-valuemin="0"
                                                                             aria-valuemax="100"></div>
                                                                     </div> -->
-                                                        84155029
 
-                                                    </td>
-                                                    <td>
-                                                        0011212121212H
-                                                    </td>
-                                                    <td>
-                                                        axelmoreno@gmail.com
-                                                    </td>
-                                                    <td>
-                                                        Axel
-                                                    </td>
-                                                    <td>
-                                                        2
-                                                    </td>
-                                                    <td>
-                                                        <div class="btn-wrapper">
-                                                            <a href="#" class="btn btn-warning text-white me-0"
-                                                                data-bs-toggle="modal" data-bs-target="#EditEmployee"><i
-                                                                    class="EditE "></i>Editar</a>
-                                                            <a href="#" class="btn btn-danger text-white me-0"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                                                    class="DelE "></i>Eliminar</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        
+                                                        <td>{{ empleado.idEmpleado }}</td>
+                                                        <td>{{ empleado.primerNombre }}</td>
+                                                        <td>{{ empleado.segundoNombre }}</td>
+                                                        <td>{{ empleado.primerApellido }}</td>
+                                                        <td>{{ empleado.segundoApellido }}</td>
+                                                        <td>{{ empleado.telefono }}</td> 
+                                                        <td>{{ empleado.dni }}</td>
+                                                        <td>{{ empleado.correoElectronico }}</td>  
+                                                        <td>{{ empleado.nombreUsuario }}</td>
+                                                        <td>{{ empleado.rol }}</td>                                                  
+                                                        <td>
+                                                            <div class="btn-wrapper">
+                                                                <a href="#" class="btn btn-warning text-white me-0"
+                                                                    data-bs-toggle="modal" data-bs-target="#EditEmployee"><i
+                                                                        class="EditE "></i>Editar</a>
+                                                                <a href="#" class="btn btn-danger text-white me-0"
+                                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                                                        class="DelE "></i>Eliminar</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
@@ -331,6 +355,8 @@
                 </div>
             </div>
     </div>
+    
   
+
 
 {% endblock %}
