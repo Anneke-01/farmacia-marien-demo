@@ -43,7 +43,14 @@ def Admin():
 
 @app.route("/clientes", methods=["GET", "POST"])
 def clientes():
-    return render_template("clientes.html")
+    try:
+        cursor = conn.cursor()
+        spClientes = "execute [dbo].[MostrarTodosClientes]"
+        cursor.execute(spClientes)
+        DatosClientes = cursor.fetchall()
+    except Exception as e:
+        print("Error: %s", e)
+    return render_template("clientes.html", DatosClientes=DatosClientes)
 
 
 @app.route("/perfilCliente", methods=["GET", "POST"])
@@ -114,8 +121,9 @@ def empleados():
         contrasena = request.form.get("password")
         rol = request.form.get("idrol")
 
-        if not pnombre:
+        if not pnombre or snombre or papellido or sapellido or telefono or dni or correo or username or contrasena or rol:
             flash("Debes llenar todos los campos ", category="warning")
+            return redirect(request.url)
         try:
             cursor1 = conn.cursor()
             sp = " execute [dbo].[insertar_empleado] ?,?,?,?,?,?,?,?,?,?"
@@ -173,6 +181,25 @@ def productos():
 @app.route("/proveedores", methods=["GET", "POST"])
 def proveedores():
     if request.method == "POST":
+        pnombre = request.form.get("pnombre")
+        pcontacto = request.form.get("pcontacto")
+        pruc = request.form.get("pruc")
+        ptelefono = request.form.get("ptelefono")
+        pciudad = request.form.get("pciudad")
+        pmunicipio = request.form.get("pmunicipio")
+        pdireccion = request.form.get("pdireccion")
+        pcorreo = request.form.get("pcorreo")
+        try:
+            cursor = conn.cursor()
+            storeProcAgregar = "execute [dbo].[insertar_proveedor] ?, ?,?,?,?,?,?,?"
+            params = (pnombre, pcontacto, pruc, ptelefono,
+                      pciudad, pmunicipio, pdireccion, pcorreo)
+            print(params)
+            cursor.execute(storeProcAgregar, params)
+            cursor.commit()
+            flash("Se agregó un nuevo proveedor!", category="success")
+        except Exception as e:
+            print("Error: %s", e)
         return redirect(request.url)
     else:
         try:

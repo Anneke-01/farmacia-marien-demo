@@ -10,7 +10,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Ingresar Datos del proveedor</h4>
-                            <form class="form-sample">
+                            <form action="/proveedores" method="POST" class="form-sample">
                                 <p class="card-description">
                                     Información
                                 </p>
@@ -19,7 +19,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Nombre</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="pnombre"/>
                                             </div>
                                         </div>
                                     </div>
@@ -27,7 +27,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Contacto</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="pcontacto" />
                                             </div>
                                         </div>
                                     </div>
@@ -35,7 +35,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">RUC</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="pruc" />
                                             </div>
                                         </div>
                                     </div>
@@ -43,7 +43,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Teléfono</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="ptelefono"/>
                                             </div>
                                         </div>
                                     </div>
@@ -51,15 +51,24 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Ciudad</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <select name="pciudad" class="form-control">
+                                                    {% for c in ciudades %}                                                       
+                                                        <option  value="{{c.ciudad}}">{{c.ciudad}}</option>                                                       
+                                                    {% endfor %}
+                                                </select>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Municipio</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <select name="pmunicipio" class="form-control">                     
+                                                    {% for m in municipios %}                                      
+                                                        <option  value="{{m.municipio}}">{{m.municipio}}</option>                                                      
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -67,7 +76,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Dirección</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="pdireccion"/>
                                             </div>
                                         </div>
                                     </div>
@@ -75,17 +84,18 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Correo</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="pcorreo"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                                </div>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary">Aceptar</button>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -262,7 +272,9 @@
                                                                                                         <select name="pciudad" class="form-control">
                                                                                                             <option selected value="{{proveedor.ciudad}}">{{proveedor.ciudad}}</option>
                                                                                                             {% for c in ciudades %}
-                                                                                                                <option  value="{{c.ciudad}}">{{c.ciudad}}</option>
+                                                                                                                {% if c.ciudad != proveedor.ciudad%}
+                                                                                                                    <option  value="{{c.ciudad}}">{{c.ciudad}}</option>
+                                                                                                                {% endif %}
                                                                                                             {% endfor %}
                                                                                                         </select>
                                                                                                     </div>
@@ -270,13 +282,14 @@
                                                                                             </div>
                                                                                             <div class="col-md-6">
                                                                                                 <div class="form-group row">
-                                                                                                    
                                                                                                     <label class="col-sm-3 col-form-label">Municipio</label>
                                                                                                     <div class="col-sm-9">
                                                                                                         <select name="pmunicipio" class="form-control">
                                                                                                             <option selected>{{proveedor.municipio}}</option>
                                                                                                             {% for m in municipios %}
+                                                                                                                {% if m.municipio != proveedor.municipio%}
                                                                                                                 <option  value="{{m.municipio}}">{{m.municipio}}</option>
+                                                                                                                {% endif %}
                                                                                                             {% endfor %}
                                                                                                         </select>
                                                                                                     </div>

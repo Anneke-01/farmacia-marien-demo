@@ -23,214 +23,7 @@
         {% endfor %}
     {% endif %}
 {% endwith %}
-    <!-- Modal Agregar -->
-    <div class="modal fade  " id="AddEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                
-                <div class="col-12 ">
-                    <div class="card">
-                        <form action="/empleados" method="POST" class="form-sample">
-                            <div class="card-body">
-                                <h4 class="card-title">Ingresar Datos del empleado</h4>                             
-                                <p class="card-description">
-                                    Información Personal
-                                </p>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Primer Nombre</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="pnombre"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Segundo Nombre</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="snombre"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Primer Apellido</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="papellido"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Segundo Apellido</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="sapellido" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Teléfono</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="telefono"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">DNI</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="dni"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Correo</label>
-                                            <div class="col-sm-9">
-                                                <input type="email" class="form-control" name="correo"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Nombre de Usuario</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="username"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Contraseña</label>
-                                            <div class="col-sm-9">
-                                                <input type="password" class="form-control" name="password"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Rol</label>
-                                            <div class="col-sm-9">
-                                                <select name="idrol" class="form-control">
-                                                    {% for r in roles %}
-                                                        <option  value="{{r.idRol}}">{{r.rol}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Aceptar</button>
-                            </div>
-                        </form>    
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Editar -->
-    <div class="modal fade  " id="EditEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="col-12 ">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Datos del empleado</h4>
-                            <form class="form-sample">
-                                <p class="card-description">
-                                    Información Personal
-                                </p>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Primer Nombre</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Segundo Nombre</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Primer Apellido</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Segundo Apellido</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Teléfono</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">DNI</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Nombre de Usuario</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Rol</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control">
-                                                    <option>Administrador</option>
-                                                    <option>Empleado</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary">Aceptar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- Main Panel -->
     <div class="content-wrapper">
             <div class="row">
@@ -240,7 +33,7 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="#overview"
-                                        role="tab" aria-controls="overview" aria-selected="true">Lista de empleados</a>
+                                        role="tab" aria-controls="overview" aria-selected="true">Lista de clientes</a>
                                 </li>
                             </ul>
                             <div>
@@ -249,9 +42,6 @@
                                             class="icon-share"></i> Compartir</a>
                                     <a href="#" class="btn btn-otline-dark"><i class="icon-printer"></i>
                                         Imprimir</a>
-                                    <a href="#" class="btn btn-primary text-white me-0" data-bs-toggle="modal"
-                                        data-bs-target="#AddEmployee"><i class="mdi mdi-account-plus"></i>
-                                        Agregar</a>
                                 </div>
                             </div>
                         </div>
@@ -268,7 +58,7 @@
                         <div class="col-lg-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Lista de empleados de Farmacia Marien</h4>
+                                    <h4 class="card-title">Lista de Clientes de Farmacia Marien</h4>
                                     <form class="search-form" action="#">
                                         <input type="search" class="form-control" placeholder="Buscar" title="Buscar">
                                     </form>
@@ -295,46 +85,33 @@
                                                         Teléfono
                                                     </th>
                                                     <th>
-                                                        DNI
-                                                    </th>
-                                                    <th>
                                                         Correo
                                                     </th>
                                                     <th>
                                                         Usuario
                                                     </th>
-                                                    <th>
-                                                        Rol
-                                                    </th>
-                                                    <th>
-                                                        Acciones
-                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
+                                                {% for cliente in DatosClientes%}
                                                     <tr>
+                                                        <td>{{cliente.idCliente}}</td>
+                                                        <td>{{cliente.primerNombre}}</td>
+                                                        <td>{{cliente.segundoNombre}}</td>
+                                                        <td>{{cliente.primerApellido}}</td>
+                                                        <td>{{cliente.segundoApellido}}</td>
+                                                        <td>{{cliente.telefono}}</td>
+                                                        <td>{{cliente.correoElectronico}}</td>
+                                                        <td>{{cliente.nombreUsuario}}</td>
                                                         <!-- Dejo esto acá por si ocupamos alguna barra de progreso
                                                                             <div class="progress">
                                                                         <div class="progress-bar bg-success"
                                                                             role="progressbar" style="width: 25%"
                                                                             aria-valuenow="25" aria-valuemin="0"
                                                                             aria-valuemax="100"></div>
-                                                                    </div> -->
-
-                                                        
-                                                        
-                                                            <div class="btn-wrapper">
-                                                                <a href="#" class="btn btn-warning text-white me-0"
-                                                                    data-bs-toggle="modal" data-bs-target="#EditEmployee"><i
-                                                                        class="EditE "></i>Editar</a>
-                                                                <a href="#" class="btn btn-danger text-white me-0"
-                                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                                                        class="DelE "></i>Eliminar</a>
-                                                            </div>
-                                                        </td>
+                                                                    </div> -->   
                                                     </tr>
-                                             
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
