@@ -1,7 +1,28 @@
 {% extends "AdminLayout.html" %}
 
 {% block body %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <div class="error">
+                    {{message}}
+                </div>   
+            {% endif %}
 
+            {% if category == 'success' %}
+                <div class="success" >
+                    {{message}}
+                </div>   
+            {% endif %}
+            {% if category == 'warning' %}
+                <div class="warning" >
+                    {{message}}
+                </div>   
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
     <!-- Modal Agregar -->
     <div class="modal fade  " id="AddProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -10,7 +31,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Ingresar Datos del producto</h4>
-                            <form class="form-sample">
+                            <form action="/productos" method="POST "class="form-sample">
                                 <p class="card-description">
                                     Información del producto
                                 </p>
@@ -19,7 +40,11 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Marca</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <select name="idMarca" class="form-control">                                                 
+                                                    {% for m in listarMarcas %}
+                                                        <option  value="{{m.idMarca}}">{{m.marca}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -27,15 +52,20 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Tipo</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <select name="idTipoProducto" class="form-control">                                                 
+                                                    {% for t in listarTiposProducto %}
+                                                        <option  value="{{t.idTipoProducto}}">{{t.tipoProducto}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Nombre</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="nombrep" />
                                             </div>
                                         </div>
                                     </div>
@@ -43,7 +73,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Expedición</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="expedicion"/>
                                             </div>
                                         </div>
                                     </div>
@@ -51,7 +81,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Vencimiento</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="vencimiento"/>
                                             </div>
                                         </div>
                                     </div>
@@ -59,7 +89,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Prescripción</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="prescripcion"/>
                                             </div>
                                         </div>
                                     </div>
@@ -67,7 +97,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Descripción</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="descripcion" />
                                             </div>
                                         </div>
                                     </div>
@@ -75,7 +105,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Precio</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="precio"/>
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +113,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Cantidad</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="cantidad"/>
                                             </div>
                                         </div>
                                     </div>
@@ -91,17 +121,18 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Imagen URL</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" name="imagen"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                                </div>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary">Aceptar</button>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -291,64 +322,41 @@
                                                         Imagen
                                                     </th>
                                                     <th>
+                                                        Categoría
+                                                    </th>
+                                                    <th>
                                                         Acciones
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        Respibien Nebulizador 15ml
-                                                    </td>
-                                                    <td>
-                                                        <!-- Dejo esto acá por si ocupamos alguna barra de progreso
-                                                                         <div class="progress">
-                                                                        <div class="progress-bar bg-success"
-                                                                            role="progressbar" style="width: 25%"
-                                                                            aria-valuenow="25" aria-valuemin="0"
-                                                                            aria-valuemax="100"></div>
-                                                                    </div> -->
-                                                        2020-12-04
-
-                                                    </td>
-                                                    <td>
-                                                        2025-12-04
-                                                    </td>
-                                                    <td>
-                                                        Indicado para la congestion Nasal.
-                                                    </td>
-                                                    <td>
-                                                        Respibien 0,5 mg/ml Nebulizador Nasal es un medicamento que alivia la congestión nasal temporal y local. Está indicado especialmente para adultos, adolescentes y niños a partir de 6 años.
-                                                    </td>
-                                                    <td>
-                                                        216
-                                                    </td>
-                                                    <td>
-                                                        25
-                                                    </td>
-                                                    <td>
-                                                        https://res.cloudinary.com/dvpkpbpap/image/upload/v1675391162/Screenshot_2023-02-02_202532_ctq0br.png
-                                                    </td>
-                                                    <td>
-                                                        <div class="btn-wrapper">
-                                                            <a href="#" class="btn btn-warning text-white me-0"
-                                                                data-bs-toggle="modal" data-bs-target="#EditProduct"><i
-                                                                    class="EditE "></i>Editar</a>
-                                                            <a href="#" class="btn btn-danger text-white me-0"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                                                    class="DelE "></i>Eliminar</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                {% for p in DatosProductos%}
+                                                    <tr>                                                    
+                                                        <td>{{p.idProducto}}</td>
+                                                        <td>{{p.marca}}</td>
+                                                        <td>{{p.tipoProducto}}</td>
+                                                        <td>{{p.nombreProducto}}</td>
+                                                        <td>{{p.fechaExpedicion}}</td>
+                                                        <td>{{p.fechaVencimiento}}</td>
+                                                        <td>{{p.prescripcion}}</td>
+                                                        <td>{{p.descripcion}}</td>
+                                                        <td>{{p.precio}}</td>
+                                                        <td>{{p.cantidad}}</td>
+                                                        <td>{{p.urlImg}}</td>
+                                                        <td>{{p.categoria}}</td>
+                                                        <td>
+                                                            <div class="btn-wrapper">
+                                                                <a href="#" class="btn btn-warning text-white me-0"
+                                                                    data-bs-toggle="modal" data-bs-target="#EditProduct"><i
+                                                                        class="EditE "></i>Editar</a>
+                                                                <a href="#" class="btn btn-danger text-white me-0"
+                                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                                                        class="DelE "></i>Eliminar</a>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>

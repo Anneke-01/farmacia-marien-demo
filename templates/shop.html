@@ -181,26 +181,36 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
-                        <div class="card product-item border-0 mb-4">
-                            <div
-                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid w-100" src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675391709/2_achoz1.png" alt="">
-                            </div>
-                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                <h6 class="text-truncate mb-3">Cristalmina</h6>
-                                <div class="d-flex justify-content-center">
-                                    <h6>C$180.00</h6>
-                                    <h6 class="text-muted ml-2"><del>C$180.00</del></h6>
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-1">
+                        <!-- Aquí va el producto-->
+                        {% for producto in DatosProductos %}
+                            <div class="card product-item border-0 mb-4">
+                                <div
+                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                    <img class="img-fluid w-100" src="{{producto.urlImg}}" alt="">
+                                </div>
+                                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                    <h4 class="text-truncate mb-3">{{producto.nombreProducto}}</h4>
+                                    <div class="d-flex justify-content-center">
+                                        <h6>C$ {{producto.precio}}</h6>
+                                        
+                                        <!--<h6 class="text-muted ml-2"><del>C$180.00</del></h6> -->
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        
+                                        <h6>{{producto.prescripcion}}</h6>
+                                       
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between bg-light border">
+                                <!--Borrar href cuando sea necesario--> <a href="/detail/{{producto.idProducto}}"  class="btn btn-sm text-dark p-0"><i
+                                            class="fas fa-eye text-primary mr-1"></i>Ver</a>
+                                    <a href="" class="btn btn-sm text-dark p-0"><i
+                                            class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
                                 </div>
                             </div>
-                            <div class="card-footer d-flex justify-content-between bg-light border">
-                               <!--Borrar href cuando sea necesario--> <a href="/detail"  class="btn btn-sm text-dark p-0"><i
-                                        class="fas fa-eye text-primary mr-1"></i>Ver</a>
-                                <a href="" class="btn btn-sm text-dark p-0"><i
-                                        class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
-                            </div>
-                        </div>
+                        <!--Aquí termina-->
+                        {% endfor %}
                     </div>
                     
                     <div class="col-12 pb-1">

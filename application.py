@@ -23,12 +23,28 @@ def index():
 
 @app.route("/shop")
 def shop():
-    return render_template("shop.html")
+    try:
+        cursor = conn.cursor()
+        storeProc = "execute [dbo].[MostrarTodosProductos]"
+        cursor.execute(storeProc)
+        DatosProductos = cursor.fetchall()
+    except Exception as e:
+        print("Error: %s", e)
+    return render_template("shop.html", DatosProductos=DatosProductos)
 
 
-@app.route("/detail")
-def details():
-    return render_template("detail.html")
+@app.route("/detail/<idProducto>", methods=["GET", "POST"])
+def details(idProducto):
+    print(idProducto)
+    try:
+        cursor = conn.cursor()
+        cursor.execute("select p.idProducto,p.nombreProducto, p.precio, p.descripcion,p.urlImg, m.marca, t.tipoProducto from Productos p inner join Marcas m on m.idMarca = p.idMarca inner join TiposProducto t on t.idTipoProducto = p.idTipoProducto where p.idProducto = ?", idProducto)
+        DetalleProducto = cursor.fetchall()
+        for i in DetalleProducto:
+            print(i)
+    except Exception as e:
+        print("Error: %s", e)
+    return render_template("detail.html", DetalleProducto=DetalleProducto)
 
 
 @app.route("/Historial")
@@ -40,9 +56,11 @@ def HistorialC():
 def Admin():
     return render_template("Admin.html")
 
+
 @app.route("/reportes")
 def reportes():
     return render_template("reportes.html")
+
 
 @app.route("/clientes", methods=["GET", "POST"])
 def clientes():
@@ -164,6 +182,8 @@ def EditarEmpleado(idEmpleado):
         correo = request.form.get("correo")
         username = request.form.get("username")
         rol = request.form.get("idrol")
+        if not pnombre or snombre or papellido or sapellido or telefono or dni or correo or username or rol:
+            flash("Debes llenar todos los campos", category="warning")
         return redirect("/empleados")
     else:
         try:
@@ -175,10 +195,54 @@ def EditarEmpleado(idEmpleado):
             print("Error: %s", e)
     return render_template("empleado.html", roles=roles)
 
+# Esto es para el admin
 
-@app.route("/productos")
+
+@app.route("/productos", methods=["GET", "POST"])
 def productos():
-    return render_template("productos.html")
+    if request.method == "POST":
+        print("hOLA")
+        marca = request.form.get("idMarca")
+        tipoProducto = request.form.get("idTipoProducto")
+        nombre = request.form.get("nombrep")
+        expedicion = request.form.get("expedicion")
+        vencimiento = request.form.get("vencimiento")
+        prescripcion = request.form.get("prescripcion")
+        descripcion = request.form.get("descripcion")
+        precio = request.form.get("precio")
+        cantidad = request.form.get("cantidad")
+        imagen = request.form.get("imagen")
+        if not nombre or expedicion or vencimiento or prescripcion or descripcion or precio or cantidad or imagen:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
+        try:
+            cursor = conn.cursor()
+            storeProcAgregar = "execute [dbo].[insertar_producto] ?, ?,?,?,?,?,?,?,?,?"
+            params = (marca, tipoProducto, nombre, expedicion, vencimiento,
+                      prescripcion, descripcion, precio, cantidad, imagen)
+            print(params)
+            cursor.execute(storeProcAgregar, params)
+            cursor.commit()
+            flash("Se agregó un nuevo producto!", category="success")
+        except Exception as e:
+            print("Error: %s", e)
+        return redirect(request.url)
+    else:
+        try:
+            cursor = conn.cursor()
+            storeProc = "execute [dbo].[MostrarTodosProductos]"
+            cursor.execute(storeProc)
+            DatosProductos = cursor.fetchall()
+            listarTiposProducto = cursor.execute(
+                "select * from TiposProducto").fetchall()
+            listarCategoria = cursor.execute(
+                "select * from Categorias").fetchall()
+            listarMarcas = cursor.execute(
+                "select * from Marcas").fetchall()
+        except Exception as e:
+            print("Error: %s", e)
+            flash("asdad", category="error")
+        return render_template("productos.html", DatosProductos=DatosProductos, listarTiposProducto=listarTiposProducto, listarCategoria=listarCategoria, listarMarcas=listarMarcas)
 
 
 @app.route("/proveedores", methods=["GET", "POST"])
@@ -403,7 +467,7 @@ def login():
                         session["username"] = username
                         session["IDEmpleado"] = IDEmpleado
                         session["rol"] = rol
-                        return redirect("/")
+                        return redirect("/admin")
             else:
                 # Si ninguno de los datos que ingresa el usuario está en la BD, entonces mandamos un mensaje de error con la función flash.
                 flash("Usuario o contraseña incorrectos", category="error")
