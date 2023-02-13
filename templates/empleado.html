@@ -137,100 +137,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal Editar -->
-    <div class="modal fade  " id="EditEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="col-12 ">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Datos del empleado</h4>
-                            <form class="form-sample">
-                                <p class="card-description">
-                                    Información Personal
-                                </p>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Primer Nombre</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Segundo Nombre</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Primer Apellido</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Segundo Apellido</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Teléfono</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">DNI</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Nombre de Usuario</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Rol</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control">
-                                                    <option>Administrador</option>
-                                                    <option>Empleado</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary">Aceptar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- Main Panel -->
     <div class="content-wrapper">
             <div class="row">
@@ -336,8 +243,115 @@
                                                         <td>
                                                             <div class="btn-wrapper">
                                                                 <a href="#" class="btn btn-warning text-white me-0"
-                                                                    data-bs-toggle="modal" data-bs-target="#EditEmployee"><i
+                                                                    data-bs-toggle="modal" data-bs-target="#EditEmployee{{empleado.idEmpleado}}"><i
                                                                         class="EditE "></i>Editar</a>
+
+                                                                    <!-- Modal Editar -->
+                                                                <div class="modal fade  " id="EditEmployee{{empleado.idEmpleado}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-lg">
+                                                                        <div class="modal-content">
+                                                                            <div class="col-12 ">
+                                                                                <div class="card">
+                                                                                    <div class="card-body">
+                                                                                        <h4 class="card-title">Datos del empleado</h4>
+                                                                                        <form action="/editarEmpleado/{{empleado.idEmpleado}}" method="POST" class="form-sample">
+                                                                                            <p class="card-description">
+                                                                                                Información Personal
+                                                                                            </p>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">Primer Nombre</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <input type="text" class="form-control" name="pnombre" value="{{empleado.primerNombre}}"/>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">Segundo Nombre</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <input type="text" class="form-control" name="snombre" value="{{empleado.segundoNombre}}"/>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">Primer Apellido</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <input type="text" class="form-control" name="papellido" value="{{empleado.primerApellido}}"/>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">Segundo Apellido</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <input type="text" class="form-control" name="sapellido" value="{{empleado.segundoApellido}}"/>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">Teléfono</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <input type="text" class="form-control" name="telefono" value="{{empleado.telefono}}"/>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">DNI</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <input type="text" class="form-control" name="dni" value="{{empleado.dni}}"/>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">Correo  electrónico</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <input type="text" class="form-control" name="correo" value="{{empleado.correoElectronico }}"/>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">Nombre de Usuario</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <input type="text" class="form-control" name="username" value="{{empleado.nombreUsuario}}"/>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">Rol</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <select name="idrol" class="form-control">
+                                                                                                                <option selected>{{ empleado.rol }}</option>
+                                                                                                                {% for r in roles %}
+                                                                                                                    {% if r.rol != empleado.rol %}
+                                                                                                                        <option  value="{{r.idRol}}">{{r.rol}}</option>
+                                                                                                                    {% endif %}
+                                                                                                                {% endfor %}
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                                                        <button type="button" class="btn btn-primary">Aceptar</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <a href="#" class="btn btn-danger text-white me-0"
                                                                     data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                                                         class="DelE "></i>Eliminar</a>

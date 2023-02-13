@@ -99,6 +99,7 @@ def editarPerfilCliente(idCliente):
             print("Error: %s", e)
 
 
+# Este agrega empleados
 @app.route("/empleados", methods=["GET", "POST"])
 def empleados():
     if request.method == "POST":
@@ -127,7 +128,6 @@ def empleados():
             print("Error: %s", e)
         return redirect(request.url)  # Redirige a la misma ruta
     else:
-
         try:
             cursor = conn.cursor()
             storeProc = "execute [dbo].[Read_roles]"
@@ -136,11 +136,33 @@ def empleados():
             spEmpleados = "execute [dbo].[MostrarTodosEmpleados]"
             cursor.execute(spEmpleados)
             DatosEmpleados = cursor.fetchall()
-            for i in DatosEmpleados:
-                print(i)
         except Exception as e:
             print("Error: %s", e)
         return render_template("empleado.html", roles=roles, DatosEmpleados=DatosEmpleados)
+
+
+@app.route("/editarEmpleado/<idEmpleado>", methods=["GET", "POST"])
+def EditarEmpleado(idEmpleado):
+    if request.method == "POST":
+        pnombre = request.form.get("pnombre")
+        snombre = request.form.get("snombre")
+        papellido = request.form.get("papellido")
+        sapellido = request.form.get("sapellido")
+        telefono = request.form.get("telefono")
+        dni = request.form.get("dni")
+        correo = request.form.get("correo")
+        username = request.form.get("username")
+        rol = request.form.get("idrol")
+        return redirect("/empleados")
+    else:
+        try:
+            cursor = conn.cursor()
+            storeProc = "execute [dbo].[Read_roles]"
+            cursor.execute(storeProc)
+            roles = cursor.fetchall()
+        except Exception as e:
+            print("Error: %s", e)
+    return render_template("empleado.html", roles=roles)
 
 
 @app.route("/productos")
