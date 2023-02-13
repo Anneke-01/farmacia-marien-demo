@@ -12,22 +12,22 @@
 
 {% block body %}
 <section class="main">
-        <p class="tittle">Editar Perfil</p>
-            <div class="separator"></div>
-
-        <form class="login-form">
+    <p class="tittle">Editar Perfil</p>
+    <div class="separator"></div>
+    {% for c in clientePerfil %}
+        <form action="/editarPerfilCliente/{{c.idCliente}}" method="POST" class="login-form">
             <div class="textito">
                 <p>NOMBRES</p>
             </div>
 
             <div class="form-control2">
                 <div class="form-control">
-                    <input type="text" class="inp" placeholder="Primer nombre" name="pnombre">
+                    <input type="text" class="inp" placeholder="Primer nombre" name="pnombre" value="{{c.primerNombre}}">
                     <i class="fas fa-user"></i>
                 </div>
                 
                 <div class="form-control">
-                    <input type="text" class="inp" placeholder="Segundo nombre" name="snombre">
+                    <input type="text" class="inp" placeholder="Segundo nombre" name="snombre" value="{{c.segundoNombre}}">
                     <i class="fas fa-user"></i>
                 </div>
            </div>
@@ -37,32 +37,32 @@
            </div>
             <div class="form-control2">
                 <div class="form-control">
-                    <input type="text" class="inp" placeholder="Primer apellido" name="papellido">
+                    <input type="text" class="inp" placeholder="Primer apellido" name="papellido" value="{{c.primerApellido}}">
                     <i class="fas fa-user"></i>
                 </div>
                 
                 <div class="form-control">
-                    <input type="text" class="inp" placeholder="Segundo apellido" name="sapellido">
+                    <input type="text" class="inp" placeholder="Segundo apellido" name="sapellido" value="{{c.segundoApellido}}">
                     <i class="fas fa-user"></i>
                 </div class="form-control">
             </div>
 
             <div class="form-control">
-                <input type="text" class="inp" placeholder="Teléfono" name="telefono">
+                <input type="text" class="inp" placeholder="Teléfono" name="telefono" value="{{c.telefono}}">
                 <i class="fa fa-phone"></i>
             </div>
-            
             <div class="form-control">
-                <input type="text" class="inp" placeholder="Nombre de usuario" name="username">
+                <input type="text" class="inp" placeholder="Correo electrónico" name="correo" value="{{c.correoElectronico}}">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="form-control">
+                <input type="text" class="inp" placeholder="Nombre de usuario" name="username" value="{{c.nombreUsuario}}">
                 <i class="fas fa-user"></i>
             </div>
             
             <!-- quitar comentario en caso de que esto sea necesario idk. -->
 
-            <!-- <div class="form-control">
-                <input type="text" class="inp" placeholder="Correo electrónico" name="correo">
-                <i class="fas fa-envelope"></i>
-            </div>
+            <!-- 
             
             <div class="form-control">
                 <input type="password" class="inp" placeholder="Contraseña" name="contrasena">
@@ -96,8 +96,8 @@
                         ¿Estas seguro que deseas guardarlo? 
                         </div>
                         <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Guardar cambios</button>
+                        <a href="/perfilCliente"><button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
                         </div>
                     </div>
                     </div>
@@ -105,6 +105,7 @@
             </div>
 
         </form>
+    {% endfor %}
     </div>
 </section>
 {% endblock %}

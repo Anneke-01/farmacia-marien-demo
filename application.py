@@ -21,11 +21,6 @@ def index():
 # Para propósitos de Presentación | Borrar cuando sea necesario
 
 
-@app.route("/profiledite")
-def profiledite():
-    return render_template("profiledite.html")
-
-
 @app.route("/shop")
 def shop():
     return render_template("shop.html")
@@ -53,23 +48,55 @@ def clientes():
 
 @app.route("/perfilCliente", methods=["GET", "POST"])
 def perfilCliente():
-    if "IDCliente" in session:
+    if 'IDCliente' in session:
         IDCliente = session["IDCliente"]
-        print(f"El ID del cliente es: ", {IDCliente})
         try:
             cursor = conn.cursor()
             storeProce = "execute [dbo].[mostrar_cliente] @id = ?"
             param = (IDCliente)
             cursor.execute(storeProce, param)
             DatosCliente = cursor.fetchall()
+            return render_template("PerfilCliente.html", cliente=DatosCliente)
         except Exception as e:
             print("Error: %s", e)
-    return render_template("PerfilCliente.html", cliente=DatosCliente)
+    return redirect("/")
 
 
 @app.route("/editarPerfilCliente/<idCliente>", methods=["GET", "POST"])
 def editarPerfilCliente(idCliente):
-    return render_template("profiledite.html")
+    if request.method == "POST":
+        print(idCliente)
+        pNombre = request.form.get("pnombre")
+        sNombre = request.form.get("snombre")
+        pApellido = request.form.get("papellido")
+        sApellido = request.form.get("sapellido")
+        nTelefono = request.form.get("telefono")
+        nUsuario = request.form.get("username")
+        if not pNombre or not sNombre or not pApellido or not sApellido or not nTelefono or not nUsuario:
+            flash("Debes llenar todos los campos", category="warning")
+        else:
+            try:
+                cursor1 = conn.cursor()
+                sp = " execute [dbo].[modificar_cliente] ?,?,?,?,?,?,?"
+                params = (idCliente, pNombre, sNombre, pApellido,
+                          sApellido, nTelefono, nUsuario)
+                cursor1.execute(sp, params)
+                cursor1.commit()
+                flash("El usuario se edito correctamente!", category="success")
+            except Exception as e:
+                print("Error: %s ", e)
+            return redirect(request.url)
+    else:
+        print(idCliente)
+        try:
+            cursor = conn.cursor()
+            storeProc = " execute [dbo].[mostrar_cliente] ?"
+            params1 = (idCliente)
+            cursor.execute(storeProc, params1)
+            clientePerfil = cursor.fetchall()
+            return render_template("profiledite.html", clientePerfil=clientePerfil)
+        except Exception as e:
+            print("Error: %s", e)
 
 
 @app.route("/empleados", methods=["GET", "POST"])
@@ -239,17 +266,22 @@ def register():
                 flash("Nombre de usuario existente, por favor escoge otro.",
                       category="error")
                 # Si el SP manda el mensaje, se enseña un mensaje de error y se retorna la misma plantilla.
-                return render_template("register.html")
-            # Si el usuario se registra con éxito, entonces guardamos su inicio de sesión (las cookies)
-            session["username"] = username
-            cursor.close()  # Cerramos el cursor que nos permite ejecutar el SQL
-            del cursor  # Lo eliminamos
-            conn.close()  # Cerramos la conexión
+                return redirect(request.url)
+            else:
+                consultaIDCliente = cursor.execute(
+                    "SELECT TOP 1 idCliente FROM clientes WHERE nombreUsuario=?", username)
+                IDCliente = consultaIDCliente.fetchone()
+                print(IDCliente[0])
+                session["IDCliente"] = IDCliente
+                # Si el usuario se registra con éxito, entonces guardamos su inicio de sesión (las cookies)
+                session["username"] = username
+                # session["user_id"] = rows
+                print(f"Prueba del registro")
+                # Si el usuario se registró con éxito, se le manda un mensaje.
+                flash("Registro exitoso!", category="success")
         except db.DatabaseError as e:
             # Si no se pudo ejecutar el SP, entonces el error caerá aquí.
             print("Error: %s", e)
-        # Si el usuario se registró con éxito, se le manda un mensaje.
-        flash("Registro exitoso!", category="success")
         return redirect("/")  # Lo mandamos a la página principal.
     else:
         # Si el usuario no está mandando datos, entonces simplemente mostramos la plantilla.
@@ -260,7 +292,7 @@ def register():
 # El método HTTP GET obtiene datos del servidor.
 
 
-@app.route("/login", methods=["GET", "POST"])
+@ app.route("/login", methods=["GET", "POST"])
 def login():
     # Validamos si  el usuario está enviando información
     if request.method == "POST":
@@ -289,7 +321,7 @@ def login():
                 while row:  # Mientras se cumpla lo que hay en la variable "row"
                     # Se almacena en la variable resultado lo que está en "row", en la columna 0 y se castea a un string.
                     resultado = str(row[0])
-                    IDCliente = str(row[1])
+                    IDCliente = row[1]
                     print(IDCliente)
                     if resultado == "Acceso exitoso":  # Validamos el resultado que nos devolvió el SP
                         print("es un cliente")
@@ -325,10 +357,6 @@ def login():
                 flash("Usuario o contraseña incorrectos", category="error")
                 # retornamos el mismo formulario de inicio de sesión.
                 return render_template("login.html")
-
-            cursor.close()  # Cerramos el cursor.
-            del cursor  # Eliminamos el cursor.
-
         except db.DatabaseError as e:
             print("Error: %s", e)
         return redirect("/")
@@ -336,10 +364,15 @@ def login():
         return render_template("login.html")
 
 
-@app.route("/logout")
+@ app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
+
+
+@app.route("/checkout")
+def profiledite():
+    return render_template("checkout.html")
 
 
 if __name__ == "__main__":

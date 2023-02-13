@@ -13,6 +13,10 @@ try:
         # https://www.jasoft.org/Blog/post/resolver-error-al-conectarse-a-sql-server-debido-al-certificado-ssl
 
     )
+    conn.setdecoding(pyodbc.SQL_CHAR, encoding='unicode_escape')
+    conn.setdecoding(pyodbc.SQL_WCHAR, encoding='unicode_escape')
+    conn.setdecoding(pyodbc.SQL_WMETADATA, encoding='unicode_escape')
+    conn.setdecoding(pyodbc.SQL_WMETADATA, encoding='utf-16le')
     # Esta parte del código imprime el consola el máximo de conexiones
     # how_many = conn.getinfo(pyodbc.SQL_MAX_CONCURRENT_ACTIVITIES)
     # print(f"Máximo de conexiones: ", how_many)
