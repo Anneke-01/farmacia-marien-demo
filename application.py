@@ -40,6 +40,9 @@ def HistorialC():
 def Admin():
     return render_template("Admin.html")
 
+@app.route("/reportes")
+def reportes():
+    return render_template("reportes.html")
 
 @app.route("/clientes", methods=["GET", "POST"])
 def clientes():
@@ -92,7 +95,7 @@ def editarPerfilCliente(idCliente):
                 flash("El usuario se edito correctamente!", category="success")
             except Exception as e:
                 print("Error: %s ", e)
-            return redirect(request.url)
+            return redirect("/perfilCliente")
     else:
         print(idCliente)
         try:
@@ -420,7 +423,7 @@ def logout():
 
 
 @app.route("/checkout")
-def profiledite():
+def checkout():
     return render_template("checkout.html")
 
 
