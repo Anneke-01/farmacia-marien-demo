@@ -172,6 +172,7 @@ def empleados():
 
 @app.route("/editarEmpleado/<idEmpleado>", methods=["GET", "POST"])
 def EditarEmpleado(idEmpleado):
+    
     if request.method == "POST":
         pnombre = request.form.get("pnombre")
         snombre = request.form.get("snombre")
@@ -182,9 +183,23 @@ def EditarEmpleado(idEmpleado):
         correo = request.form.get("correo")
         username = request.form.get("username")
         rol = request.form.get("idrol")
-        if not pnombre or snombre or papellido or sapellido or telefono or dni or correo or username or rol:
+        print("El rol es:" + rol)
+        if not pnombre or not snombre or not papellido or not sapellido or not telefono or not dni or not correo or not username or not rol:
             flash("Debes llenar todos los campos", category="warning")
-        return redirect("/empleados")
+            return redirect("/empleados")
+        else:
+            try:
+                cursor1 = conn.cursor()
+                sp = " execute [dbo].[modificar_empleado] ?,?,?,?,?,?,?,?,?,?"
+                params = (idEmpleado, pnombre, snombre, papellido,
+                          sapellido, telefono, dni,correo,username,rol)
+                cursor1.execute(sp, params)
+                cursor1.commit()
+                flash("El empleado se edito correctamente!", category="success")
+            except Exception as e:
+                print("Error: %s ", e)
+            return redirect("/perfilCliente")
+
     else:
         try:
             cursor = conn.cursor()
@@ -287,6 +302,7 @@ def proveedores():
 
 @app.route("/editarProveedor/<idProveedor>", methods=["GET", "POST"])
 def editarProveedor(idProveedor):
+    print("Aca si funca")
     if request.method == "POST":
         pnombre = request.form.get("pnombre")
         pcontacto = request.form.get("pcontacto")
