@@ -141,8 +141,7 @@ def empleados():
         username = request.form.get("username")
         contrasena = request.form.get("password")
         rol = request.form.get("idrol")
-
-        if not pnombre or snombre or papellido or sapellido or telefono or dni or correo or username or contrasena or rol:
+        if not pnombre or not snombre or not papellido or not sapellido or not telefono or not dni or not correo or not username or not contrasena or not rol:
             flash("Debes llenar todos los campos ", category="warning")
             return redirect(request.url)
         try:
@@ -172,7 +171,7 @@ def empleados():
 
 @app.route("/editarEmpleado/<idEmpleado>", methods=["GET", "POST"])
 def EditarEmpleado(idEmpleado):
-    
+
     if request.method == "POST":
         pnombre = request.form.get("pnombre")
         snombre = request.form.get("snombre")
@@ -186,13 +185,13 @@ def EditarEmpleado(idEmpleado):
         print("El rol es:" + rol)
         if not pnombre or not snombre or not papellido or not sapellido or not telefono or not dni or not correo or not username or not rol:
             flash("Debes llenar todos los campos", category="warning")
-            return redirect("/empleados")
+            return redirect(request.url)
         else:
             try:
                 cursor1 = conn.cursor()
                 sp = " execute [dbo].[modificar_empleado] ?,?,?,?,?,?,?,?,?,?"
                 params = (idEmpleado, pnombre, snombre, papellido,
-                          sapellido, telefono, dni,correo,username,rol)
+                          sapellido, telefono, dni, correo, username, rol)
                 cursor1.execute(sp, params)
                 cursor1.commit()
                 flash("El empleado se edito correctamente!", category="success")
@@ -227,7 +226,28 @@ def productos():
         precio = request.form.get("precio")
         cantidad = request.form.get("cantidad")
         imagen = request.form.get("imagen")
-        if not nombre or expedicion or vencimiento or prescripcion or descripcion or precio or cantidad or imagen:
+        if not nombre:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
+        elif not expedicion:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
+        elif not vencimiento:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
+        elif not prescripcion:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
+        elif not descripcion:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
+        elif not precio:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
+        elif not cantidad:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
+        elif not imagen:
             flash("Debes llenar todos los campos", category="warning")
             return redirect(request.url)
         try:
@@ -271,6 +291,9 @@ def proveedores():
         pmunicipio = request.form.get("pmunicipio")
         pdireccion = request.form.get("pdireccion")
         pcorreo = request.form.get("pcorreo")
+        if not pnombre or not pcontacto or not pruc or not ptelefono or not pciudad or not pmunicipio or not pdireccion or not pcorreo:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
         try:
             cursor = conn.cursor()
             storeProcAgregar = "execute [dbo].[insertar_proveedor] ?, ?,?,?,?,?,?,?"
@@ -313,6 +336,9 @@ def editarProveedor(idProveedor):
         pdireccion = request.form.get("pdireccion")
         pcorreo = request.form.get("pcorreo")
 
+        if not pnombre or not pcontacto or not pruc or not ptelefono or not pciudad or not pmunicipio or not pdireccion or not pcorreo:
+            flash("Debes llenar todos los campos", category="warning")
+            return redirect(request.url)
         try:
             cursor = conn.cursor()
             storeProcEditar = "execute [dbo].[modificar_proveedor] ?, ?,?,?,?,?,?,?,?"
