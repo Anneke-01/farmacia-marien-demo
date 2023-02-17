@@ -131,6 +131,7 @@ def editarPerfilCliente(idCliente):
 @app.route("/empleados", methods=["GET", "POST"])
 def empleados():
     if request.method == "POST":
+        print("ENTRA")
         pnombre = request.form.get("pnombre")
         snombre = request.form.get("snombre")
         papellido = request.form.get("papellido")
@@ -146,7 +147,7 @@ def empleados():
             return redirect(request.url)
         try:
             cursor1 = conn.cursor()
-            sp = " execute [dbo].[insertar_empleado] ?,?,?,?,?,?,?,?,?,?"
+            sp = " execute [dbo].[Insertar_empleado] ?,?,?,?,?,?,?,?,?,?"
             params = (pnombre, snombre, papellido, sapellido,
                       telefono, dni, correo, username, contrasena, rol)
             cursor1.execute(sp, params)
@@ -171,7 +172,6 @@ def empleados():
 
 @app.route("/editarEmpleado/<idEmpleado>", methods=["GET", "POST"])
 def EditarEmpleado(idEmpleado):
-
     if request.method == "POST":
         pnombre = request.form.get("pnombre")
         snombre = request.form.get("snombre")
@@ -209,6 +209,18 @@ def EditarEmpleado(idEmpleado):
             print("Error: %s", e)
     return render_template("empleado.html", roles=roles)
 
+
+@app.route("/eliminarEmpleado/<idEmpleado>", methods=["GET", "POST"])
+def eliminarEmpleado(idEmpleado):
+    print("Entra en eliminar")
+    try:
+        cursor = conn.cursor()
+        cursor.execute("execute [dbo].[eliminar_empleado] ?", idEmpleado)
+        cursor.commit()
+        flash("Se eliminó correctamente", category="success")
+    except Exception as e:
+        print("Error: %s ", e)
+    return redirect("/empleados")
 # Esto es para el admin
 
 
@@ -280,6 +292,63 @@ def productos():
         return render_template("productos.html", DatosProductos=DatosProductos, listarTiposProducto=listarTiposProducto, listarCategoria=listarCategoria, listarMarcas=listarMarcas)
 
 
+@app.route("/editarProducto/<idProducto>", methods=["GET", "POST"])
+def editarProductos(idProducto):
+    if request.method == "POST":
+        print("hOLA")
+        marca = request.form.get("idMarca")
+        tipoProducto = request.form.get("idTipoProducto")
+        nombre = request.form.get("nombrep")
+        expedicion = request.form.get("expedicion")
+        vencimiento = request.form.get("vencimiento")
+        prescripcion = request.form.get("prescripcion")
+        descripcion = request.form.get("descripcion")
+        precio = request.form.get("precio")
+        cantidad = request.form.get("cantidad")
+        imagen = request.form.get("imagen")
+
+        try:
+            cursor = conn.cursor()
+            storeProcAgregar = "execute "
+            params = (marca, tipoProducto, nombre, expedicion, vencimiento,
+                      prescripcion, descripcion, precio, cantidad, imagen)
+            print(params)
+            cursor.execute(storeProcAgregar, params)
+            cursor.commit()
+            flash("Se editó correctamente", category="success")
+        except Exception as e:
+            print("Error: %s", e)
+        return redirect(request.url)
+    else:
+        try:
+            cursor = conn.cursor()
+            storeProc = "execute [dbo].[MostrarTodosProductos]"
+            cursor.execute(storeProc)
+            DatosProductos = cursor.fetchall()
+            listarTiposProducto = cursor.execute(
+                "select * from TiposProducto").fetchall()
+            listarCategoria = cursor.execute(
+                "select * from Categorias").fetchall()
+            listarMarcas = cursor.execute(
+                "select * from Marcas").fetchall()
+        except Exception as e:
+            print("Error: %s", e)
+            flash("asdad", category="error")
+        return render_template("productos.html", DatosProductos=DatosProductos, listarTiposProducto=listarTiposProducto, listarCategoria=listarCategoria, listarMarcas=listarMarcas)
+
+@app.route("/eliminarProducto/<idProducto>", methods=["GET", "POST"])
+def editarProductos(idProducto):
+    try:
+        cursor = conn.cursor()
+        cursor.execute("execute [dbo].[eliminar_producto] ?", idProducto)
+        cursor.commit()
+        flash("Se eliminó correctamente", category="success")
+    except Exception as e:
+        print("Error: %s", e)
+    return redirect("/productos")
+    
+
+@login_required
 @app.route("/proveedores", methods=["GET", "POST"])
 def proveedores():
     if request.method == "POST":
@@ -323,6 +392,7 @@ def proveedores():
         return render_template("proveedores.html", DatosProveedores=DatosProveedores, municipios=municipios, ciudades=ciudades)
 
 
+# @login_required
 @app.route("/editarProveedor/<idProveedor>", methods=["GET", "POST"])
 def editarProveedor(idProveedor):
     print("Aca si funca")
@@ -354,6 +424,28 @@ def editarProveedor(idProveedor):
     else:
 
         return render_template("proveedores.html")
+
+
+@app.route("/eliminarProveedor/<idProveedor>", methods=["GET", "POST"])
+def eliminarProveedor(idProveedor):
+    print("ENTRA")
+    try:
+        cursor = conn.cursor()
+        rows = cursor.execute(
+            "execute [dbo].[eliminar_proveedor] ?", idProveedor)
+        cursor.commit()
+        flash("Se eliminó correctamente", category="success")
+        return redirect("/proveedores")
+        # Se comentó el siguiente código ya que el SP no cae en el error cuando se trata de un id que no se encuentra en la tabla
+        # if rows.rowcount == 0:
+        #    flash("Se eliminó correctamente", category="success")
+        #    return redirect("/proveedores")
+        # else:
+        #    mensaje = str(rows[0])
+        #    flash(mensaje, category="error")
+        #    return redirect(request.url)
+    except Exception as e:
+        print("Error: %s", e)
 
 
 # Definiendo la ruta para presentar el formulario de registro con los métodos GET y POST
@@ -409,7 +501,7 @@ def register():
             # Creamos la conexión y hacemos uso de la función cursor() para ejecutar código SQL
             cursor = conn.cursor()
             # Almacenamos en una variable el formato que debe seguir el código SQL. los signos de interrogación corresponden a cada parámetro del SP.
-            storeProc = "execute [dbo].[insertar_cliente] ?,?,?,?,?,?,?,?"
+            storeProc = "execute [dbo].[insertar_cliente] @primerNombre=?,@segundoNombre=?,@primerApellido=?,@segundoApellido=?,@telefono=?,@correoElectronico=?,@nombreUsuario=?,@contraseña=?"
             params = (pnombre, snombre, papellido, sapellido,
                       telefono, correo, username, contrasena)  # En otra variable se almacenan los parámetros que se le pasarán al SP.
             # En una variable almacenamos el resultado de ejecutar el SP.
