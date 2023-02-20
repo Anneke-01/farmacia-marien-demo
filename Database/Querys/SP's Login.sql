@@ -8,7 +8,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[Validar_acceso]
+CREATE PROCEDURE [dbo].[validar_acceso]
 	@nombreUsuario nvarchar(30), @contraseña nvarchar(32)
 AS
 

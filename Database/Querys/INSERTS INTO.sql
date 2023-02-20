@@ -21,6 +21,11 @@ Insert into EstadosFactura values('Cancelado','Cancelacion de la compra/venta, e
 Insert into EstadosFactura values('En proceso','La compra/venta esta en proceso de realizarce')
 Insert into EstadosFactura values('Hecho','La compra/venta se realizo')
 
+--ESTADOS DE LOS PERFILES-------------------------
+Insert into EstadosPerfil values('online','Es un perfil activo en la pagina')
+Insert into EstadosPerfil values('offline','Es un perfil inactivo en la pagina o en espera de ser removido')
+Insert into EstadosPerfil values('removed','Es un oerfil eliminado de la pagina')
+
 --CATEGORIAS-----------------------------------
 Insert into Categorias values('PF','Productos farmaceuticos')
 Insert into Categorias values('DM','Dispositivos médicos')
@@ -189,7 +194,7 @@ Insert into CargosOrganigrama values('Asistente de Servicio')
 Insert into CargosOrganigrama values('Asistente de Laboratorio')*/
 
 ----EMPLEADOS-----------------------------------------
-Insert into Empleados values('Elon','Reeve','Musk','Smith','54333302','0010604857005H','elonMuskGOD@gmail.com','farmaciamarienadmin','farmaciamarien2023',1)
+Insert into Empleados values('Elon','Reeve','Musk','Smith','54333302','0010604857005H','elonMuskGOD@gmail.com','farmaciamarienadmin','farmaciamarien2023',1,1)
 /*Insert into Empleados values(1,'Ray','Kaden','Gallant','Lopez','91473204','2021704847010T','raygallant@gmail.com',2)
 Insert into Empleados values(1,'Jan','Tony','Siegel','Hester','27900259','202210396','jansiegel@gmail.com',2)
 Insert into Empleados values(1,'Alexander','Marquez','Irvine','Doyle','58995084','2031501997015M','alexmarquezIrvine@gmail.com',4)

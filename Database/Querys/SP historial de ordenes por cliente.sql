@@ -1,21 +1,18 @@
-CREATE procedure reporte_historial_ventas_mes
-@año int, @mes int
 
-AS
+CREATE procedure reporte_historial_compra_cliente
+	@idCliente int
+AS	
+	If exists(Select * from Ordenes where idCliente = @idCliente)
+		BEGIN
 			SELECT 
 				p.nombreProducto + ma.marca + p.descripcion as Producto,
 				c.ciudad + m.municipio + o.direccion + o.vivienda + o.codigoPostal as [Direccion de entrega],
 				te.tipoEntrega as [Tipo de entrega],
 				tp.tipoPago as [Tipo de pago],
-				o.numeroTarjeta as [Numero de tarjeta de pago],
 				fechaPedido as [Fecha de pedido],
-				fechaEnvio as [Fecha de envio],
-				fechaEntrega as [Fecha de entrega],
 				ef.Estado [Estado de la compra],
 				do.precio as Precio,
 				do.cantidad as Cantidad,
-				do.descuento as Descuento,
-				do.subtotal as Subtotal,
 				do.total as [Total Compra],
 				em.primerNombre + ' ' + em.primerApellido as Repartidor,
 				emp.primerNombre + ' ' + emp.primerApellido as Operador
@@ -41,4 +38,11 @@ AS
 				on em.idEmpleado = idRepartidor
 				inner join Empleados emp
 				on emp.idEmpleado = idOperador
-			WHERE YEAR(o.fechaPedido) = @año and MONTH(o.fechaPedido) = @mes
+				
+			WHERE o.idCliente = @idCliente
+		END
+	ELSE
+		BEGIN
+			Select 'NULL' as Mensaje
+		END
+	

@@ -2,7 +2,7 @@ Use farmaciamariendb
 GO
 
 
-ALTER procedure insertar_producto
+CREATE procedure insertar_producto
 	@idMarca int,
 	@idTipoProducto int,
 	@nombreProducto nvarchar(50),
@@ -62,7 +62,7 @@ AS
 	END CATCH
 Go
 
-ALTER procedure modificar_producto
+CREATE procedure modificar_producto
 	@id int,
 	@idMarca int,
 	@idTipoProducto int,
@@ -134,7 +134,7 @@ AS
 	END CATCH
 Go
 
-ALTER procedure eliminar_producto
+CREATE procedure eliminar_producto
 	@id int
 
 AS
@@ -148,7 +148,7 @@ AS
 		END
 GO
 
-ALTER procedure mostrar_producto
+CREATE procedure mostrar_producto
 	@id int
 
 AS
