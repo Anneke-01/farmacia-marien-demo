@@ -1,7 +1,7 @@
 Use farmaciamariendb
 GO
 
-ALTER procedure insertar_proveedor
+CREATE procedure insertar_proveedor
 	@nombre nvarchar(150),
 	@nombreContacto nvarchar(150),
 	@ruc nvarchar(10),
@@ -56,7 +56,7 @@ AS
 	END CATCH
 Go
 
-ALTER procedure modificar_proveedor
+CREATE procedure modificar_proveedor
 	@id int,
 	@nombre nvarchar(150),
 	@nombreContacto nvarchar(150),
@@ -120,7 +120,7 @@ AS
 	END CATCH
 Go
 
-ALTER procedure eliminar_proveedor
+CREATE procedure eliminar_proveedor
 	@id int
 
 AS
@@ -134,7 +134,7 @@ AS
 		END
 GO
 
-ALTER procedure mostrar_proveedor
+CREATE procedure mostrar_proveedor
 	@id int
 
 AS

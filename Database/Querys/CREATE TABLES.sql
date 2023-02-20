@@ -48,6 +48,12 @@ estado nvarchar(150) not null, --En espera, realizado, cancelado
 descripcion nvarchar(150)
 )
 
+Create table EstadosPerfil(
+idEstado int identity(1,1) primary key not null,
+estado nvarchar(50) not null,
+descripcion nvarchar(200) not null
+)
+
 Create table TiposProducto(
 idTipoProducto int identity(1,1) primary key not null,
 idCategoria nvarchar(5) foreign key references Categorias(idCategoria) not null,
@@ -68,8 +74,9 @@ segundoApellido nvarchar(150) not null,
 telefono char(8) not null,
 --dni char(14) not null,
 correoElectronico nvarchar(120) not null,
-nombreUsuario nvarchar(30) not null,
+nombreUsuario nvarchar(30) not null UNIQUE,
 contraseña nvarchar(32) not null,
+idEstado int foreign key references EstadosPerfil(idEstado) not null
 )
 
 Create table Empleados(
@@ -83,9 +90,10 @@ segundoApellido nvarchar(150) not null,
 telefono char(8) not null,
 dni char(14) not null,
 correoElectronico nvarchar(120) not null,
-nombreUsuario nvarchar(30) not null,
+nombreUsuario nvarchar(30) not null UNIQUE,
 contraseña nvarchar(32) not null,
 idRol int foreign key references Roles(idRol) not null,
+idEstado int foreign key references EstadosPerfil(idEstado) not null
 )
 
 Create table Proveedores(

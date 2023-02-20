@@ -8,7 +8,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER procedure [dbo].[insertar_cliente]
+CREATE procedure [dbo].[insertar_cliente]
 	@primerNombre nvarchar(150),
 	@segundoNombre nvarchar(150),
 	@primerApellido nvarchar(150),
@@ -16,7 +16,8 @@ ALTER procedure [dbo].[insertar_cliente]
 	@telefono char(8),
 	@correoElectronico nvarchar(120),
 	@nombreUsuario nvarchar(30),
-	@contraseña nvarchar(32)
+	@contraseña nvarchar(32),
+	@idEstado int
 
 AS
 	BEGIN TRY
@@ -30,7 +31,7 @@ AS
 			END
 		ELSE
 			BEGIN
-				INSERT INTO Clientes VALUES(@primerNombre,@segundoNombre, @primerApellido, @segundoApellido,@telefono, @correoElectronico,@nombreUsuario,ENCRYPTBYPASSPHRASE(@contraseña, @contraseña))
+				INSERT INTO Clientes VALUES(@primerNombre,@segundoNombre, @primerApellido, @segundoApellido,@telefono, @correoElectronico,@nombreUsuario,ENCRYPTBYPASSPHRASE(@contraseña, @contraseña),@idEstado)
 			END
 	END TRY
 
@@ -54,7 +55,7 @@ AS
 	END CATCH
 GO
 
-Alter procedure [dbo].[modificar_cliente]
+CREATE procedure [dbo].[modificar_cliente]
 	@id int,
 	@primerNombre nvarchar(150),
 	@segundoNombre nvarchar(150),
@@ -63,7 +64,8 @@ Alter procedure [dbo].[modificar_cliente]
 	@telefono char(8),
 	@correoElectronico nvarchar(120),
 	@nombreUsuario nvarchar(30),
-	@contraseña nvarchar(32)
+	@contraseña nvarchar(32),
+	@idEstado int
 
 AS
 	BEGIN TRY
@@ -85,7 +87,8 @@ AS
 					telefono = @telefono,
 					correoElectronico = @correoElectronico,
 					nombreUsuario = @nombreUsuario,
-					contraseña = ENCRYPTBYPASSPHRASE(@contraseña, @contraseña)
+					contraseña = ENCRYPTBYPASSPHRASE(@contraseña, @contraseña),
+					idEstado = @idEstado
 				where idCliente = @id
 			END
 	END TRY
@@ -110,7 +113,7 @@ AS
 	END CATCH
 GO
 
-ALTER procedure [dbo].[mostrar_cliente]
+CREATE procedure [dbo].[mostrar_cliente]
 	@id int
 
 AS
@@ -124,7 +127,7 @@ AS
 		END
 Go
 
-ALTER procedure [dbo].[eliminar_cliente]
+CREATE procedure [dbo].[eliminar_cliente]
 	@id int
 
 AS

@@ -8,7 +8,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-Alter procedure [dbo].[insertar_empleado]
+CREATE procedure [dbo].[insertar_empleado]
 	@primerNombre nvarchar(150),
 	@segundoNombre nvarchar(150),
 	@primerApellido nvarchar(150),
@@ -18,7 +18,8 @@ Alter procedure [dbo].[insertar_empleado]
 	@correoElectronico nvarchar(120),
 	@nombreUsuario nvarchar(30),
 	@contraseña nvarchar(32),
-	@idRol int
+	@idRol int,
+	@idEstado int
 
 AS
 	BEGIN TRY
@@ -29,7 +30,8 @@ AS
 			segundoApellido = @segundoApellido and
 			telefono = @telefono and
 			dni = @dni and
-			correoElectronico = @correoElectronico)
+			correoElectronico = @correoElectronico
+			)
 
 			BEGIN
 				RAISERROR ('Duplicidad en los datos. El empleado ya podria existir.', -- Message text.
@@ -48,7 +50,7 @@ AS
 					END
 				ELSE
 					BEGIN
-						INSERT INTO Empleados VALUES(@primerNombre,@segundoNombre, @primerApellido, @segundoApellido,@telefono,@dni,@correoElectronico,@nombreUsuario,ENCRYPTBYPASSPHRASE(@contraseña, @contraseña),@idRol)
+						INSERT INTO Empleados VALUES(@primerNombre,@segundoNombre, @primerApellido, @segundoApellido,@telefono,@dni,@correoElectronico,@nombreUsuario,ENCRYPTBYPASSPHRASE(@contraseña, @contraseña),@idRol,@idEstado)
 					END
 			END
 	END TRY
@@ -73,7 +75,7 @@ AS
 	END CATCH
 GO
 
-Create procedure [dbo].[modificar_empleado]
+CREATE procedure [dbo].[modificar_empleado]
 	@id int,
 	@primerNombre nvarchar(150),
 	@segundoNombre nvarchar(150),
@@ -84,7 +86,8 @@ Create procedure [dbo].[modificar_empleado]
 	@correoElectronico nvarchar(120),
 	@nombreUsuario nvarchar(30),
 	@contraseña nvarchar(32),
-	@idRol int
+	@idRol int,
+	@idEstado int
 
 AS
 	BEGIN TRY
@@ -125,7 +128,8 @@ AS
 								correoElectronico = @correoElectronico,
 								nombreUsuario = @nombreUsuario,
 								contraseña = @contraseña,
-								idRol = @idRol
+								idRol = @idRol,
+								idEstado = @idEstado
 							where idEmpleado = @id
 						END
 				END
@@ -152,7 +156,7 @@ AS
 	END CATCH
 GO
 
-Create procedure [dbo].[mostrar_empleado]
+CREATE procedure [dbo].[mostrar_empleado]
 	@id int
 
 AS
@@ -166,7 +170,7 @@ AS
 		END
 Go
 
-Create procedure [dbo].[eliminar_empleado]
+CREATE procedure [dbo].[eliminar_empleado]
 	@id int
 
 AS

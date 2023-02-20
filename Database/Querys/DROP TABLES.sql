@@ -17,6 +17,7 @@ drop table Empleados
 drop table Clientes
 drop table TiposProducto
 drop table EstadosFactura
+drop table EstadosPerfil
 drop table Categorias
 drop table Marcas
 drop table Roles
