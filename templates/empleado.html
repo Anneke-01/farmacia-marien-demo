@@ -26,8 +26,7 @@
     <!-- Modal Agregar -->
     <div class="modal fade  " id="AddEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                
+            <div class="modal-content">             
                 <div class="col-12 ">
                     <div class="card">
                         <form action="/empleados" method="POST" class="form-sample">
@@ -214,6 +213,9 @@
                                                         Rol
                                                     </th>
                                                     <th>
+                                                        Estado
+                                                    </th>
+                                                    <th>
                                                         Acciones
                                                     </th>
                                                 </tr>
@@ -239,7 +241,12 @@
                                                         <td>{{ empleado.dni }}</td>
                                                         <td>{{ empleado.correoElectronico }}</td>  
                                                         <td>{{ empleado.nombreUsuario }}</td>
-                                                        <td>{{ empleado.rol }}</td>                                                  
+                                                        <td>{{ empleado.rol }}</td>
+                                                        {% if empleado.idEstado == 1 %}
+                                                        <td style="color:white; font-weight: 400;background-color: green;">Habilitado</td>
+                                                        {% else %}
+                                                        <td style="color:red;">Deshabilitado</td>
+                                                        {% endif %}                                               
                                                         <td>
                                                             <div class="btn-wrapper">
                                                                 <a href="#" class="btn btn-warning text-white me-0"
@@ -330,7 +337,7 @@
                                                                                                         <label class="col-sm-3 col-form-label">Rol</label>
                                                                                                         <div class="col-sm-9">
                                                                                                             <select name="idrol" class="form-control">
-                                                                                                                <option selected>{{ empleado.rol }}</option>
+                                                                                                                <option selected value="{{empleado.idRol}}">{{ empleado.rol }}</option>
                                                                                                                 {% for r in roles %}
                                                                                                                     {% if r.rol != empleado.rol %}
                                                                                                                         <option  value="{{r.idRol}}">{{r.rol}}</option>
@@ -340,7 +347,23 @@
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
+                                                                                                <div class="col-md-6">
+                                                                                                    <div class="form-group row">
+                                                                                                        <label class="col-sm-3 col-form-label">Estado</label>
+                                                                                                        <div class="col-sm-9">
+                                                                                                            <select name="idEstado" class="form-control">
+                                                                                                                
+                                                                                                                {% for es in estados %}
+                                                                                                                    
+                                                                                                                        <option  value="{{es.idEstado}}">{{es.estado}}</option>
+                                                                                                                    
+                                                                                                                {% endfor %}
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
                                                                                             </div>
+                                                                                            
                                                                                             <div class="modal-footer">
                                                                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                                                                                 <button type="submit" class="btn btn-primary">Aceptar</button>

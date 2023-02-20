@@ -38,12 +38,12 @@
                 </a>
             </div>
             <div class="col-lg-4 text-left">
-                <form action="/shop"> <!--Borrar cuando sea necesario-->
+                <form action="/buscarNombre" method="POST"> <!--Borrar cuando sea necesario-->
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar productos">
+                        <input type="text" class="form-control" placeholder="Buscar productos por nombre" name="buscarnombre">
                         <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
+                            <span class="input-group-text bg-transparent text-primary">                    
+                                <button style="border: none;" type="submit"><i  class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>

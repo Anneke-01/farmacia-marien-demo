@@ -125,6 +125,20 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- 
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Categoria</label>                                           
+                                            <div class="col-sm-9">
+                                                <select name="idCategoria" class="form-control">                                                 
+                                                    {% for c in listarCategoria %}            
+                                                        <option  value="{{c.idCategoria}}">{{c.idCategoria}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>                              
+                                        </div>
+                                    </div>
+                                    -->
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -138,111 +152,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal Editar -->
-    <div class="modal fade  " id="EditProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="col-12 ">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Actualizar Datos del producto</h4>
-                            <form class="form-sample">
-                                <p class="card-description">
-                                    Información del producto
-                                </p>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Marca</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Tipo</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Nombre</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Expedición</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Vencimiento</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Prescripción</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Descripción</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Precio</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Cantidad</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Imagen URL</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary">Actualizar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- Main Panel -->
     <div class="content-wrapper">
             <div class="row">
@@ -347,10 +257,145 @@
                                                         <td>
                                                             <div class="btn-wrapper">
                                                                 <a href="#" class="btn btn-warning text-white me-0"
-                                                                    data-bs-toggle="modal" data-bs-target="#EditProduct"><i
+                                                                    data-bs-toggle="modal" data-bs-target="#EditProduct{{p.idProducto}}"><i
                                                                         class="EditE "></i>Editar</a>
-                                                                <a href="#" class="btn btn-danger text-white me-0"
-                                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                                                    <!-- Modal Editar -->
+                                                                    <div class="modal fade  " id="EditProduct{{p.idProducto}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-lg">
+                                                                            <div class="modal-content">
+                                                                                <div class="col-12 ">
+                                                                                    <div class="card">
+                                                                                        <div class="card-body">
+                                                                                            <h4 class="card-title">Actualizar Datos del producto</h4>
+                                                                                            <form action="/editarProducto/{{p.idProducto}}" method="POST" class="form-sample">
+                                                                                                <p class="card-description">
+                                                                                                    Información del producto
+                                                                                                </p>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Marca</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <select name="idMarca" class="form-control">  
+                                                                                                                    <option selected value="{{p.idMarca}}">{{p.marca}}</option>                                               
+                                                                                                                    {% for m in listarMarcas %}
+                                                                                                                        {% if m.idMarca != p.idMarca%}
+                                                                                                                            <option  value="{{m.idMarca}}">{{m.marca}}</option>
+                                                                                                                        {% endif %}                                                          
+                                                                                                                    {% endfor %}
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Tipo</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <select name="idTipoProducto" class="form-control">  
+                                                                                                                    <option selected value="{{p.idTipoProducto}}">{{p.tipoProducto}}</option>                                               
+                                                                                                                    {% for t in listarTiposProducto %}
+                                                                                                                        {% if t.idTipoProducto != p.idTipoProducto %}
+                                                                                                                            <option  value="{{t.idTipoProducto}}">{{t.tipoProducto}}</option>
+                                                                                                                        {% endif %}                                                          
+                                                                                                                    {% endfor %}
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Nombre</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <input type="text" class="form-control" value="{{p.nombreProducto}}" name="nombrep" />
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Expedición</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <input type="text" class="form-control" name="expedicion" value="{{p.fechaExpedicion}}"/>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Vencimiento</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <input type="text" class="form-control" name="vencimiento" value="{{p.fechaVencimiento}}"/>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Prescripción</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <input type="text" class="form-control" name="prescripcion" value="{{p.prescripcion}}"/>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Descripción</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <input type="text" class="form-control" name="descripcion" value="{{p.descripcion}}" />
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <!-- 
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Categoria</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <select name="idCategoria" class="form-control">  
+                                                                                                                    <option selected value="{{p.idCategoria}}">{{p.categoria}}</option>                                               
+                                                                                                                    {% for c in listarCategoria %}
+                                                                                                                        {% if c.categoria != p.idCategoria %}
+                                                                                                                            <option  value="{{c.idCategoria}}">{{c.categoria}}</option>
+                                                                                                                        {% endif %}                                                          
+                                                                                                                    {% endfor %}
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    -->
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Precio</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <input type="text" class="form-control" name="precio" value="{{p.precio}}"/>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Cantidad</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <input type="text" class="form-control" name="cantidad" value="{{p.cantidad}}"/>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group row">
+                                                                                                            <label class="col-sm-3 col-form-label">Imagen URL</label>
+                                                                                                            <div class="col-sm-9">
+                                                                                                                <input type="text" class="form-control" name="imagen" value="{{p.urlImg}}"/>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                                                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>                                                                     
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                <a href="/eliminarProducto/{{p.idProducto}}" class="btn btn-danger text-white me-0"><i
                                                                         class="DelE "></i>Eliminar</a>
                                                             </div>
                                                         </td>

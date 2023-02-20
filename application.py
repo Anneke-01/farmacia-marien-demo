@@ -3,6 +3,7 @@ import pyodbc as db
 from flask import Flask, session, render_template, request, redirect, flash
 from flask_session import Session
 from decorator import login_required
+import time
 
 
 app = Flask(__name__)
@@ -15,10 +16,28 @@ Session(app)
 
 @app.route("/")
 def index():
+    session["counter"] = 0
 
     return render_template("index.html")
 
 # Para propósitos de Presentación | Borrar cuando sea necesario
+
+
+@app.route("/buscarNombre", methods=["GET", "POST"])
+def buscarNombre():
+    if request.method == "POST":
+        nombre = request.form.get("buscarnombre")
+        try:
+            cursor = conn.cursor()
+            cursor.execute(
+                "execute [dbo].[buscar_producto_por_nombre] ?", nombre)
+            Productos = cursor.fetchall()
+            print(Productos)
+        except Exception as e:
+            print("Error: %s", e)
+        return render_template("shop.html")
+    else:
+        return render_template("shop.html")
 
 
 @app.route("/shop")
@@ -93,29 +112,37 @@ def perfilCliente():
 @app.route("/editarPerfilCliente/<idCliente>", methods=["GET", "POST"])
 def editarPerfilCliente(idCliente):
     if request.method == "POST":
-        print(idCliente)
+        # print(idCliente)
         pNombre = request.form.get("pnombre")
         sNombre = request.form.get("snombre")
         pApellido = request.form.get("papellido")
         sApellido = request.form.get("sapellido")
         nTelefono = request.form.get("telefono")
+        correo = request.form.get("correo")
         nUsuario = request.form.get("username")
         if not pNombre or not sNombre or not pApellido or not sApellido or not nTelefono or not nUsuario:
             flash("Debes llenar todos los campos", category="warning")
         else:
             try:
                 cursor1 = conn.cursor()
-                sp = " execute [dbo].[modificar_cliente] ?,?,?,?,?,?,?"
+                sp = " execute [dbo].[modificar_cliente1] ?,?,?,?,?,?,?,?"
+
                 params = (idCliente, pNombre, sNombre, pApellido,
-                          sApellido, nTelefono, nUsuario)
+                          sApellido, nTelefono, correo, nUsuario)
+                print("Perfi cliente")
+                print(params)
                 cursor1.execute(sp, params)
                 cursor1.commit()
                 flash("El usuario se edito correctamente!", category="success")
             except Exception as e:
+                if e:
+                    flash(
+                        "El nombre de usuario ya existe, por favor escoge otro.", category="error")
+                    return redirect(request.url)
                 print("Error: %s ", e)
             return redirect("/perfilCliente")
     else:
-        print(idCliente)
+        # sprint(idCliente)
         try:
             cursor = conn.cursor()
             storeProc = " execute [dbo].[mostrar_cliente] ?"
@@ -127,11 +154,28 @@ def editarPerfilCliente(idCliente):
             print("Error: %s", e)
 
 
+@app.route("/eliminarPerfilCliente/<idCliente>", methods=["GET", "POST"])
+def eliminarPerfilCliente(idCliente):
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            "execute [dbo].[cambiar_estado_perfil] ?, ?", 3, idCliente)
+        cursor.commit()
+        session.clear()
+        flash("Cuenta eliminada con éxito.", category="success")
+    except Exception as e:
+        if e:
+            flash("No es posible eliminar la cuenta.", category="error")
+            return redirect("/perfilCliente")
+        print("Error: %s", e)
+    return redirect("/")
 # Este agrega empleados
+
+
 @app.route("/empleados", methods=["GET", "POST"])
 def empleados():
     if request.method == "POST":
-        print("ENTRA")
+        # print("ENTRA")
         pnombre = request.form.get("pnombre")
         snombre = request.form.get("snombre")
         papellido = request.form.get("papellido")
@@ -165,9 +209,11 @@ def empleados():
             spEmpleados = "execute [dbo].[MostrarTodosEmpleados]"
             cursor.execute(spEmpleados)
             DatosEmpleados = cursor.fetchall()
+            estados = cursor.execute(
+                "SELECT TOP 2 * FROM EstadosPerfil").fetchall()
         except Exception as e:
             print("Error: %s", e)
-        return render_template("empleado.html", roles=roles, DatosEmpleados=DatosEmpleados)
+    return render_template("empleado.html", roles=roles, DatosEmpleados=DatosEmpleados, estados=estados)
 
 
 @app.route("/editarEmpleado/<idEmpleado>", methods=["GET", "POST"])
@@ -182,7 +228,8 @@ def EditarEmpleado(idEmpleado):
         correo = request.form.get("correo")
         username = request.form.get("username")
         rol = request.form.get("idrol")
-        print("El rol es:" + rol)
+
+        print("El rol es:", int(rol))
         if not pnombre or not snombre or not papellido or not sapellido or not telefono or not dni or not correo or not username or not rol:
             flash("Debes llenar todos los campos", category="warning")
             return redirect(request.url)
@@ -192,22 +239,16 @@ def EditarEmpleado(idEmpleado):
                 sp = " execute [dbo].[modificar_empleado] ?,?,?,?,?,?,?,?,?,?"
                 params = (idEmpleado, pnombre, snombre, papellido,
                           sapellido, telefono, dni, correo, username, rol)
+                print("PARAMETROS", params)
                 cursor1.execute(sp, params)
                 cursor1.commit()
-                flash("El empleado se edito correctamente!", category="success")
+                flash("El empleado se editó correctamente!", category="success")
             except Exception as e:
                 print("Error: %s ", e)
-            return redirect("/perfilCliente")
+            return redirect("/empleados")
 
     else:
-        try:
-            cursor = conn.cursor()
-            storeProc = "execute [dbo].[Read_roles]"
-            cursor.execute(storeProc)
-            roles = cursor.fetchall()
-        except Exception as e:
-            print("Error: %s", e)
-    return render_template("empleado.html", roles=roles)
+        return render_template("empleado.html")
 
 
 @app.route("/eliminarEmpleado/<idEmpleado>", methods=["GET", "POST"])
@@ -215,7 +256,8 @@ def eliminarEmpleado(idEmpleado):
     print("Entra en eliminar")
     try:
         cursor = conn.cursor()
-        cursor.execute("execute [dbo].[eliminar_empleado] ?", idEmpleado)
+        cursor.execute(
+            "execute [dbo].[cambiar_estado_perfil] ?, ?", 3, idEmpleado)
         cursor.commit()
         flash("Se eliminó correctamente", category="success")
     except Exception as e:
@@ -238,28 +280,7 @@ def productos():
         precio = request.form.get("precio")
         cantidad = request.form.get("cantidad")
         imagen = request.form.get("imagen")
-        if not nombre:
-            flash("Debes llenar todos los campos", category="warning")
-            return redirect(request.url)
-        elif not expedicion:
-            flash("Debes llenar todos los campos", category="warning")
-            return redirect(request.url)
-        elif not vencimiento:
-            flash("Debes llenar todos los campos", category="warning")
-            return redirect(request.url)
-        elif not prescripcion:
-            flash("Debes llenar todos los campos", category="warning")
-            return redirect(request.url)
-        elif not descripcion:
-            flash("Debes llenar todos los campos", category="warning")
-            return redirect(request.url)
-        elif not precio:
-            flash("Debes llenar todos los campos", category="warning")
-            return redirect(request.url)
-        elif not cantidad:
-            flash("Debes llenar todos los campos", category="warning")
-            return redirect(request.url)
-        elif not imagen:
+        if not nombre or not expedicion or not vencimiento or not prescripcion or not descripcion or not precio or not cantidad or not imagen:
             flash("Debes llenar todos los campos", category="warning")
             return redirect(request.url)
         try:
@@ -282,14 +303,14 @@ def productos():
             DatosProductos = cursor.fetchall()
             listarTiposProducto = cursor.execute(
                 "select * from TiposProducto").fetchall()
-            listarCategoria = cursor.execute(
-                "select * from Categorias").fetchall()
+            # listarCategoria = cursor.execute(
+            #    "select * from Categorias").fetchall()
             listarMarcas = cursor.execute(
                 "select * from Marcas").fetchall()
         except Exception as e:
             print("Error: %s", e)
             flash("asdad", category="error")
-        return render_template("productos.html", DatosProductos=DatosProductos, listarTiposProducto=listarTiposProducto, listarCategoria=listarCategoria, listarMarcas=listarMarcas)
+        return render_template("productos.html", DatosProductos=DatosProductos, listarTiposProducto=listarTiposProducto, listarMarcas=listarMarcas)
 
 
 @app.route("/editarProducto/<idProducto>", methods=["GET", "POST"])
@@ -309,8 +330,8 @@ def editarProductos(idProducto):
 
         try:
             cursor = conn.cursor()
-            storeProcAgregar = "execute "
-            params = (marca, tipoProducto, nombre, expedicion, vencimiento,
+            storeProcAgregar = "execute [dbo].[modificar_producto] ?,?,?,?,?,?,?,?,?,?,?"
+            params = (idProducto, marca, tipoProducto, nombre, expedicion, vencimiento,
                       prescripcion, descripcion, precio, cantidad, imagen)
             print(params)
             cursor.execute(storeProcAgregar, params)
@@ -320,24 +341,11 @@ def editarProductos(idProducto):
             print("Error: %s", e)
         return redirect(request.url)
     else:
-        try:
-            cursor = conn.cursor()
-            storeProc = "execute [dbo].[MostrarTodosProductos]"
-            cursor.execute(storeProc)
-            DatosProductos = cursor.fetchall()
-            listarTiposProducto = cursor.execute(
-                "select * from TiposProducto").fetchall()
-            listarCategoria = cursor.execute(
-                "select * from Categorias").fetchall()
-            listarMarcas = cursor.execute(
-                "select * from Marcas").fetchall()
-        except Exception as e:
-            print("Error: %s", e)
-            flash("asdad", category="error")
-        return render_template("productos.html", DatosProductos=DatosProductos, listarTiposProducto=listarTiposProducto, listarCategoria=listarCategoria, listarMarcas=listarMarcas)
+        return redirect("/productos")
+
 
 @app.route("/eliminarProducto/<idProducto>", methods=["GET", "POST"])
-def editarProductos(idProducto):
+def eliminarProducto(idProducto):
     try:
         cursor = conn.cursor()
         cursor.execute("execute [dbo].[eliminar_producto] ?", idProducto)
@@ -346,7 +354,7 @@ def editarProductos(idProducto):
     except Exception as e:
         print("Error: %s", e)
     return redirect("/productos")
-    
+
 
 @login_required
 @app.route("/proveedores", methods=["GET", "POST"])
@@ -422,7 +430,6 @@ def editarProveedor(idProveedor):
             print("Error: %s", e)
         return redirect("/proveedores")
     else:
-
         return render_template("proveedores.html")
 
 
@@ -468,28 +475,7 @@ def register():
 
         # Validaciones
         # Aquí se valida si el usuario NO está ingresando datos nulos, de ser así se manda un mensaje de error con la función flash.
-        if not pnombre:
-            flash("Debes llenar todos los campos ", category="warning")
-            return render_template("register.html")
-        elif not snombre:
-            flash("Debes llenar todos los campos ", category="warning")
-            return render_template("register.html")
-        elif not papellido:
-            flash("Debes llenar todos los campos ", category="warning")
-            return render_template("register.html")
-        elif not sapellido:
-            flash("Debes llenar todos los campos ", category="warning")
-            return render_template("register.html")
-        elif not telefono:
-            flash("Debes llenar todos los campos ", category="warning")
-            return render_template("register.html")
-        elif not correo:
-            flash("Debes llenar todos los campos ", category="warning")
-            return render_template("register.html")
-        elif not username:
-            flash("Debes llenar todos los campos ", category="warning")
-            return render_template("register.html")
-        elif not contrasena:
+        if not pnombre or not snombre or not papellido or not sapellido or not telefono or not correo or not username or not contrasena or not confirmarcontra:
             flash("Debes llenar todos los campos ", category="warning")
             return render_template("register.html")
         elif not contrasena == confirmarcontra:
@@ -542,8 +528,9 @@ def register():
 # El método HTTP GET obtiene datos del servidor.
 
 
-@ app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
+
     # Validamos si  el usuario está enviando información
     if request.method == "POST":
         # Creamos variables para obtener los datos de cada input de login.html con request.form.get
@@ -563,8 +550,8 @@ def login():
             params = (username, password)
             cursor.execute(storeProc, params)
             row = cursor.fetchone()  # Debido a que el SP nos retorna datos, entonces los obtenemos con la función fetchone y lo almacenamos en la variable "row"
-            print(row)  # Esto es a modo de prueba
-            print(len(row))  # Esto es a modo de prueba
+            # print(row)  # Esto es a modo de prueba
+            # print(len(row))  # Esto es a modo de prueba
             # EL SP devuelve "acceso exitoso" si es un cliente, pero si es un empleado retorna el mismo mensaje con otra columna diciendo su rol.
             # Por esa razón, validamos dependiendo de la longitud qué tipo de usuario sería.
             if (len(row)) == 2:  # Si la longitud de lo que me devuelve el SP es 1
@@ -578,13 +565,15 @@ def login():
                         # Si se cumple, entonces guardamos la sesión del usuario que se registró
                         session["username"] = username
                         session["IDCliente"] = IDCliente
-                        return redirect("/")  # Se manda a la página de inicio
+                        # Se manda a la página de inicio
+                        return redirect("/")
                     else:
                         flash("Usuario o contraseña incorrectos",  # Si los datos son incorrectos, entonces mandamos un mensaje de error
                               category="error")
                         # Se vuelve a mostrar el formulario de inicio de sesión
                         return render_template("login.html")
-            elif (len(row)) == 3:  # Si la longitud de lo que nos devuelve el SP es 2, es decir que también nos indicará el rol
+                # Si la longitud de lo que nos devuelve el SP es 2, es decir que también nos indicará el rol
+            elif (len(row)) == 3:
                 while row:  # Se sigue la misma lógica que arriba
                     resultado = str(row[0])
                     IDEmpleado = str(row[1])
@@ -603,10 +592,22 @@ def login():
                         session["rol"] = rol
                         return redirect("/admin")
             else:
-                # Si ninguno de los datos que ingresa el usuario está en la BD, entonces mandamos un mensaje de error con la función flash.
-                flash("Usuario o contraseña incorrectos", category="error")
-                # retornamos el mismo formulario de inicio de sesión.
-                return render_template("login.html")
+                if not "counter" in session:
+                    session["counter"] = 0
+                session["counter"] += 1
+                validate = session["counter"]
+                if validate < 3:
+                    # Si ninguno de los datos que ingresa el usuario está en la BD, entonces mandamos un mensaje de error con la función flash.
+                    flash("Usuario o contraseña incorrectos",
+                          category="error")
+                    # retornamos el mismo formulario de inicio de sesión.
+                    return redirect("/login")
+                else:
+                    session["counter"] = 0
+                    time.sleep(10)
+                    flash(
+                        "Usuario bloqueado temporalmente, por favor inténtelo más tarde", category="warning")
+                    return redirect("/")
         except db.DatabaseError as e:
             print("Error: %s", e)
         return redirect("/")
