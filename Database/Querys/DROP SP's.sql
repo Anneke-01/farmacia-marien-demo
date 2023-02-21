@@ -67,3 +67,7 @@ DROP PROCEDURE Read_roles
 
 --SP cambiar estado de los perfiles
 DROP PROCEDURE cambiar_estado_orden
+
+--SP insertar ventas
+DROP PROCEDURE insertar_orden
+DROP PROCEDURE insertar_detalles_orden
