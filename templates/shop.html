@@ -28,7 +28,7 @@
             <!-- Shop Sidebar Start -->
 
 
-
+            <!-- Aquí Wiston -->
             <!-- Shop Product Start -->
             <div class="col-lg-12 col-md-12">
                 <div class="row pb-3">
@@ -101,6 +101,41 @@
                         
                     </div>
                     {% endfor %}
+                    {% if TipoProductos%}
+                        {% for producto in TipoProductos %}
+                        <div class="col-lg-3 col-md-4 col-sm-12 pb-1 rounded-circle" >
+                            <!-- Aquí va el producto-->
+                            
+                                <div class="card product-item border-0 mb-4">
+                                    <div
+                                        class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                        <img class="img-cb w-100" src="{{producto.urlImg}}" alt="">
+                                    </div>
+                                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3 pl-3 pr-3">
+                                        <h4 class="text-truncate text-left mb-3">{{producto.nombreProducto}}</h4>
+                                        <div class="d-flex justify-content-center">
+                                            <h6>C$ {{producto.precio}}</h6>
+                                            
+                                            <!--<h6 class="text-muted ml-2"><del>C$180.00</del></h6> -->
+                                        </div>
+                                        <div class="text-justify text-truncate d-flex ">
+                                            
+                                            <h6>{{producto.prescripcion}}</h6>
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between bg-light border">
+                                    <!--Borrar href cuando sea necesario--> <a href="/detail/{{producto.idProducto}}"  class="btn btn-sm text-dark p-0"><i
+                                                class="fas fa-eye text-primary mr-1"></i>Ver</a>
+                                        <a href="" class="btn btn-sm text-dark p-0"><i
+                                                class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
+                                    </div>
+                                </div>
+                            <!--Aquí termina-->
+                            
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                     <div class="col-12 pb-1">
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center mb-3">

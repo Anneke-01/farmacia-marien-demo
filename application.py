@@ -17,10 +17,29 @@ Session(app)
 @app.route("/")
 def index():
     session["counter"] = 0
-
-    return render_template("index.html")
+    try:
+        cursor = conn.cursor()
+        listarCategoria = cursor.execute("select * from Categorias").fetchall()
+        listarTiposProducto = cursor.execute(
+            "select * from TiposProducto").fetchall()
+    except Exception as e:
+        print("Error: %s", e)
+    return render_template("index.html", listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
 
 # Para propósitos de Presentación | Borrar cuando sea necesario
+
+
+@app.route("/buscarTipoProducto/<tipoProducto>")
+def buscarTipoProducto(tipoProducto):
+    try:
+        cursor = conn.cursor()
+        TipoProductos = cursor.execute(
+            "execute [dbo].[buscar_producto_por_tipo_producto] ?", tipoProducto).fetchall()
+        print("TipoProductoooo", tipoProducto)
+        print("Busqueda", TipoProductos)
+    except Exception as e:
+        print("Error: %s", e)
+    return render_template("shop.html", TipoProductos=TipoProductos)
 
 
 @app.route("/buscarNombre", methods=["GET", "POST"])
@@ -47,9 +66,12 @@ def shop():
         storeProc = "execute [dbo].[MostrarTodosProductos]"
         cursor.execute(storeProc)
         DatosProductos = cursor.fetchall()
+        listarCategoria = cursor.execute("select * from Categorias").fetchall()
+        listarTiposProducto = cursor.execute(
+            "select * from TiposProducto").fetchall()
     except Exception as e:
         print("Error: %s", e)
-    return render_template("shop.html", DatosProductos=DatosProductos)
+    return render_template("shop.html", DatosProductos=DatosProductos, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
 
 
 @app.route("/detail/<idProducto>", methods=["GET", "POST"])
