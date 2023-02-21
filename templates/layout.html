@@ -38,12 +38,13 @@
                 </a>
             </div>
             <div class="col-lg-4 text-left">
-                <form action="/shop"> <!--Borrar cuando sea necesario-->
+                <form action="/buscarNombre" method="POST"> <!--Borrar cuando sea necesario-->
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar productos">
+                        <input type="text" class="form-control" placeholder="Buscar productos por nombre" name="buscarnombre">
                         <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
+                            <span class="input-group-text bg-transparent text-primary">                    
+                                <button class="bg-transparent" style="border: none; color:aqua;" type="submit"><i  class="fa fa-search"></i></button>
+                                <!--<button class="bg-transparent" style="border: none;" type="submit"><i class="fa fa-search"></i></button> -->
                             </span>
                         </div>
                     </div>
@@ -109,25 +110,29 @@
                     <i class="fa fa-angle-down text-dark"></i>
                 </a>
                 {% block nav %}{% endblock%}
-                
+                    
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-toggle="dropdown">Medicamentos<i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Cutáneos</a>
-                                <a href="" class="dropdown-item">Jarabes</a>
-                                <a href="" class="dropdown-item">Inyeccciones</a>
-                                <a href="" class="dropdown-item">Pastillas</a>
+                        {% for c in listarCategoria %}                        
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link" data-toggle="dropdown">{{c.categoria}}<i class="fa fa-angle-down float-right mt-1"></i></a>
+                                <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
+                                    {% for p in listarTiposProducto %}
+                                        {% if p.idCategoria == c.idCategoria %}
+                                            <a href="/buscarTipoProducto/{{p.tipoProducto}}" class="dropdown-item">{{p.tipoProducto}}</a>
+                                            <!-- 
+                                            <a href="" class="dropdown-item">Jarabes</a>
+                                            <a href="" class="dropdown-item">Inyeccciones</a>
+                                            <a href="" class="dropdown-item">Pastillas</a>
+                                            -->
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                        <a href="" class="nav-item nav-link">Cosmética</a>
+                        {% endfor %}
+                        <!-- 
+                        <a href="/buscarCategoria/cosmetica" class="nav-item nav-link">Cosmética</a>
                         <a href="" class="nav-item nav-link">Higiene</a>
-                        <a href="" class="nav-item nav-link">Bebés y Mamás</a>
-                        <a href="" class="nav-item nav-link">Salud</a>
-                        <a href="" class="nav-item nav-link">Imhungry</a>
-                        <a href="" class="nav-item nav-link">Preservativos</a>
-                        <a href="" class="nav-item nav-link">Deportiva</a>
-                        <a href="" class="nav-item nav-link">Servicios</a>
+                        -->
                     </div>
                 </nav>
             </div>
