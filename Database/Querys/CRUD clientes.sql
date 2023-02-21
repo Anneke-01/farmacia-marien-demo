@@ -63,34 +63,25 @@ CREATE procedure [dbo].[modificar_cliente]
 	@segundoApellido nvarchar(150),
 	@telefono char(8),
 	@correoElectronico nvarchar(120),
-	@nombreUsuario nvarchar(30),
-	@contraseña nvarchar(32),
-	@idEstado int
+	@nombreUsuario nvarchar(30)
+	--@contraseña nvarchar(32),
+	--@idEstado int
 
 AS
 	BEGIN TRY
-
-		IF EXISTS (SELECT * FROM Clientes WHERE nombreUsuario = @nombreUsuario)			
-			BEGIN
-				RAISERROR ('Duplicidad en los datos. El usuario ya podria existir.', -- Message text.
-							12, -- Severity.
-							1 -- State.
-							)
-			END
-		ELSE
-			BEGIN
-				Update Clientes set 
-					primerNombre = @primerNombre,
-					segundoNombre = @segundoNombre,
-					primerApellido = @primerApellido,
-					segundoApellido = @segundoApellido,
-					telefono = @telefono,
-					correoElectronico = @correoElectronico,
-					nombreUsuario = @nombreUsuario,
-					contraseña = ENCRYPTBYPASSPHRASE(@contraseña, @contraseña),
-					idEstado = @idEstado
-				where idCliente = @id
-			END
+			
+		Update Clientes set 
+			primerNombre = @primerNombre,
+			segundoNombre = @segundoNombre,
+			primerApellido = @primerApellido,
+			segundoApellido = @segundoApellido,
+			telefono = @telefono,
+			correoElectronico = @correoElectronico,
+			nombreUsuario = @nombreUsuario
+			--contraseña = ENCRYPTBYPASSPHRASE(@contraseña, @contraseña),
+			--idEstado = @idEstado
+		where idCliente = @id
+			
 	END TRY
 					
 	BEGIN CATCH

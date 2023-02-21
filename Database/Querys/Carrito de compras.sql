@@ -22,7 +22,9 @@ CREATE PROCEDURE carrito_de_compra_por_cliente
 AS
 
 	SELECT
-		c.idProducto [ID del producto],
+		c.idPedido as [ID del pedido],
+		c.idProducto as [ID del producto],
+		c.idCliente as [ID del cliente],
 		p.nombreProducto as Producto,
 		'Marca: ' + m.marca + ' Tipo de producto: ' +  tp.tipoProducto + ' Categoria del producto: ' + cat.categoria  as [Detalle del producto],
 		'Fecha de expedicion: '+ CONVERT(nvarchar(max),p.fechaExpedicion) + ' Fecha de Vencimiento: ' + CONVERT(nvarchar(max),p.fechaVencimiento) as [Fecha de consumo], 
@@ -51,7 +53,23 @@ AS
 
 GO
 
+CREATE PROCEDURE insertar_producto_del_carrito
+@idCliente int, @idProducto int, @idEstado int, @fechaPedido date, @cantidad int,@descuento float,@subtotal float, @iva float, @total float
+
+AS
+	INSERT INTO carrito VALUES(@idCliente, @idProducto,@idEstado,@fechaPedido,@cantidad,@descuento,@subtotal, @iva, @total)
+GO
+
+CREATE PROCEDURE eliminar_producto_del_carrito
+@idPedido int
+
+AS
+	DELETE FROM carrito WHERE idPedido = @idPedido
+GO
+
 select * from carrito
 execute carrito_de_compra_por_cliente 1
 drop procedure carrito_de_compra_por_cliente
+drop procedure insertar_producto_del_carrito
+drop procedure eliminar_producto_del_carrito
 drop table carrito
