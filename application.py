@@ -69,9 +69,10 @@ def shop():
         listarCategoria = cursor.execute("select * from Categorias").fetchall()
         listarTiposProducto = cursor.execute(
             "select * from TiposProducto").fetchall()
+        listarMarcas = cursor.execute("select * from marcas").fetchall()
     except Exception as e:
         print("Error: %s", e)
-    return render_template("shop.html", DatosProductos=DatosProductos, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
+    return render_template("shop.html", DatosProductos=DatosProductos, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto,listarMarcas = listarMarcas)
 
 
 @app.route("/detail/<idProducto>", methods=["GET", "POST"])
@@ -113,6 +114,7 @@ def clientes():
     except Exception as e:
         print("Error: %s", e)
     return render_template("clientes.html", DatosClientes=DatosClientes)
+
 
 
 @app.route("/perfilCliente", methods=["GET", "POST"])
