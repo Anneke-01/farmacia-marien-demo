@@ -58,4 +58,12 @@ DROP PROCEDURE dbo.cantidad_ventas_por_mes
 --SP cantidad de ventas por mes
 DROP PROCEDURE dbo.cantidad_venta_diarias_empleado
 
+--SP cambiar contraseñas de los perfiles
+DROP PROCEDURE cambiar_contraseña_perfil_cliente
+DROP PROCEDURE cambiar_contraseña_perfil_empleado
 
+--SP mostrar los roles de los empleados
+DROP PROCEDURE Read_roles
+
+--SP cambiar estado de los perfiles
+DROP PROCEDURE cambiar_estado_orden

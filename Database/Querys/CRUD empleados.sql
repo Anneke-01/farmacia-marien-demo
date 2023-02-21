@@ -85,20 +85,20 @@ CREATE procedure [dbo].[modificar_empleado]
 	@dni char(14),
 	@correoElectronico nvarchar(120),
 	@nombreUsuario nvarchar(30),
-	@contraseña nvarchar(32),
-	@idRol int,
-	@idEstado int
+	--@contraseña nvarchar(32),
+	@idRol int
+	--@idEstado int
 
 AS
 	BEGIN TRY
-			IF EXISTS (SELECT * FROM Empleados WHERE 
+			IF (SELECT COUNT(*) FROM Empleados WHERE 
 			primerNombre = @primerNombre and
 			segundoNombre = @segundoNombre and
 			primerApellido = @primerApellido and
 			segundoApellido = @segundoApellido and
 			telefono = @telefono and
 			dni = @dni and
-			correoElectronico = @correoElectronico)
+			correoElectronico = @correoElectronico) >= 2
 
 			BEGIN
 				RAISERROR ('Duplicidad en los datos. El empleado ya podria existir.', -- Message text.
@@ -109,31 +109,20 @@ AS
 
 			ELSE
 				BEGIN
-					IF EXISTS (SELECT * FROM Empleados WHERE nombreUsuario = @nombreUsuario)			
-						BEGIN
-							RAISERROR ('Duplicidad en los datos. El usuario ya podria existir.', -- Message text.
-										12, -- Severity.
-										1 -- State.
-										)
-						END
-					ELSE
-						BEGIN
-							Update Empleados set 
-								primerNombre = @primerNombre,
-								segundoNombre = @segundoNombre,
-								primerApellido = @primerApellido,
-								segundoApellido = @segundoApellido,
-								telefono = @telefono,
-								dni = @dni,
-								correoElectronico = @correoElectronico,
-								nombreUsuario = @nombreUsuario,
-								contraseña = @contraseña,
-								idRol = @idRol,
-								idEstado = @idEstado
-							where idEmpleado = @id
-						END
+					Update Empleados set 
+						primerNombre = @primerNombre,
+						segundoNombre = @segundoNombre,
+						primerApellido = @primerApellido,
+						segundoApellido = @segundoApellido,
+						telefono = @telefono,
+						dni = @dni,
+						correoElectronico = @correoElectronico,
+						nombreUsuario = @nombreUsuario,
+						--contraseña = @contraseña,
+						idRol = @idRol
+						--idEstado = @idEstado
+					where idEmpleado = @id
 				END
-
 	END TRY
 
 	BEGIN CATCH

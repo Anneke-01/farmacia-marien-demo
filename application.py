@@ -337,7 +337,7 @@ def editarProductos(idProducto):
         return render_template("productos.html", DatosProductos=DatosProductos, listarTiposProducto=listarTiposProducto, listarCategoria=listarCategoria, listarMarcas=listarMarcas)
 
 @app.route("/eliminarProducto/<idProducto>", methods=["GET", "POST"])
-def editarProductos(idProducto):
+def eliminarProductos(idProducto):
     try:
         cursor = conn.cursor()
         cursor.execute("execute [dbo].[eliminar_producto] ?", idProducto)
