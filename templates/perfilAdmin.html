@@ -1,0 +1,272 @@
+{% extends "AdminLayout.html" %}
+
+{% block body %}
+
+<div class="content-wrapper">
+<div class="col-lg-12 grid-margin">
+<section style="background-color: rgb(244, 245, 247);">
+    <br>
+    {% for empleado in DatosEmpleados %}
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="https://res.cloudinary.com/hamlet001/image/upload/v1676010983/283507420_1879861089065465_8338481284604420069_n_vtfp87.jpg"
+                        alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                    <h5 class="my-3">{{ empleado.primerNombre }} {{ empleado.primerApellido }}</h5>
+                    <p class="text-muted mb-1">Rol: {{ empleado.idEmpleado }}</p>
+                    <hr>
+                    <div class="d-flex justify-content-center mb-2">
+                        <a href="/logout" class="btn btn-outline-primary ms-1" >Salir</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4 mb-lg-0">
+                <div class="card-body p-0">
+                    <ul class="list-group rounded-3">
+                        <li class="list-group-item d-flex align-items-center p-3">
+                            <i class="fas fa-globe fa-lg text-warning"></i>
+                            <p class="mb-0 text-center">Deseas cambiar tu contraseña?</p>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                            <div class="d-flex justify-content-center mb-2">
+                                <button type="button" class="btn btn-outline-primary ms-1">Cambiar</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Primer Nombre</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ empleado.primerNombre }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Segundo Nombre</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ empleado.segundoNombre }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Primer Apellido</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ empleado.primerApellido }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Segundo Apellido</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ empleado.segundoApellido }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Teléfono</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ empleado.telefono }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">DNI</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ empleado.dni }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Correo</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ empleado.correoElectronico }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Nombre de Usuario</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ empleado.nombreUsuario }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal
+            <div class="modal fade" id="EditEmployee{{empleado.idEmpleado}}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="col-12 ">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Datos del empleado</h4>
+                                    <form action="/editarEmpleado/{{empleado.idEmpleado}}" method="POST"
+                                        class="form-sample">
+                                        <p class="card-description">
+                                            Información Personal
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Primer Nombre</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="pnombre"
+                                                            value="{{empleado.primerNombre}}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Segundo Nombre</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="snombre"
+                                                            value="{{empleado.segundoNombre}}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Primer Apellido</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="papellido"
+                                                            value="{{empleado.primerApellido}}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Segundo Apellido</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="sapellido"
+                                                            value="{{empleado.segundoApellido}}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Teléfono</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="telefono"
+                                                            value="{{empleado.telefono}}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">DNI</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="dni"
+                                                            value="{{empleado.dni}}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Correo electrónico</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="correo"
+                                                            value="{{empleado.correoElectronico }}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Nombre de Usuario</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="username"
+                                                            value="{{empleado.nombreUsuario}}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Rol</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="idrol" class="form-control">
+                                                            <option selected>{{ empleado.rol }}</option>
+                                                            {% for r in roles %}
+                                                            {% if r.rol != empleado.rol %}
+                                                            <option value="{{r.idRol}}">{{r.rol}}</option>
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            {% endfor %}
+            <!-- Todo List xD No se que poner jdshsjadhjks-->
+            <div class="row flex-grow">
+                <div class="col-12 grid-margin stretch-card">
+                    <div class="card card-rounded">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h4 class="card-title card-title-dash">Lista de Tareas</h4>
+                                        <div class="add-items d-flex mb-0">
+                                            <input type="text" class="form-control todo-list-input"
+                                                placeholder="Qué necesitas hoy?">
+                                            <button
+                                                class="add btn btn-icons btn-rounded btn-primary todo-list-add-btn text-white me-0 pl-12p"><i
+                                                    class="mdi mdi-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="list-wrapper">
+                                        <ul class="todo-list todo-list-rounded">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    </div>
+</section>
+</div>
+</div>
+{% endblock %}

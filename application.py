@@ -98,6 +98,21 @@ def Admin():
     return render_template("Admin.html")
 
 
+@app.route("/perfilAdmin")
+def perfilAdmin():
+    if 'IDEmpleado' in session:
+        IDEmpleado = session["IDEmpleado"]
+        try:
+            cursor = conn.cursor()
+            storeProce = "execute [dbo].[mostrar_empleado] @id = ?"
+            param = (IDEmpleado)
+            cursor.execute(storeProce, param)
+            DatosEmpleados = cursor.fetchall()
+        except Exception as e:
+            print("Error: %s", e)
+    return render_template("perfilAdmin.html", DatosEmpleados=DatosEmpleados)
+
+
 @app.route("/reportes")
 def reportes():
     return render_template("reportes.html")
@@ -606,7 +621,7 @@ def login():
                         session["username"] = username
                         session["IDEmpleado"] = IDEmpleado
                         session["rol"] = rol
-                        return redirect("/")
+                        return redirect("/admin")
                     if resultado == "Acceso exitoso" and rol == "admin":
                         print("es un admin")
                         session["username"] = username
