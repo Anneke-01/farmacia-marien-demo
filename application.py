@@ -417,11 +417,8 @@ def editarProductos(idProducto):
 
 
 @app.route("/eliminarProducto/<idProducto>", methods=["GET", "POST"])
-<<<<<<< HEAD
-def eliminarProductos(idProducto):
-=======
 def eliminarProducto(idProducto):
->>>>>>> d4181584c414abd444b4b7c0fac01cce6bf2a5a9
+
     try:
         cursor = conn.cursor()
         cursor.execute("execute [dbo].[eliminar_producto] ?", idProducto)
