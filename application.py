@@ -50,11 +50,42 @@ def buscarNombre():
             cursor = conn.cursor()
             cursor.execute(
                 "execute [dbo].[buscar_producto_por_nombre] ?", nombre)
-            Productos = cursor.fetchall()
-            print(Productos)
+            BusquedaNombre = cursor.fetchall()
+            listarCategoria = cursor.execute(
+                "select * from Categorias").fetchall()
+            listarTiposProducto = cursor.execute(
+                "select * from TiposProducto").fetchall()
+            longitud = (len(BusquedaNombre[0]))
+            print("Longitud:", longitud)
+            if longitud == 1:
+                return render_template("shop.html", nombre=nombre, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
         except Exception as e:
             print("Error: %s", e)
+        return render_template("shop.html", BusquedaNombre=BusquedaNombre, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
+    else:
         return render_template("shop.html")
+
+
+@app.route("/buscarPalabraClave", methods=["GET", "POST"])
+def buscarPalabraClave():
+    if request.method == "POST":
+        clave = request.form.get("clave")
+        print("CLAVE", clave)
+        try:
+            cursor = conn.cursor()
+            cursor.execute(
+                "execute [dbo].[buscar_producto_por_palabra_clave] ?", clave)
+            BusquedaClave = cursor.fetchall()
+            listarCategoria = cursor.execute(
+                "select * from Categorias").fetchall()
+            listarTiposProducto = cursor.execute(
+                "select * from TiposProducto").fetchall()
+            print(len(BusquedaClave[0]))
+        except Exception as e:
+            print("Error: ", e)
+            if e:
+                return render_template("shop.html", clave=clave, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
+        return render_template("shop.html", BusquedaClave=BusquedaClave, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
     else:
         return render_template("shop.html")
 
@@ -83,9 +114,13 @@ def details(idProducto):
         DetalleProducto = cursor.fetchall()
         for i in DetalleProducto:
             print(i)
+        listarCategoria = cursor.execute(
+            "select * from Categorias").fetchall()
+        listarTiposProducto = cursor.execute(
+            "select * from TiposProducto").fetchall()
     except Exception as e:
         print("Error: %s", e)
-    return render_template("detail.html", DetalleProducto=DetalleProducto)
+    return render_template("detail.html", DetalleProducto=DetalleProducto, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
 
 
 @app.route("/Historial")
