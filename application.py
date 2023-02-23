@@ -102,10 +102,29 @@ def shop():
         listarCategoria = cursor.execute("select * from Categorias").fetchall()
         listarTiposProducto = cursor.execute(
             "select * from TiposProducto").fetchall()
+        listarMarcas = cursor.execute("select * from marcas").fetchall()
     except Exception as e:
         print("Error: %s", e)
-    return render_template("shop.html", DatosProductos=DatosProductos, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
+    return render_template("shop.html", DatosProductos=DatosProductos, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto,listarMarcas = listarMarcas)
 
+@app.route("/FiltroMayoraMenor")
+def filtroMayorMenor():
+    try:
+        cursor = conn.cursor()
+        cursor.execute("Select idProducto,Marca,categoria,tipoProducto,nombreProducto,fechaExpedicion,fechaVencimiento,prescripcion,descripcion,precio,cantidad,urlImg FROM Productos p inner join Marcas m ON p.idMarca = m.idMarca inner join TiposProducto tp ON tp.idTipoProducto = p.idTipoProducto inner join Categorias c ON c.idCategoria = tp.idCategoria Order by precio desc")
+        listare = cursor.fetchall()
+    except Exception as e: 
+        print ("Error: %s",e)
+    return render_template("shop.html",listare=listare)
+
+@app.route("/FiltroMenoraMayor")
+def filtroMenorMayor():
+    try:
+        cursor = conn.cursor()
+        listar = cursor.execute("Select idProducto,Marca,categoria,tipoProducto,nombreProducto,fechaExpedicion,fechaVencimiento,prescripcion,descripcion,precio,cantidad,urlImg FROM Productos p inner join Marcas m ON p.idMarca = m.idMarca inner join TiposProducto tp ON tp.idTipoProducto = p.idTipoProducto inner join Categorias c ON c.idCategoria = tp.idCategoria Order by precio asc").fetchall()
+    except Exception as e: 
+        print ("Error: %s",e)
+    return render_template("shop.html",listar=listar)
 
 @app.route("/detail/<idProducto>", methods=["GET", "POST"])
 def details(idProducto):
@@ -167,6 +186,7 @@ def clientes():
     return render_template("clientes.html", DatosClientes=DatosClientes)
 
 
+
 @app.route("/perfilCliente", methods=["GET", "POST"])
 def perfilCliente():
     if 'IDCliente' in session:
@@ -182,6 +202,19 @@ def perfilCliente():
             print("Error: %s", e)
     return redirect("/")
 
+
+
+@app.route("/FiltrarMarcas/<nombreMarca>")
+def filtrarMarcas(nombreMarca):
+    try:
+        cursor = conn.cursor()
+        spFiltroMarcas = "execute [dbo].[buscar_producto_por_marca] @marca = ?"
+        param = (nombreMarca)
+        cursor.execute(spFiltroMarcas,param)
+        DatosMarca = cursor.fetchall()
+    except Exception as e:
+        print("Error: %s", e)
+    return render_template("shop.html" , DatosMarca = DatosMarca)
 
 @app.route("/editarPerfilCliente/<idCliente>", methods=["GET", "POST"])
 def editarPerfilCliente(idCliente):
