@@ -4,6 +4,7 @@ from flask import Flask, session, render_template, request, redirect, flash
 from flask_session import Session
 from decorator import login_required
 import time
+from datetime import date
 from datetime import datetime
 from datetime import date
 
@@ -142,6 +143,152 @@ def details(idProducto):
     except Exception as e:
         print("Error: %s", e)
     return render_template("detail.html", DetalleProducto=DetalleProducto, listarCategoria=listarCategoria, listarTiposProducto=listarTiposProducto)
+
+@app.route("/cart")
+def cart():
+    if 'IDCliente' in session:
+        IDCliente = session["IDCliente"]
+
+        
+    carrito = conn.cursor()
+    sp = " EXECUTE [dbo].[carrito_de_compra_por_cliente]  ?"
+    params = (IDCliente)
+    carrito.execute(sp, params)
+    datos = carrito.fetchall() 
+    
+    print("PROBAT CART")
+    print(IDCliente)
+    
+    print("Aca empieza")
+    print(datos)
+    print(IDCliente)
+    
+    
+
+
+
+    carrito2 = conn.cursor()
+    sp2 ="EXECUTE [dbo].[subtotal_carrito_cliente] ?"
+    params2 = (IDCliente) 
+    carrito2.execute(sp2, params2)
+    valor = carrito2.fetchall()
+    IVA1 = carrito2.execute("SELECT ISNULL(SUM(IVA),0) AS IVA FROM carrito WHERE idCliente = ?", IDCliente).fetchall()
+    IVA = IVA1[0][0]
+    subt = valor[0][0]
+    total = subt + IVA
+    
+    return render_template("cart.html", datos=datos, subt=subt, total=total, IVA=IVA)
+
+@app.route("/changeQP/<idProducto>")
+def changeQP(idProducto):
+    if 'IDCliente' in session:
+        IDCliente = session["IDCliente"]
+
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM carrito WHERE idProducto = ? AND idCliente = ?", idProducto, IDCliente)
+    cursor.execute("select p.idProducto,p.nombreProducto, p.precio, p.descripcion,p.urlImg, m.marca, t.tipoProducto from Productos p inner join Marcas m on m.idMarca = p.idMarca inner join TiposProducto t on t.idTipoProducto = p.idTipoProducto where p.idProducto = ?", idProducto)
+    DetalleProducto = cursor.fetchall()
+    cantidad = int(request.args.get('cantidad'))
+    precio = DetalleProducto[0][2]
+    subtotal = cantidad * precio
+    iva = subtotal * 0.15
+    descuento = 0
+    fecha = date.today()
+    total = subtotal + iva - descuento
+    estado = 1
+
+    sp = " EXECUTE [dbo].[insertar_producto_al_carrito] ?,?,?,?,?,?,?,?,?"
+    params = (IDCliente, idProducto, estado, fecha, cantidad, descuento, subtotal, iva, total )
+    cursor.execute(sp, params)
+    flash("Se actualizó correctamente", category="success")
+
+    carrito = conn.cursor()
+    sp = " EXECUTE [dbo].[carrito_de_compra_por_cliente]  ?"
+    params = (IDCliente)
+    carrito.execute(sp, params)
+    datos = carrito.fetchall() 
+
+
+    carrito2 = conn.cursor()
+    sp2 ="EXECUTE [dbo].[subtotal_carrito_cliente] ?"
+    params2 = (IDCliente) 
+    carrito2.execute(sp2, params2)
+    valor = carrito2.fetchall()
+    IVA1 = carrito2.execute("SELECT ISNULL(SUM(IVA),0) AS IVA FROM carrito WHERE idCliente = ?", IDCliente).fetchall()
+    IVA = IVA1[0][0]
+    subt = valor[0][0]
+    total = subt + IVA
+
+    
+    return render_template("cart.html", DetalleProducto=DetalleProducto, subt=subt, total=total, IVA=IVA, datos=datos)
+
+@app.route("/removeP/<idProducto>")
+def removeP(idProducto):
+    if 'IDCliente' in session:
+        IDCliente = session["IDCliente"]
+    
+
+    print("este")
+   
+    print(IDCliente)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM carrito WHERE idProducto = ? AND idCliente = ?", idProducto, IDCliente)
+
+    carrito = conn.cursor()
+    sp = " EXECUTE [dbo].[carrito_de_compra_por_cliente]  ?"
+    params = (IDCliente)
+    carrito.execute(sp, params)
+    datos = carrito.fetchall() 
+    print("Aca empieza")
+    print(IDCliente)
+    
+    
+    carrito2 = conn.cursor()
+    sp2 ="EXECUTE [dbo].[subtotal_carrito_cliente] ?"
+    params2 = (IDCliente) 
+    carrito2.execute(sp2, params2)
+    valor = carrito2.fetchall()
+    IVA1 = carrito2.execute("SELECT ISNULL(SUM(IVA),0) AS IVA FROM carrito WHERE idCliente = ?", IDCliente).fetchall()
+    IVA = IVA1[0][0]
+    print(IVA)
+    subt = valor[0][0]
+    print("Here")
+    print(subt)
+    total = subt + IVA
+    
+    return render_template("cart.html", datos=datos, subt=subt, total=total, IVA=IVA)
+
+@app.route("/addToCart/<idProducto>", methods=["GET", "POST"])
+def addToCart(idProducto):
+
+    # Hace el muestreo de productos al refrescar
+    if 'IDCliente' in session:
+        IDCliente = session["IDCliente"]
+    try:
+        cursor = conn.cursor()
+        cursor.execute("select p.idProducto,p.nombreProducto, p.precio, p.descripcion,p.urlImg, m.marca, t.tipoProducto from Productos p inner join Marcas m on m.idMarca = p.idMarca inner join TiposProducto t on t.idTipoProducto = p.idTipoProducto where p.idProducto = ?", idProducto)
+        DetalleProducto = cursor.fetchall()
+        cantidad = int(request.args.get('cantidad'))
+        precio = DetalleProducto[0][2]
+        subtotal = cantidad * precio
+        iva = subtotal * 0.15
+        descuento = 0
+        fecha = date.today()
+        total = subtotal + iva - descuento
+        estado = 1
+
+        sp = " EXECUTE [dbo].[insertar_producto_al_carrito] ?,?,?,?,?,?,?,?,?"
+        params = (IDCliente, idProducto, estado, fecha, cantidad, descuento, subtotal, iva, total )
+        print(sp, params)
+        cursor.execute(sp, params)
+        cursor.commit()
+        flash("Se agregó correctamente", category="success")
+
+    except db.DatabaseError as e:
+        print("Error: %s", e)
+
+    return render_template("detail.html", DetalleProducto=DetalleProducto)
+
 
 
 @app.route("/Historial")

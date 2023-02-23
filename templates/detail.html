@@ -1,23 +1,24 @@
 {% extends "layout.html" %}
 
 {% block nav %}
-<nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
-{% endblock %}
+<nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light"
+    id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
+    {% endblock %}
 
 
-{% block body %}
+    {% block body %}
     <!-- Shop Detail Start -->
     <div class="container-fluid py-5">
         <div class="row px-xl-5">
             <!-- Aquí empieza-->
             {% for p in DetalleProducto %}
-                <div class="col-lg-5 pb-5">
-                    <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner border">
-                            <div class="carousel-item active">
-                                <img class="w-100 h-100" src="{{p.urlImg}}" alt="Image">
-                            </div>
-                            <!-- <div class="carousel-item">
+            <div class="col-lg-5 pb-5">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner border">
+                        <div class="carousel-item active">
+                            <img class="w-100 h-100" src="{{p.urlImg}}" alt="Image">
+                        </div>
+                        <!-- <div class="carousel-item">
                                 <img class="w-100 h-100" src="img/product-2.jpg" alt="Image">
                             </div>
                             <div class="carousel-item">
@@ -26,78 +27,84 @@
                             <div class="carousel-item">
                                 <img class="w-100 h-100" src="img/product-4.jpg" alt="Image">
                             </div> -->
-                        </div>
-                        <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                            <i class="fa fa-2x fa-angle-left text-dark"></i>
-                        </a>
-                        <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                            <i class="fa fa-2x fa-angle-right text-dark"></i>
-                        </a>
                     </div>
+                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                        <i class="fa fa-2x fa-angle-left text-dark"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                        <i class="fa fa-2x fa-angle-right text-dark"></i>
+                    </a>
                 </div>
-            
-                <div class="col-lg-7 pb-5">
-                        <h3 class="font-weight-semi-bold">{{p.nombreProducto}}</h3>
-                        <div class="d-flex mb-3">
-                            <div class="text-primary mr-2">
-                                <small class="fas fa-star"></small>
-                                <small class="fas fa-star"></small>
-                                <small class="fas fa-star"></small>
-                                <small class="fas fa-star-half-alt"></small>
-                                <small class="far fa-star"></small>
-                            </div>
-                            <small class="pt-1">(50 Reseñas)</small>
-                        </div>
-                    
-                        <h3 class="font-weight-semi-bold mb-4">C$ {{p.precio}}</h3>
-                        <p class="mb-4">{{p.descripcion}}</p>
+            </div>
 
-                        <div class="d-flex mb-4">
-                            <p class="text-dark font-weight-medium mb-0 mr-3">Marca: {{p.marca}}</p>
-                        </div>
-                        <div class="d-flex mb-4">
-                            <p class="text-dark font-weight-medium mb-0 mr-3">Tipo: {{p.tipoProducto}}</p>
-                        </div>
-                    
-                    <div class="d-flex align-items-center mb-4 pt-2">
-                        <div class="input-group quantity mr-3" style="width: 130px;">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-minus" >
+            <div class="col-lg-7 pb-5">
+                <h3 class="font-weight-semi-bold">{{p.nombreProducto}}</h3>
+                <div class="d-flex mb-3">
+                    <div class="text-primary mr-2">
+                        <small class="fas fa-star"></small>
+                        <small class="fas fa-star"></small>
+                        <small class="fas fa-star"></small>
+                        <small class="fas fa-star-half-alt"></small>
+                        <small class="far fa-star"></small>
+                    </div>
+                    <small class="pt-1">(50 Reseñas)</small>
+                </div>
+
+                <h3 class="font-weight-semi-bold mb-4" name="precio">{{p.precio}}</h3>
+                <p class="mb-4">{{p.descripcion}}</p>
+
+                <div class="d-flex mb-4">
+                    <p class="text-dark font-weight-medium mb-0 mr-3">Marca: {{p.marca}}</p>
+                </div>
+                <div class="d-flex mb-4">
+                    <p class="text-dark font-weight-medium mb-0 mr-3">Tipo: {{p.tipoProducto}}</p>
+                </div>
+                <form action="/addToCart/{{p.idProducto}}" methods="POST">
+                <div class="d-flex align-items-center mb-4 pt-2">
+                    <div class="input-group quantity mr-3" style="width: 130px;">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-primary btn-minus">
                                 <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control bg-secondary text-center" value="1">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-plus">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
+                            </button>
                         </div>
-                        <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i>Agregar al carrito</button>
-                    </div>
-                    <div class="d-flex pt-2">
-                        <p class="text-dark font-weight-medium mb-0 mr-2">Compartir en:</p>
-                        <div class="d-inline-flex">
-                            <a class="text-dark px-2" href="">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a class="text-dark px-2" href="">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a class="text-dark px-2" href="">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            <a class="text-dark px-2" href="">
-                                <i class="fab fa-pinterest"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>   
-            {% endfor %} 
-            <!--Aquí termina-->
-        </div>
+                        
+                            <input name="cantidad" class="form-control bg-secondary text-center" value="1">
 
-        <!-- 
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-primary btn-plus">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                <input type="submit" id = "addToCart" class="btn btn-primary px-3" value="Agregar al carrito"/>
+                </div>
+                </form>
+               
+            </div>
+            <div class="d-flex pt-2">
+                <p class="text-dark font-weight-medium mb-0 mr-2">Compartir en:</p>
+                <div class="d-inline-flex">
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <!--Aquí termina-->
+    </div>
+
+    <!-- 
         <div class="row px-xl-5">
             <div class="col">
                 <div class="nav nav-tabs justify-content-center border-secondary mb-4">
@@ -199,78 +206,103 @@
             <div class="col">
                 <div class="owl-carousel related-carousel">
                     <div class="card product-item border-0">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-cb w-100" src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675391916/3_xyjkug.png" alt="">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-cb w-100"
+                                src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675391916/3_xyjkug.png" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Blastoestimulina pomada 30g</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Ver</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-eye text-primary mr-1"></i>Ver</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
                         </div>
                     </div>
                     <div class="card product-item border-0">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-cb w-100" src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675392024/4_cazdko.png" alt="">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-cb w-100"
+                                src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675392024/4_cazdko.png" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Agua Oxigenada 30mg/m</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Ver</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-eye text-primary mr-1"></i>Ver</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
                         </div>
                     </div>
                     <div class="card product-item border-0">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-cb w-100" src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675392196/5_ucuktp.png" alt="">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-cb w-100"
+                                src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675392196/5_ucuktp.png" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Betadine 100 Mg solucion topica</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Ver</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-eye text-primary mr-1"></i>Ver</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
                         </div>
                     </div>
                     <div class="card product-item border-0">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-cb w-100" src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675392460/6_wtbgxj.png" alt="">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-cb w-100"
+                                src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675392460/6_wtbgxj.png" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Alli 60 mg 120 capsulas</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Ver</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-eye text-primary mr-1"></i>Ver</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
                         </div>
                     </div>
                     <div class="card product-item border-0">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-cb w-100" src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675392719/7_rutqws.png" alt="">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-cb w-100"
+                                src="https://res.cloudinary.com/dvpkpbpap/image/upload/v1675392719/7_rutqws.png" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Inovance Acnavance piel grasa 60 caps</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Ver</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-eye text-primary mr-1"></i>Ver</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
                         </div>
                     </div>
                 </div>
@@ -278,4 +310,4 @@
         </div>
     </div>
     <!-- Products End -->
-{% endblock %}
+    {% endblock %}
