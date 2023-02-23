@@ -90,10 +90,11 @@
                                        
                                     </div>
                                 </div>
+                                <input type="hidden" name="id" value="{{ producto.idProducto }}" />
                                 <div class="card-footer d-flex justify-content-between bg-light border">
                                 <!--Borrar href cuando sea necesario--> <a href="/detail/{{producto.idProducto}}"  class="btn btn-sm text-dark p-0"><i
                                             class="fas fa-eye text-primary mr-1"></i>Ver</a>
-                                    <a href="" class="btn btn-sm text-dark p-0"><i
+                                    <a href="/addToCart" class="btn btn-sm text-dark p-0"><i
                                             class="fas fa-shopping-cart text-primary mr-1"></i>Agregar al carrito</a>
                                 </div>
                             </div>

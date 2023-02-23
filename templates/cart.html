@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+    <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
+{% endblock %}
+
+
+{% block body %}
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Carrito de Compras</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="">Inicio</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Carrito de comprar</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Cart Start -->
+    
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                            <th>Quitar</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody class="align-middle">
+                    {% if datos %}
+                    {% for p in datos %}
+                        <tr>
+                            <td class="align-middle"><img src="{{p.Imagen_del_producto}}" alt="" style="width: 50px;"> {{p.Producto}}</td>
+                            <td class="align-middle"><p>{{p.Precio}}</p></td>
+                            <td class="align-middle">
+                                <form action="/changeQP/{{p.idProducto}}">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary btn-minus" >
+                                        <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" name="cantidad" class="form-control form-control-sm bg-secondary text-center" value="{{p.Cantidad}}">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary btn-plus">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                                <button type="submit" class="btn btn-warning ">Actualizar</button>
+                            </form>
+                            </td>
+                            <td class="align-middle">{{p.Subtotal}}</td>
+                            <form action="/removeP/{{p.idProducto}}">
+                            <td class="align-middle"><button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
+                            </form>
+                        </tr>
+                        
+                    </tbody>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <br>
+                        <td colSpan="7"><h3>No posees productos en el carrito</h3></td>
+                    </tr>
+                </tbody>
+                {% endif %}
+                </table>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Detalles del carrito</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Sub-total</h6>
+                            <h6 class="font-weight-medium">{{ '${:,.2f}'.format(subt) }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">IVA</h6>
+                            <h6 class="font-weight-medium">{{ '${:,.2f}'.format(IVA) }}</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold">{{ '${:,.2f}'.format(total) }}</h5>
+                        </div>
+                        <form action="/checkout">
+                        <button class="btn btn-block btn-primary my-3 py-3">Realizar pago</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart End -->
+
+{% endblock %}
