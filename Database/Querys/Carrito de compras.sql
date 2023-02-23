@@ -53,7 +53,7 @@ AS
 
 GO
 
-CREATE PROCEDURE insertar_producto_del_carrito
+CREATE PROCEDURE insertar_producto_al_carrito
 @idCliente int, @idProducto int, @idEstado int, @fechaPedido date, @cantidad int,@descuento float,@subtotal float, @iva float, @total float
 
 AS
@@ -70,6 +70,6 @@ GO
 select * from carrito
 execute carrito_de_compra_por_cliente 1
 drop procedure carrito_de_compra_por_cliente
-drop procedure insertar_producto_del_carrito
+drop procedure insertar_producto_al_carrito
 drop procedure eliminar_producto_del_carrito
 drop table carrito

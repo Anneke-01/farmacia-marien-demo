@@ -1,410 +1,356 @@
 {% extends "layout.html" %} {% block nav %}
 <nav
   class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light"
-  id="navbar-vertical"
-  style="width: calc(100% - 30px); z-index: 1"
->
+  id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1">
   {% endblock %} {% block body%}
   <!-- Checkout Start -->
   <div class="container-fluid pt-5">
-    <div class="row px-xl-5">
-      <div class="col-lg-8">
-        <div class="mb-4">
-          <h4 class="font-weight-semi-bold mb-4">Dirección de Envio</h4>
-          <div class="row">
-            <div class="col-md-6 form-group">
-              <label>Primer Nombre</label>
-              <input class="form-control" type="text" placeholder="James" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Segundo Nombre </label>
-              <input class="form-control" type="text" placeholder="Darren" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>E-mail</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="example@gmail.com"
-              />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Numero de telefono movil</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="+505 8888-8888"
-              />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Dirección 1</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Parque central de Masaya"
-              />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Dirección 2</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Mercado de Masaya"
-              />
-            </div>
-
-            <div class="col-md-6 form-group">
-              <label>Departamento</label>
-              <input class="form-control" type="text" placeholder="Masaya" />
-            </div>
-
-            <div class="col-md-12 form-group">
-                <button id="newaccount-btn" class="btn btn-primary">Crea una cuenta</button>
+    <form method="POST" action="/checkout.html">
+      <div class="row px-xl-5">
+        <div class="col-lg-8">
+          {% for c in cliente %}
+          <div class="mb-4">
+            <h3 class="font-weight-semi-bold mb-4" style="text-align: center;">ORDEN DE COMPRA</h3>
+            <h4 class="font-weight-semi-bold mb-4">Información de Envio</h4>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label>Primer Nombre</label>
+                <input class="form-control" disabled name="pnombre" type="text" placeholder="James" value="{{c.primerNombre}}" />
               </div>
-              
+              <div class="col-md-6 form-group">
+                <label>Segundo Nombre</label>
+                <input class="form-control" disabled name="snombre" type="text" placeholder="Darren"
+                  value="{{c.segundoNombre}}" />
+              </div>
+              <div class="col-md-6 form-group">
+                <label>Primer Apellido</label>
+                <input class="form-control" disabled name="papellido" type="text" placeholder="Gutierez"
+                  value="{{c.primerApellido}}" />
+              </div>
+              <div class="col-md-6 form-group">
+                <label>Segundo Apellido</label>
+                <input class="form-control" disabled name="sapellido" type="text" placeholder="Aburto"
+                  value="{{c.segundoApellido}}" />
+              </div>
+              <div class="col-md-6 form-group">
+                <label>E-mail</label>
+                <input class="form-control" disabled type="text" placeholder="example@gmail.com" name="email"
+                  value="{{c.correoElectronico}}" />
+              </div>
+              <div class="col-md-6 form-group">
+                <label>Numero de Celular</label>
+                <input class="form-control" disabled type="text" placeholder="+505 8888-8888" name="telefono"
+                  value="{{c.telefono}}" />
+              </div>
+              <div class="col-md-6 form-group">
+                <label>Departamento</label>
+                <select class="form-control" type="text" placeholder="Masaya" name="departamento" >
+                  {% for ciudad in ciudades %}
+                  <option name=departamento value="{{ciudad.ciudad}}">{{ciudad.ciudad}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6 form-group">
+                <label>Municipio</label>
+                <select class="form-control" type="text" placeholder="Catarina" name="municipio">
+                  {% for municipio in municipios %}
+                  <option name=municipio value="{{municipio.municipio}}">{{municipio.municipio}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6 form-group">
+                <label>Dirección</label>
+                <input class="form-control" type="text" placeholder="Mercado de Masaya" name="direccion"
+                  value="{{c.direccion}}" />
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label>Casa, departamento, piso, etc.</label>
+                <input class="form-control" type="text" placeholder="CASA F19" name="vivienda"
+                  value="{{c.direccion}}" />
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label>Codigo Postal</label>
+                <input class="form-control" type="text" placeholder="17500" name="codigoPostal"
+                  value="{{c.codigoPostal}}" />
+              </div>
+              {% endfor %}
+
               <script>
                 const newAccountBtn = document.getElementById("newaccount-btn");
                 let newAccountActive = false;
-              
-                newAccountBtn.addEventListener("click", function() {
+
+                newAccountBtn.addEventListener("click", function () {
                   newAccountActive = !newAccountActive;
                   newAccountBtn.classList.toggle("active");
                 });
               </script>
-              
-              
-              
-            <div class="col-md-12 form-group">
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="shipto"
-                />
-                <label
-                  class="custom-control-label"
-                  for="shipto"
-                  data-toggle="collapse"
-                  data-target="#shipping-address"
-                  >Enviar a otra dirección</label
-                >
+
+              <!-- <div class="col-md-12 form-group">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="shipto" />
+                  <label class="custom-control-label" for="shipto" data-toggle="collapse"
+                    data-target="#shipping-address">Enviar a otra dirección</label>
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="collapse mb-4" id="shipping-address">
+            <h4 class="font-weight-semi-bold mb-4">Dirección de envío</h4>
+            <div class="row">
+
+              <div class="col-md-6 form-group">
+                <label>Departamento</label>
+                <select class="form-control" type="text" placeholder="Masaya" name="departamento" >
+                  {% for ciudad in ciudades %}
+                  <option value="">{{ciudad.ciudad}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6 form-group">
+                <label>Municipio</label>
+                <select class="form-control" type="text" placeholder="Catarina" name="municipio">
+                  {% for municipio in municipios %}
+                  <option value="">{{municipio.municipio}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6 form-group">
+                <label>Dirección</label>
+                <input class="form-control" type="text" placeholder="Mercado de Masaya" name="direccion" />
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label>Codigo Postal</label>
+                <input class="form-control" type="text" placeholder="17500" name="codigoPostal" />
               </div>
             </div>
           </div>
-        </div>
-        <div class="collapse mb-4" id="shipping-address">
-          <h4 class="font-weight-semi-bold mb-4">Dirección de envío</h4>
-          <div class="row">
-            <div class="col-md-6 form-group">
-              <label>Primer Nombre</label>
-              <input class="form-control" type="text" placeholder="James" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Segundo Nombre </label>
-              <input class="form-control" type="text" placeholder="Darren" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>E-mail</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="example@gmail.com"
-              />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Numero de telefono movil</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="+505 8888-8888"
-              />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Dirección 1</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Parque central de Masaya"
-              />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Dirección 2</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Mercado de Masaya"
-              />
-            </div>
+          <!-- Hasta Aqui todo esta oculto -->
 
-            <div class="col-md-6 form-group">
-              <label>Departamento</label>
-              <input class="form-control" type="text" placeholder="Masaya" />
-            </div>
-          </div>
         </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="card border-secondary mb-5">
-          <div class="card-header bg-secondary border-0">
-            <h4 class="font-weight-semi-bold m-0">Total del pedido</h4>
+        <div class="col-lg-4">
+          <div class="card border-secondary mb-5">
+            <div class="card-header bg-secondary border-0">
+              <h4 style="text-align: center;" class="font-weight-semi-bold m-0">Detalle de compra</h4>
+            </div>
+              <div class="card-body">
+                <h5 class="font-weight-medium mb-3">Productos</h5>
+                {% for producto in carrito %}
+                  <div class="d-flex justify-content-between">
+                    <p>{{producto.Producto}}</p>
+                    <p>C$ {{producto.Precio}}</p>
+                  </div>
+                  <!-- <div class="d-flex justify-content-between">
+                    <p>Producto 2</p>
+                    <p>C$150</p>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <p>Producto 3</p>
+                    <p>C$150</p>
+                  </div> -->
+                {% endfor %}
+                <hr class="mt-0" />
+                <div class="d-flex justify-content-between mb-3 pt-1">
+                  <h6 class="font-weight-medium">Descuento</h6>
+                  <h6 class="font-weight-medium">C${{totalesCarrito.descuento}}</h6>
+                </div>
+                <div class="d-flex justify-content-between mb-3 pt-1">
+                  <h6 class="font-weight-medium">Subtotal</h6>
+                  <h6 class="font-weight-medium">C${{totalesCarrito.subtotal}}</h6>
+                </div>
+                <div class="d-flex justify-content-between mb-3 pt-1">
+                  <h6 class="font-weight-medium">IVA</h6>
+                  <h6 class="font-weight-medium">C${{totalesCarrito.iva}}</h6>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <h6 class="font-weight-medium">Envío</h6>
+                  <h6 class="font-weight-medium">C$</h6>
+                </div>
+              </div>
+            <div class="card-footer border-secondary bg-transparent">
+              <div class="d-flex justify-content-between mt-2">
+                <h5 class="font-weight-bold">Total</h5>
+                <h5 class="font-weight-bold">C${{totalesCarrito.total}}</h5>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
-            <h5 class="font-weight-medium mb-3">Productos</h5>
-            <div class="d-flex justify-content-between">
-              <p>Producto 1</p>
-              <p>C$150</p>
-            </div>
-            <div class="d-flex justify-content-between">
-              <p>Producto 2</p>
-              <p>C$150</p>
-            </div>
-            <div class="d-flex justify-content-between">
-              <p>Producto 3</p>
-              <p>C$150</p>
-            </div>
+          <div class="card border-secondary mb-5">
+            <div class="card-header bg-secondary border-0">
+              <input type="hidden" id="tipodepago" name="tipodepago">
+              <script>
+                function showCode(selectedMethod) {
+                  if (selectedMethod === "Tarjeta") {
+                    document.getElementById("codigoTarjeta").style.display =
+                      "block";
 
-            <hr class="mt-0" />
-            <div class="d-flex justify-content-between mb-3 pt-1">
-              <h6 class="font-weight-medium">Subtotal</h6>
-              <h6 class="font-weight-medium">C$150</h6>
-            </div>
-            <div class="d-flex justify-content-between">
-              <h6 class="font-weight-medium">Envío</h6>
-              <h6 class="font-weight-medium">C$10</h6>
-            </div>
-          </div>
-          <div class="card-footer border-secondary bg-transparent">
-            <div class="d-flex justify-content-between mt-2">
-              <h5 class="font-weight-bold">Total</h5>
-              <h5 class="font-weight-bold">C$160</h5>
-            </div>
-          </div>
-        </div>
-        <div class="card border-secondary mb-5">
-          <div class="card-header bg-secondary border-0">
-            <script>
-              function showCode(selectedMethod) {
-                if (selectedMethod === "Tarjeta") {
-                  document.getElementById("codigoTarjeta").style.display =
-                    "block";
-                } else {
-                  document.getElementById("codigoTarjeta").style.display =
-                    "none";
+                  } else {
+                    document.getElementById("codigoTarjeta").style.display =
+                      "none";
+                  }
+
+                  if (selectedMethod === "Efectivo") {
+                    document.getElementById("codigoEfectivo").style.display =
+                      "block";
+                  } else {
+                    document.getElementById("codigoEfectivo").style.display =
+                      "none";
+                  }
+
+                  if (selectedMethod === "RetiroLocal") {
+                    document.getElementById("codigoRetiroLocal").style.display =
+                      "block";
+                  } else {
+                    document.getElementById("codigoRetiroLocal").style.display =
+                      "none";
+                  }
                 }
-
-                if (selectedMethod === "Efectivo") {
-                  document.getElementById("codigoEfectivo").style.display =
-                    "block";
-                } else {
-                  document.getElementById("codigoEfectivo").style.display =
-                    "none";
-                }
-
-                if (selectedMethod === "RetiroLocal") {
-                  document.getElementById("codigoRetiroLocal").style.display =
-                    "block";
-                } else {
-                  document.getElementById("codigoRetiroLocal").style.display =
-                    "none";
-                }
-              }
-            </script>
-
-            <div class="card-body">
-              <div class="custom-control custom-radio d-block">
-                <input
-                  type="radio"
-                  class="custom-control-input"
-                  name="payment"
-                  id="Efectivo"
-                  onclick="showCode('Efectivo')"
-                />
-                <label class="custom-control-label" for="Efectivo"
-                  >Efectivo</label
-                >
-              </div>
-              <div class="custom-control custom-radio d-block">
-                <input
-                  type="radio"
-                  class="custom-control-input"
-                  name="payment"
-                  id="Tarjeta"
-                  onclick="showCode('Tarjeta')"
-                />
-                <label class="custom-control-label" for="Tarjeta"
-                  >Tarjeta</label
-                >
-              </div>
-              <div class="custom-control custom-radio d-block">
-                <input
-                  type="radio"
-                  class="custom-control-input"
-                  name="payment"
-                  id="RetiroLocal"
-                  onclick="showCode('RetiroLocal')"
-                />
-                <label class="custom-control-label" for="RetiroLocal"
-                  >Retirar en local</label
-                >
-              </div>
-            </div>
-
-            <div id="codigoTarjeta" style="display: none">
-              <div class="d-flex flex-row align-items-center mb-4 pb-1">
-                <img
-                  class="img-fluid"
-                  src="https://img.icons8.com/color/48/000000/mastercard-logo.png"
-                />
-                <div class="flex-fill mx-3">
-                  <div class="form-outline">
-                    <input
-                      type="text"
-                      id="formControlLgXc"
-                      class="form-control form-control-lg"
-                      value="**** **** **** 3193"
-                    />
-                    <label class="form-label" for="formControlLgXc"
-                      >Número de la tarjeta</label
-                    >
-                  </div>
+              </script>
+            
+              <div class="card-body">
+                <h4 style="text-align:center;" class="font-weight-semi-bold m-0">Forma de pago</h4>
+                <br>
+                <div class="custom-control custom-radio d-block">
+                  <input type="radio" checked value="efectivo" class="custom-control-input" name="payment" id="Efectivo"
+                    onclick="showCode('Efectivo')" />
+                  <label class="custom-control-label" for="Efectivo">Efectivo</label>
                 </div>
-                <a href="#!">Remover</a>
+                <div class="custom-control custom-radio d-block">
+                  <input type="radio" value="tarjeta" class="custom-control-input" name="payment" id="Tarjeta"
+                    onclick="showCode('Tarjeta')" />
+                  <label class="custom-control-label" for="Tarjeta">Tarjeta</label>
+                </div>
+                <!-- <div class="custom-control custom-radio d-block">
+                  <input type="radio" class="custom-control-input" name="payment" id="RetiroLocal"
+                    onclick="showCode('RetiroLocal')" />
+                  <label class="custom-control-label" for="RetiroLocal">Retirar en local</label>
+                </div> -->
               </div>
 
-              <div class="d-flex flex-row align-items-center mb-4 pb-1">
-                <img
-                  class="img-fluid"
-                  src="https://img.icons8.com/color/48/000000/visa.png"
-                />
-                <div class="flex-fill mx-3">
-                  <div class="form-outline">
-                    <input
-                      type="text"
-                      id="formControlLgXs"
-                      class="form-control form-control-lg"
-                      value="**** **** **** 4296"
-                    />
-                    <label class="form-label" for="formControlLgXs"
-                      >Número de la tarjeta</label
-                    >
+              <div id="codigoTarjeta" style="display: none">
+                <div class="d-flex flex-row align-items-center mb-4 pb-1">
+                  <!-- <img class="img-fluid" src="https://img.icons8.com/color/48/000000/mastercard-logo.png" /> -->
+                  <div class="flex-fill mx-3">
+                    <div class="form-outline">
+                      <!-- <input type="hidden" id="formControlLgXc" class="form-control form-control-lg"
+                        value="**** **** **** 3193" />
+                      <label class="form-label" for="formControlLgXc">Número de la tarjeta</label> -->
+                    </div>
                   </div>
-                </div>
-                <a href="#!">Remover</a>
-              </div>
-
-              <p class="fw-bold mb-4">Agregar nueva tarjeta:</p>
-
-              <div class="form-outline mb-4">
-                <input
-                  type="text"
-                  id="formControlLgXsd"
-                  class="form-control form-control-lg"
-                  value="Anna Doe"
-                />
-                <label class="form-label" for="formControlLgXsd"
-                  >Nombre del propietario de la tarjeta</label
-                >
-              </div>
-
-              <div class="row mb-4">
-                <div class="col-7">
-                  <div class="form-outline">
-                    <input
-                      type="text"
-                      id="formControlLgXM"
-                      class="form-control form-control-lg"
-                      value="1234 5678 1234 5678"
-                    />
-                    <label class="form-label" for="formControlLgXM"
-                      >Número de tarjeta</label
-                    >
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div class="form-outline">
-                    <input
-                      type="password"
-                      id="formControlLgExpk"
-                      class="form-control form-control-lg"
-                      placeholder="MM/YYYY"
-                    />
-                    <label class="form-label" for="formControlLgExpk"
-                      >Fehca de expiración</label
-                    >
-                  </div>
-                </div>
-                <div class="col-2">
-                  <div class="form-outline">
-                    <input
-                      type="password"
-                      id="formControlLgcvv"
-                      class="form-control form-control-lg"
-                      placeholder="Cvv"
-                    />
-                    <label class="form-label" for="formControlLgcvv">Cvv</label>
-                  </div>
+                  <!-- <a href="#!">Remover</a> -->
                 </div>
 
-              <button class="btn btn-success btn-lg btn-block">Agregar tarjeta</button>
-            </div>
-          </div>
+                <div class="d-flex flex-row align-items-center mb-4 pb-1">
+                  <!-- <img class="img-fluid" src="https://img.icons8.com/color/48/000000/visa.png" /> -->
+                  <div class="flex-fill mx-3">
+                    <div class="form-outline">
+                      <!-- <input type="text" id="formControlLgXs" class="form-control form-control-lg" -->
+                        <!-- value="**** **** **** 4296" /> -->
+                      <!-- <label class="form-label" for="formControlLgXs">Número de la tarjeta</label> -->
+                    </div>
+                  </div>
+                  <!-- <a href="#!">Remover</a> -->
+                </div>
 
-          <div id="codigoEfectivo">
-            <div id="efectivo">
-              <p>Introduce la cantidad de efectivo con la que deseas cancelar:</p>
-              <input type="text" id="cantidad-efectivo"/>
-            </div>
-          </div>
-          
-          <script>
-            const radioEfectivo = document.getElementById("Efectivo");
-            const efectivo = document.getElementById("efectivo");
-          
-            radioEfectivo.addEventListener("change", () => {
-              efectivo.style.display = radioEfectivo.checked ? "block" : "none";
-            });
-          </script>
-          
-          <div id="codigoRetiroLocal" style="display: none">
-            <div class="form-group">
-              <label for="retiroFechaHora">Fecha y hora de retiro:</label>
-              <input
-                type="datetime-local"
-                class="form-control"
-                id="retiroFechaHora"
-              />
-            </div>
-          </div>
-          
+                <!-- <p class="fw-bold mb-4">Agregar nueva tarjeta:</p> -->
 
-          <!-- Bloque de Metodo de Pago-->
-          <div class="card-footer border-secondary bg-transparent">
-            <button
-              class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
-            >
-              Realizar pedido
-            </button>
-          </div>
+                <div class="form-outline mb-4">
+                  <input type="text" id="formControlLgXsd" class="form-control form-control-lg" placeholder="Anna Doe" />
+                  <label class="form-label" for="formControlLgXsd">Nombre del propietario de la tarjeta</label>
+                </div>
 
-          <!-- Back to Top -->
-          <a href="#" class="btn btn-primary back-to-top"
-            ><i class="fa fa-angle-double-up"></i
-          ></a>
+                <div class="row mb-4">
+                  <div class="col-7">
+                    <div class="form-outline">
+                      <input type="text" id="formControlLgXM" class="form-control form-control-lg"
+                        placeholder="1234 5678 1234 5678" name=numerodetarjeta />
+                      <label class="form-label" for="formControlLgXM">Número de tarjeta</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-outline">
+                      <input type="password" id="formControlLgExpk" class="form-control form-control-lg"
+                        placeholder="MM/YYYY" />
+                      <label class="form-label" for="formControlLgExpk">Fecha de expiración</label>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="form-outline">
+                      <input type="password" id="formControlLgcvv" class="form-control form-control-lg"
+                        placeholder="Cvv" />
+                      <label class="form-label" for="formControlLgcvv">Cvv</label>
+                    </div>
+                  </div>
 
-          <!-- JavaScript Libraries -->
-          <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-          <script src="lib/easing/easing.min.js"></script>
-          <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+                  <button class="btn btn-success btn-lg btn-block">Agregar tarjeta</button>
+                </div>
+              </div>
 
-          <!-- Contact Javascript File -->
-          <script src="mail/jqBootstrapValidation.min.js"></script>
-          <script src="mail/contact.js"></script>
+              <div id="codigoEfectivo">
+                <div id="efectivo">
+                  <p>Introduce la cantidad de efectivo con la que deseas cancelar:</p>
+                  <input type="text" placeholder="C$0" id="cantidad-efectivo" value=""/>
+                </div>
+              </div>
 
-          <!-- Template Javascript -->
-          <script src="js/main.js"></script>
-        </div>
-      </div>
-    </div>
+              <script>
+                const radioEfectivo = document.getElementById("Efectivo");
+                const efectivo = document.getElementById("efectivo");
+
+                radioEfectivo.addEventListener("change", () => {
+                  efectivo.style.display = radioEfectivo.checked ? "block" : "none";
+                });
+              </script>
+
+              <div id="codigoRetiroLocal" style="display: none">
+                <div class="form-group">
+                  <label for="retiroFechaHora">Fecha y hora de retiro:</label>
+                  <input type="datetime-local" class="form-control" id="retiroFechaHora" />
+                </div>
+              </div>
+              <br>
+              <div class="card-body">
+
+                <h4 style="text-align:center;" class="font-weight-semi-bold m-0">Forma de entrega</h4>
+                <br>
+
+                <div class="custom-control custom-radio d-block">
+                  <input type="radio" checked value="delivery" class="custom-control-input" name="metodoEntrega" id="delivery"/>
+                  <label class="custom-control-label" for="Delivery">Delivery</label>
+                </div>
+
+                <!-- <div class="custom-control custom-radio d-block">
+                  <input type="radio" class="custom-control-input" name="payment" id="RetiroLocal"
+                    onclick="showCode('RetiroLocal')" />
+                  <label class="custom-control-label" for="RetiroLocal">Retirar en local</label>
+                </div> -->
+              </div>
+
+              <!-- Bloque de Metodo de Pago-->
+              <div class="card-footer border-secondary bg-transparent">
+                <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" name="btnConfirmarOrden">
+                  CONFIRMAR ORDEN
+                </button>
+              </div>
+    </form>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
   </div>
-{% endblock %}
+  </div>
+  </div>
+  </div>
+  {% endblock %}

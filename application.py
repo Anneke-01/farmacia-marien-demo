@@ -4,6 +4,8 @@ from flask import Flask, session, render_template, request, redirect, flash
 from flask_session import Session
 from decorator import login_required
 import time
+from datetime import datetime
+from datetime import date
 
 
 app = Flask(__name__)
@@ -341,7 +343,6 @@ def eliminarEmpleado(idEmpleado):
 @app.route("/productos", methods=["GET", "POST"])
 def productos():
     if request.method == "POST":
-        print("hOLA")
         marca = request.form.get("idMarca")
         tipoProducto = request.form.get("idTipoProducto")
         nombre = request.form.get("nombrep")
@@ -694,9 +695,99 @@ def logout():
     return redirect("/")
 
 
-@app.route("/checkout")
+@app.route("/checkout.html", methods=["GET","POST"])
 def checkout():
-    return render_template("checkout.html")
+    if request.method == "POST":
+        
+        idCliente = session["IDCliente"]
+        
+        cursor = conn.cursor()
+        storeProce = "execute [dbo].[carrito_de_compra_por_cliente] @idCliente = ?"
+        param = (idCliente)
+        cursor.execute(storeProce,param)
+        carrito = cursor.fetchall()
+
+        tipodepago = request.form.get("payment")
+        if tipodepago == "efectivo":
+            idtipodepago = 1
+            numerodetarjeta = None
+        else:
+            idtipodepago = 2
+            numerodetarjeta = request.form.get("numerodetarjeta")
+        
+
+        tipodeentrega = request.form.get("metodoEntrega")
+        if tipodeentrega == "delivery":
+            idtipodeentrega = 1
+        else:
+            idtipodeentrega = 2
+
+
+        idoperador = 1
+        idrepartidor=1
+        idEstado = 2
+        
+        municipio = request.form.get("municipio")
+        idmunicipio = cursor.execute("Select idmunicipio from municipios where municipio = ?",municipio).fetchall()
+
+        direccion = request.form.get("direccion")
+        vivienda = request.form.get("vivienda")
+        codigoPostal = request.form.get("codigoPostal")
+        fechahoy = datetime.now().date()
+
+        storeProce = "execute [dbo].[insertar_orden] @idCliente = ?,@idEstado  = ?,@idTipoDeEntrega  = ?,@idTipoDePago  = ?,@idOperador  = ?,@idRepartidor  = ?,@fechaPedido  = ?,@fechaEnvio  = ?,@fechaEntrega  = ?,@idMunicipio  = ?,@direccion  = ?,@vivienda  = ?,@codigoPostal  = ?,@numeroTarjeta  = ?"
+        param = (idCliente,idEstado,idtipodeentrega,idtipodepago,idoperador,idrepartidor,fechahoy,fechahoy,fechahoy,idmunicipio[0][0],direccion,vivienda,codigoPostal,numerodetarjeta)
+        cursor.execute(storeProce,param)
+        orden = cursor.fetchall()
+
+        idOrden = orden[0][0]
+        for producto in carrito:
+            
+            
+        return render_template("/confirmacionCompra.html")
+    else:
+        try:
+            #Obteniendo los datos del cliente
+            idCliente = session["IDCliente"]
+
+            cursor = conn.cursor()
+            storeProce = "execute [dbo].[mostrar_cliente] @id = ?"
+            param = (idCliente)
+            cursor.execute(storeProce, param)
+            cliente = cursor.fetchall()
+
+            #obtener los productos del carrito
+            storeProce = "execute [dbo].[carrito_de_compra_por_cliente] @idCliente = ?"
+            param = (idCliente)
+            cursor.execute(storeProce,param)
+            carrito = cursor.fetchall()
+
+            #obtenemos el total del carrito por el cliente
+            storeProce = "execute [dbo].[totales_carrito_cliente] @idCliente = ?"
+            param = (idCliente)
+            cursor.execute(storeProce,param)
+            totalesCarrito = cursor.fetchall()
+
+            #obteniendo los municipios y ciudades
+            storeProce = "execute [dbo].[MostrarMunicipios]"
+            cursor.execute(storeProce)
+            municipios = cursor.fetchall()
+
+            storeProce = "execute [dbo].[MostrarCiudades]"
+            cursor.execute(storeProce)
+            ciudades = cursor.fetchall()
+
+
+        except:
+            print("Error")
+
+        return render_template("checkout.html",cliente=cliente, municipios=municipios,ciudades=ciudades,totalesCarrito=totalesCarrito,carrito=carrito)
+
+
+
+@app.route("/confirmacionCompra", methods = ["POST", "GET"])
+def confirmacion():
+    return render_template("/confirmacionCompra.html")
 
 
 if __name__ == "__main__":
